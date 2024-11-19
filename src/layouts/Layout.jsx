@@ -3,9 +3,9 @@ import Footer from "../components/Footer";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div style={{ width: 375 }}>
       <Header />
-      <main style={{ backgroundColor: "lightgrey" }}>{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   );
