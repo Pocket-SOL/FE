@@ -27,6 +27,7 @@ const DateSelection = () => {
   return (
     <div>
       <input
+      style={{borderRadius: '5px'}}
         type="text"
         value={date}
         placeholder="날짜 선택 or 입력"
@@ -40,7 +41,7 @@ const DateSelection = () => {
           value={date}
         />
       ) : (
-        <button type="button" onClick={handleOpenCalander}>
+        <button style={{borderRadius: '5px'}}type="button" onClick={handleOpenCalander}>
           <BsFillCalendarHeartFill />
         </button>
       )}

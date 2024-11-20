@@ -6,7 +6,6 @@ import Comment from "./Comment";
 
 export default function GroupPurchaseDetailPage() {
   return (
-    <Layout>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Card
           style={{
@@ -43,6 +42,5 @@ export default function GroupPurchaseDetailPage() {
           </div>
         </Card>
       </div>
-    </Layout>
   );
 }
