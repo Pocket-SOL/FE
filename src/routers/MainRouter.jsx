@@ -3,7 +3,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../layouts/Layout";
 import OnboardingPage from "../pages/Start/OnboardingPage";
 import LoginPage from "../pages/Start/LoginPage";
-import GroupPurchase from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
+import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
+import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,16 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <OnboardingPage /> },
       { path: "/login", element: <LoginPage /> },
-      { path: "/GroupPurchase", element: <GroupPurchase /> },
+      {
+        path: "/GroupPurchaseListPage",
+        element: <GroupPurchaseListPage />,
+        index: true,
+      },
+      {
+        path: "/GroupPurchaseDetailPage",
+        element: <GroupPurchaseDetailPage />,
+        index: true,
+      },
     ],
   },
 ]);
