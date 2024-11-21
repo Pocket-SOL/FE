@@ -23,7 +23,7 @@ const Header = () => {
 			<div className="header__inner">
 				<div className="header__logo">
 					<a href="/">
-						portfolio<em>react.js</em>
+						main<em>react.js</em>
 					</a>
 				</div>
 				<nav
