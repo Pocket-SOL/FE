@@ -13,7 +13,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: [
-			// 절대경로로접근하기
+			// 절대경로로 접근하기
+			{ find: "~/images", replacement: "/src/assets/images" },
 			{ find: "~/components", replacement: "/src/components" },
 			{ find: "~/libs", replacement: "/src/libs" },
 			{ find: "~/routers", replacement: "/src/routers" },

@@ -1,0 +1,19 @@
+/* 폰트 정의 */
+@font-face {
+	font-family: "PretendardVariable";
+	src: url("./assets/fonts/PretendardVariable.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Recipekorea";
+	src: url("./assets/fonts/Recipekorea.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* 폰트를 전역적으로 설정 */
+body {
+	font-family: "PretendardVariable", sans-serif;
+}
