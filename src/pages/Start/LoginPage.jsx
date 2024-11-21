@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Container, Form, Button, Tabs, Tab } from "react-bootstrap";
+import axios from "axios";
 
 export default function LoginPage() {
   const [key, setKey] = useState("parents");
@@ -8,16 +9,30 @@ export default function LoginPage() {
   const [childId, setChildId] = useState("");
   const [childPassword, setChildPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let loginData = {};
     if (key === "parents") {
-      // 부모 로그인 처리
-      console.log("부모 아이디:", parentId);
-      console.log("부모 비밀번호:", parentPassword);
+      loginData = { id: parentId, password: parentPassword };
     } else if (key === "children") {
-      // 자녀 로그인 처리
-      console.log("자녀 아이디:", childId);
-      console.log("자녀 비밀번호:", childPassword);
+      loginData = { id: childId, password: childPassword };
+    }
+
+    try {
+      // 로그인 요청, 쿠키에 JWT를 자동으로 저장하려면 withCredentials: true 사용
+      const response = await axios.post("api/users/login", loginData, {
+        withCredentials: true, // 쿠키를 포함한 요청을 보냄
+      });
+
+      if (response.status === 200) {
+        console.log("로그인 성공!");
+      }
+    } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.message
+        : "로그인 실패";
+      console.error("로그인 실패:", errorMessage);
     }
   };
 
@@ -35,7 +50,7 @@ export default function LoginPage() {
         className="mb-3 w-100"
       >
         <Tab eventKey="parents" title="부모님">
-          <Form className="w-100">
+          <Form className="w-100" onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="parentId">
               <Form.Control
                 type="text"
@@ -52,10 +67,13 @@ export default function LoginPage() {
                 onChange={(e) => setParentPassword(e.target.value)}
               />
             </Form.Group>
+            <Button variant="primary" size="lg" className="w-100" type="submit">
+              로그인 하기
+            </Button>
           </Form>
         </Tab>
         <Tab eventKey="children" title="자녀">
-          <Form className="w-100">
+          <Form className="w-100" onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="childId">
               <Form.Control
                 type="text"
@@ -72,17 +90,12 @@ export default function LoginPage() {
                 onChange={(e) => setChildPassword(e.target.value)}
               />
             </Form.Group>
+            <Button variant="primary" size="lg" className="w-100" type="submit">
+              로그인 하기
+            </Button>
           </Form>
         </Tab>
       </Tabs>
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-100"
-        onClick={handleSubmit}
-      >
-        로그인 하기
-      </Button>
     </Container>
   );
 }
