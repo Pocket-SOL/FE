@@ -10,6 +10,7 @@ import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchase
 import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
 import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchaseComplete";
+import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 
 const router = createBrowserRouter([
 	{
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
 				element: <GroupPurchaseComplete />,
 				index: true,
 			},
+			{ path: "/UsageHistory", element: <UsageHistoryPage />, index: true },
 		],
 	},
 ]);

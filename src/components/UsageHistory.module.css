@@ -1,0 +1,163 @@
+/* 공통 스타일 */
+.container {
+  border-radius: 15px;
+  background: #fff;
+  display: flex;
+  max-width: 480px;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: Pretendard Variable, -apple-system, Roboto, Helvetica, sans-serif;
+  margin: 0 auto;
+}
+
+.divider {
+  align-self: center;
+  width: 358px;
+  max-width: 100%;
+  height: 3px;
+  border: 2px solid #eceaea;
+}
+
+/* Balance Section */
+.balanceSection {
+  background: #fff;
+  display: flex;
+  margin-top: 27px;
+  width: 100%;
+  flex-direction: column;
+  color: #000;
+  padding: 12px 23px 22px;
+  text-align: center;
+}
+
+.balanceHeader {
+  align-self: start;
+  display: flex;
+  gap: 11px;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.balanceIcon {
+  aspect-ratio: 1.19;
+  object-fit: contain;
+  object-position: center;
+  width: 19px;
+  margin: auto 0;
+}
+
+.userTitleBold {
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.amountWrapper {
+  align-self: center;
+  display: flex;
+  margin-top: 2rem;
+  width: 186px;
+  max-width: 100%;
+  gap: 10px;
+  white-space: nowrap;
+  text-align: center;
+  justify-content: center; 
+  align-items: center;
+}
+
+.amount {
+  font-size: 38px;
+  font-weight: 600;
+  /* flex-grow: 1; */
+}
+
+.currency {
+  font-size: 29px;
+  font-weight: 500;
+  margin: auto 0;
+}
+
+.balanceDetails {
+  z-index: 10;
+  display: flex;
+  gap: 20px;
+  font-size: 17px;
+  line-height: 29px;
+  justify-content: space-between;
+  margin: 31px 0 -9px;
+}
+
+.balanceValues {
+  text-align: right;
+}
+
+/* History Section */
+.historySection {
+  background: #fff;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  font-weight: 500;
+  padding: 15px 17px 150px;
+}
+
+.historyTitle {
+  color: #000;
+  font-size: 17px;
+  font-weight: 400;
+  margin-top: 1px;
+  align-self: start;
+}
+
+.transactionItem {
+  border-radius: 10px;
+  display: flex;
+  margin-top: 16px;
+  gap: 20px;
+  padding: 15px 22px;
+}
+
+.transactionDebit {
+  background: #fef2f2;
+}
+
+.transactionCredit {
+  background: #ecf6fd;
+}
+
+.transactionContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.transactionTitle {
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top:5px;
+  align-self: start;
+}
+
+.transactionDate {
+  color: #6b7287;
+  font-size: 15px;
+  margin-top: 1px;
+}
+
+.transactionAmount {
+  font-size: 19px;
+  margin: auto 0;
+}
+
+.debitAmount {
+  margin-left : auto;
+  color: #dc2626;
+  margin-top:0.6rem;
+}
+
+.creditAmount {
+  margin-left : auto;
+  color: #014cc5;
+  margin-top:0.6rem;
+}
