@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
+	const { isAuthenticated, login, logout } = useAuth();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
@@ -20,6 +22,7 @@ export default function LoginPage() {
 			});
 
 			if (response.status === 200) {
+				login();
 				console.log("로그인 성공!");
 				navigate("/parents");
 			}
