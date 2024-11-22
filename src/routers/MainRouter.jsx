@@ -11,6 +11,7 @@ import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurcha
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
 import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchaseComplete";
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
+import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
 
 const router = createBrowserRouter([
 	{
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
 			{ path: "/login", element: <LoginPage /> },
 			{ path: "/sendallowancepage", element: <SendAllowancePage /> },
 			{ path: "/fixedexpenselistpage", element: <FixedExpenseListPage /> },
+			{ path: "/AddFixedExpensePage", element: <AddFixedExpensePage /> },
 			{
 				path: "/GroupPurchaseListPage",
 				element: <GroupPurchaseListPage />,
