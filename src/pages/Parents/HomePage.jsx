@@ -1,45 +1,55 @@
-import { Fragment } from "react";
-import styles from "./HomePage.module.css";
-
+import { Fragment, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
 import sendAllowanceImage from "~/images/sendAllowance.png";
 import assignMissionImage from "~/images/assignMission.png";
+import { useAuth } from "../../context/AuthContext";
 
-const ActionItem = ({ title, iconSrc, backgroundColor }) => {
-	return (
-		<div className={`${styles.actionItem} ${styles[backgroundColor]}`}>
-			<div className={styles[`${backgroundColor}Text`]}>
-				{title.split(" ").map((word, index) => (
-					<Fragment key={index}>
-						{word}
-						<br />
-					</Fragment>
-				))}
-			</div>
-			<img
-				src={iconSrc}
-				alt=""
-				className={styles[`${backgroundColor}Icon`]}
-				loading="lazy"
-			/>
+const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
+	<button
+		className={`${styles.actionItem} ${styles[backgroundColor]}`}
+		onClick={onClick}
+	>
+		<div className={styles[`${backgroundColor}Text`]}>
+			{title.split(" ").map((word, index) => (
+				<Fragment key={index}>
+					{word}
+					<br />
+				</Fragment>
+			))}
 		</div>
-	);
-};
+		<img
+			src={iconSrc}
+			alt=""
+			className={styles[`${backgroundColor}Icon`]}
+			loading="lazy"
+		/>
+	</button>
+);
 
-const ChildItem = ({ name, isSelected, onClick }) => {
-	return (
-		<div className={styles.childItem} onClick={onClick}>
-			<div
-				className={`${styles.childName} ${isSelected ? styles.selectedChild : ""}`}
-			>
-				{name}
-			</div>
+const ChildItem = ({ name, isSelected, onClick }) => (
+	<div className={styles.childItem} onClick={onClick}>
+		<div
+			className={`${styles.childName} ${isSelected ? styles.selectedChild : ""}`}
+		>
+			{name}
 		</div>
-	);
-};
+	</div>
+);
 
 export default function ParentsHomePage() {
+	const navigate = useNavigate();
+	const { isAuthenticated, authChecked, login, logout } = useAuth();
+	console.log(isAuthenticated);
+
+	useEffect(() => {
+		if (authChecked && !isAuthenticated) {
+			navigate("/login");
+		}
+	}, [authChecked, isAuthenticated]);
+
 	const children = [
 		{ name: "조인후", isSelected: false },
 		{ name: "하민지", isSelected: true },
@@ -107,11 +117,17 @@ export default function ParentsHomePage() {
 					title="용돈 보내기"
 					iconSrc={sendAllowanceImage}
 					backgroundColor="sendAllowance"
+					onClick={() => {
+						navigate("/parents/send-allowance");
+					}}
 				/>
 				<ActionItem
 					title="미션 주기"
 					iconSrc={assignMissionImage}
 					backgroundColor="assignMission"
+					onClick={() => {
+						navigate("/parents");
+					}}
 				/>
 			</div>
 		</div>
