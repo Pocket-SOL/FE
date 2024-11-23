@@ -19,6 +19,7 @@ import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchase
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
 import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
+import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
 
 const router = createBrowserRouter([
 	{
@@ -35,10 +36,12 @@ const router = createBrowserRouter([
 			// Parents
 			{
 				path: "parents",
-				element: <ParentsHomePage />,
+				// element: <ParentsHomePage />,
 				children: [
+					{ index: true, element: <ParentsHomePage /> },
 					{ path: "sendallowancepage", element: <SendAllowancePage /> },
 					{ path: "fixedexpenselistpage", element: <FixedExpenseListPage /> },
+					{ path: "usagehistory", element: <ChildUsageHistoryPage /> },
 				],
 			},
 
