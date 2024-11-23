@@ -1,0 +1,25 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* max-width: 400px; */
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+
+/* 완료버튼 */
+.complete-button {
+    background-color: #0084FC;
+    color: white;
+    border-radius: 15px;
+    width: 210px;
+    height: 48px;
+    text-align: center;
+    line-height: 20px;
+    margin-top: 80px;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
