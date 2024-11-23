@@ -10,6 +10,8 @@ import LoginPage from "../pages/Start/LoginPage";
 import ParentsHomePage from "../pages/Parents/HomePage";
 import SendAllowancePage from "../pages/Parents/Allowance/SendAllowancePage";
 import FixedExpenseListPage from "../pages/Parents/Allowance/FixedExpenseListPage";
+import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
+import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 // Children
 import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
@@ -17,8 +19,6 @@ import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurcha
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
 import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchaseComplete";
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
-import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
-import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 const router = createBrowserRouter([
 	{
