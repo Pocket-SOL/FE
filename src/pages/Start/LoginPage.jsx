@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 export default function LoginPage() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
-	const { isAuthenticated, login, logout } = useAuth();
+	const { isAuthenticated, authChecked, login, logout } = useAuth();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
@@ -24,6 +24,7 @@ export default function LoginPage() {
 			if (response.status === 200) {
 				login();
 				console.log("로그인 성공!");
+				console.log(isAuthenticated);
 				navigate("/parents");
 			}
 		} catch (error) {
