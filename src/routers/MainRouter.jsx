@@ -25,25 +25,23 @@ const router = createBrowserRouter([
 		path: "/",
 		element: <Layout />,
 		children: [
+			// Start
 			{ path: "/", element: <OnboardingPage /> },
 			{ path: "/login", element: <LoginPage /> },
-			{ path: "/sendallowancepage", element: <SendAllowancePage /> },
-			{ path: "/fixedexpenselistpage", element: <FixedExpenseListPage /> },
-			{ path: "/AddFixedExpensePage", element: <AddFixedExpensePage /> },
-			{ path: "/SendCompletePage", element: <SendCompletePage /> },
 
 			// Parents
 			{
 				path: "parents",
-				element: <ParentsHomePage />,
 				children: [
-					{ path: "sendallowancepage", element: <SendAllowancePage /> },
-					{ path: "fixedexpenselistpage", element: <FixedExpenseListPage /> },
+					{ path: "", element: <ParentsHomePage /> },
+					{ path: "send-allowance", element: <SendAllowancePage /> },
+					{ path: "fixed-expense-list", element: <FixedExpenseListPage /> },
+					{ path: "add-fixed-expense", element: <AddFixedExpensePage /> },
+					{ path: "send-complete", element: <SendCompletePage /> },
 				],
 			},
 
 			// Children
-
 			{
 				path: "/GroupPurchaseListPage",
 				element: <GroupPurchaseListPage />,
