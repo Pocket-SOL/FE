@@ -16,9 +16,9 @@ export default defineConfig({
 			// 절대경로로 접근하기
 			{ find: "~/images", replacement: "/src/assets/images" },
 			{ find: "~/components", replacement: "/src/components" },
+			{ find: "~/contexts", replacement: "/src/contexts" },
 			{ find: "~/libs", replacement: "/src/libs" },
 			{ find: "~/routers", replacement: "/src/routers" },
-			{ find: "~/routes", replacement: "/src/routes" },
 		],
 	},
 });

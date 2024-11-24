@@ -1,11 +1,13 @@
 import { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "~/contexts/AuthContext";
+
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
-import sendAllowanceImage from "~/images/sendAllowance.png";
-import assignMissionImage from "~/images/assignMission.png";
-import { useAuth } from "../../context/AuthContext";
+import allowanceIcon from "~/images/allowanceIcon.png";
+import missionIcon from "~/images/missionIcon.png";
 
 const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 	<button
@@ -42,13 +44,12 @@ const ChildItem = ({ name, isSelected, onClick }) => (
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { isAuthenticated, authChecked, login, logout } = useAuth();
-	console.log(isAuthenticated);
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
 			navigate("/login");
 		}
-	}, [authChecked, isAuthenticated]);
+	}, [authChecked, isAuthenticated, navigate]);
 
 	const children = [
 		{ name: "조인후", isSelected: false },
@@ -85,7 +86,7 @@ export default function ParentsHomePage() {
 						<p>
 							<strong>이민호님의 계좌</strong>
 							<br />
-							923302-00-632254
+							110-508-283124
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
@@ -115,7 +116,7 @@ export default function ParentsHomePage() {
 			<div className={styles.actionContainer}>
 				<ActionItem
 					title="용돈 보내기"
-					iconSrc={sendAllowanceImage}
+					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
 					onClick={() => {
 						navigate("/parents/send-allowance");
@@ -123,7 +124,7 @@ export default function ParentsHomePage() {
 				/>
 				<ActionItem
 					title="미션 주기"
-					iconSrc={assignMissionImage}
+					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
 						navigate("/parents");
