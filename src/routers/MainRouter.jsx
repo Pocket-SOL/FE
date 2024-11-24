@@ -43,26 +43,15 @@ const router = createBrowserRouter([
 				],
 			},
 
-			// Children
+			//children
 			{
-				path: "/GroupPurchaseListPage",
-				element: <GroupPurchaseListPage />,
-				index: true,
-			},
-			{
-				path: "/GroupPurchaseDetailPage",
-				element: <GroupPurchaseDetailPage />,
-				index: true,
-			},
-			{
-				path: "/GroupPurchaseReg",
-				element: <GroupPurchaseReg />,
-				index: true,
-			},
-			{
-				path: "/GroupPurchaseComplete",
-				element: <GroupPurchaseComplete />,
-				index: true,
+				path: "group-purchase", // 그룹 구매 부모 경로
+				children: [
+					{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
+					{ path: ":purchaseId", element: <GroupPurchaseDetailPage /> }, // 그룹 구매 상세 (purchaseId 포함)
+					{ path: "reg", element: <GroupPurchaseReg /> }, // 그룹 구매 등록
+					{ path: "complete", element: <GroupPurchaseComplete /> }, // 그룹 구매 완료
+				],
 			},
 			{ path: "/UsageHistory", element: <UsageHistoryPage />, index: true },
 		],

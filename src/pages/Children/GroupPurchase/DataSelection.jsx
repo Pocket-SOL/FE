@@ -4,7 +4,7 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import moment from "moment";
 
-const DateSelection = () => {
+const DateSelection = ({ onChange }) => {
 	const [date, setDate] = useState("");
 	const [open, setOpen] = useState(false);
 
@@ -15,11 +15,11 @@ const DateSelection = () => {
 		if (moment.isMoment(e) === true) {
 			const currentDate = e.format("YYYY/MM/DD");
 			setDate(currentDate); //moment 객체반환, format매서드 사용.
-			console.log(currentDate);
+			onChange(currentDate); // 부모에게 날짜 전달
 		} else {
 			const currentDate = e.target.value;
 			setDate(currentDate);
-			console.log(currentDate);
+			onChange(currentDate); // 부모에게 날짜 전달
 		}
 
 		setOpen(false);

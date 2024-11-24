@@ -1,34 +1,45 @@
-import React from "react";
-import Layout from "../../../layouts/Layout";
+import axios from "axios";
 import { Card } from "react-bootstrap";
-import DateSelection from "./DataSelection";
 import Comment from "./Comment";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function GroupPurchaseDetailPage() {
+	const { purchaseId } = useParams(); // URL에서 purchaseId 파라미터 추출
+	const [purchaseDetails, setPurchaseDetails] = useState(null);
+
+	useEffect(() => {
+		console.log("detail", purchaseId);
+		const fetchPurchaseDetails = async () => {
+			try {
+				const response = await axios.get(`/api/purchases/${purchaseId}`);
+				setPurchaseDetails(response.data); // 응답 데이터로 구매 세부사항 설정
+				console.log(response.data);
+			} catch (error) {
+				console.error("구매 상세 정보를 가져오는 중 오류 발생:", error);
+			}
+		};
+		if (purchaseId) {
+			fetchPurchaseDetails();
+		}
+	}, [purchaseId]); // purchaseId가 변경될 때마다 호출
+
+	// purchaseDetails가 null이면 "Loading..."을 표시
+	if (!purchaseDetails) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>
-			<Card
-				style={{
-					width: 300,
-					borderRadius: "20px",
-				}}
-			>
+			<Card style={{ width: 300, borderRadius: "20px" }}>
 				<Card.Header>
-					<Card.Title>3학년 2반 축구공 공구</Card.Title>
+					<Card.Title>{purchaseDetails.title}</Card.Title>
 				</Card.Header>
 				<Card.Body>
-					<Card.Text>
-						축구공을 근데 같이산다는게 여러개를 사느거임? ㄱㅋㅋㅋ근데 보통
-						한반에 하나아님? 내일 월요일이다 ㅜㅠ11월도 벌써18일이라니... 하
-						12월오네 2025년안 오길 바라면서도 2024 끝났으면 싶고 내마음 머지 /
-						ㅋㅋㅋㅋㅋ
-					</Card.Text>
+					<Card.Text>{purchaseDetails.content}</Card.Text>
 				</Card.Body>
 				<Card.Body>
 					<Card.Title>마감일</Card.Title>
-					<div>
-						<DateSelection />
-					</div>
+					<div>{purchaseDetails.end_date}</div>
 				</Card.Body>
 				<div
 					style={{
@@ -37,8 +48,8 @@ export default function GroupPurchaseDetailPage() {
 						justifyContent: "space-between",
 					}}
 				>
-					<Card.Body>인원: 3명/4명</Card.Body>
-					<Comment />
+					<Card.Body>인원: {purchaseDetails.participants}명/</Card.Body>
+					<Comment purchaseId={purchaseId} />
 				</div>
 			</Card>
 		</div>
