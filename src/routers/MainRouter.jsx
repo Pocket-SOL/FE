@@ -14,6 +14,7 @@ import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage"
 import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 // Children
+import ChildrenHomePage from "../pages/Children/HomePage";
 import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
 import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
@@ -45,26 +46,22 @@ const router = createBrowserRouter([
 
 			// Children
 			{
-				path: "/GroupPurchaseListPage",
-				element: <GroupPurchaseListPage />,
-				index: true,
+				path: "children",
+				children: [
+					{ path: "", element: <ChildrenHomePage /> },
+					{ path: "group-purchase-list", element: <GroupPurchaseListPage /> },
+					{
+						path: "group-purchase-detail",
+						element: <GroupPurchaseDetailPage />,
+					},
+					{ path: "group-purchase-reg", element: <GroupPurchaseReg /> },
+					{
+						path: "group-purchase-complete",
+						element: <GroupPurchaseComplete />,
+					},
+					{ path: "usage-history", element: <UsageHistoryPage /> },
+				],
 			},
-			{
-				path: "/GroupPurchaseDetailPage",
-				element: <GroupPurchaseDetailPage />,
-				index: true,
-			},
-			{
-				path: "/GroupPurchaseReg",
-				element: <GroupPurchaseReg />,
-				index: true,
-			},
-			{
-				path: "/GroupPurchaseComplete",
-				element: <GroupPurchaseComplete />,
-				index: true,
-			},
-			{ path: "/UsageHistory", element: <UsageHistoryPage />, index: true },
 		],
 	},
 ]);
