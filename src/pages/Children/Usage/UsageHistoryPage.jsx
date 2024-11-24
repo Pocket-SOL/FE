@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import styles from "~/components/UsageHistory.module.css";
+import styles from "~/components/Usage/Usage.module.css";
 import { fetchUsageBalance, fetchUsageHistory } from "~/libs/apis/accounts";
 import { fetchSubUsageBalance } from "../../../libs/apis/subaccounts";
-import HistoryItem from "~/components/HistoryItem";
+import HistoryItem from "~/components/Usage/HistoryItem";
 
 export default function UsageHistoryPage() {
 	const [history, setHistory] = useState([]);
