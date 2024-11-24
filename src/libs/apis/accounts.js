@@ -30,3 +30,18 @@ export async function fetchUsageHistory(userId) {
 		return {};
 	}
 }
+
+export async function fetchWithdrawal(userId) {
+	try {
+		const res = await fetch(`${BASE_URL}/accounts/withdrawals?id=${userId}`, {
+			method: "GET",
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		return await res.json();
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
+}
