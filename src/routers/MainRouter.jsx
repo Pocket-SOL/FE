@@ -21,6 +21,7 @@ import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchase
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
 import PhotoUpload from "../pages/Children/Usage/PhotoUploadPage";
+import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 
 const router = createBrowserRouter([
 	{
@@ -65,6 +66,7 @@ const router = createBrowserRouter([
 				element: <GroupPurchaseComplete />,
 				index: true,
 			},
+
 			{
 				path: "/UsageHistory",
 				children: [
@@ -72,6 +74,8 @@ const router = createBrowserRouter([
 					{ path: "photo", element: <PhotoUpload /> },
 				],
 			},
+			{ path: "/AllowanceRequest", element: <AllowanceRequest /> },
+
 		],
 	},
 ]);
