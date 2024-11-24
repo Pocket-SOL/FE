@@ -20,7 +20,7 @@ import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
 import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchaseComplete";
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
-
+import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -65,6 +65,7 @@ const router = createBrowserRouter([
 				index: true,
 			},
 			{ path: "/UsageHistory", element: <UsageHistoryPage />, index: true },
+			{ path: "/AllowanceRequest", element: <AllowanceRequest /> },
 		],
 	},
 ]);
