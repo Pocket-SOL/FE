@@ -62,6 +62,13 @@ export default function LoginPage() {
 					로그인 하기
 				</Button>
 			</Form>
+			<div>
+				<p>
+					<a style={{ color: "#0084FC", fontSize: "15px" }} href="/sign-up">
+						아이디가 없으신가요?
+					</a>
+				</p>
+			</div>
 		</Container>
 	);
 }

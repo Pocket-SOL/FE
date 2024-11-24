@@ -5,6 +5,8 @@ import Layout from "../layouts/Layout";
 // Start
 import OnboardingPage from "../pages/Start/OnboardingPage";
 import LoginPage from "../pages/Start/LoginPage";
+import SignUpRolePage from "../pages/Start/SignUpRolePage";
+import SignUpFormPage from "../pages/Start/SignUpFormPage";
 
 // Parents
 import ParentsHomePage from "../pages/Parents/HomePage";
@@ -32,6 +34,8 @@ const router = createBrowserRouter([
 			// Start
 			{ path: "/", element: <OnboardingPage /> },
 			{ path: "/login", element: <LoginPage /> },
+			{ path: "/sign-up-role", element: <SignUpRolePage /> },
+			{ path: "/sign-up-form", element: <SignUpFormPage /> },
 
 			// Parents
 			{
