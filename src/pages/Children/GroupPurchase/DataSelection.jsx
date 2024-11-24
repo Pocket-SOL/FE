@@ -28,7 +28,7 @@ const DateSelection = () => {
 		<div>
 			<input
 				style={{
-					width: 225,
+					width: 220,
 					height: 35,
 					borderRadius: "5px",
 					border: "none",
