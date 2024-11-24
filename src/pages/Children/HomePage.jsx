@@ -117,7 +117,7 @@ export default function ChildrenHomePage() {
 					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
 					onClick={() => {
-						navigate("/parents/send-allowance");
+						navigate("/children");
 					}}
 				/>
 				<ActionItem
@@ -135,7 +135,7 @@ export default function ChildrenHomePage() {
 					iconSrc={schoolIcon}
 					backgroundColor="groupPurchase"
 					onClick={() => {
-						navigate("/children");
+						navigate("/children/group-purchase-list");
 					}}
 				/>
 			</div>
