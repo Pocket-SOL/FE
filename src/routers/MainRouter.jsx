@@ -52,6 +52,12 @@ const router = createBrowserRouter([
 
 			//children
 			{
+				path: "chileren", // 그룹 구매 부모 경로
+				children: [
+					{ path: "", element: <ChildrenHomePage /> }, // 그룹 구매 목록
+				],
+			},
+			{
 				path: "group-purchase", // 그룹 구매 부모 경로
 				children: [
 					{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
