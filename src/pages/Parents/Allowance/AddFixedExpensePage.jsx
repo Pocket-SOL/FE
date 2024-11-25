@@ -86,7 +86,9 @@ export default function AddFixedExpensePage() {
 							</label>
 							<select
 								id="country"
-								name="country"
+								name="bank" // name을 bank로 변경
+								value={formData.bank} // formData의 bank 값을 사용
+								onChange={handleChange} // handleChange를 호출하여 상태 업데이트
 								className="h-full rounded-md border-0 bg-transparent bg-none text-xs  py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
 							>
 								<option>경남은행</option>
