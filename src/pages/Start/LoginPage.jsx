@@ -64,7 +64,10 @@ export default function LoginPage() {
 			</Form>
 			<div>
 				<p>
-					<a style={{ color: "#0084FC", fontSize: "15px" }} href="/sign-up">
+					<a
+						style={{ color: "#0084FC", fontSize: "15px" }}
+						href="/sign-up-role"
+					>
 						아이디가 없으신가요?
 					</a>
 				</p>
