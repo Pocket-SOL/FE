@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Card } from "react-bootstrap";
 import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -26,32 +25,54 @@ export default function GroupPurchaseDetailPage() {
 
 	// purchaseDetails가 null이면 "Loading..."을 표시
 	if (!purchaseDetails) {
-		return <div>Loading...</div>;
+		return (
+			<div className="flex items-center justify-center h-screen bg-gray-100 text-gray-600">
+				Loading...
+			</div>
+		);
 	}
+
 	return (
-		<div style={{ display: "flex", justifyContent: "center" }}>
-			<Card style={{ width: 300, borderRadius: "20px" }}>
-				<Card.Header>
-					<Card.Title>{purchaseDetails.title}</Card.Title>
-				</Card.Header>
-				<Card.Body>
-					<Card.Text>{purchaseDetails.content}</Card.Text>
-				</Card.Body>
-				<Card.Body>
-					<Card.Title>마감일</Card.Title>
-					<div>{purchaseDetails.end_date}</div>
-				</Card.Body>
-				<div
-					style={{
-						paddingBottom: "20px",
-						display: "flex",
-						justifyContent: "space-between",
-					}}
-				>
-					<Card.Body>인원: {purchaseDetails.participants}명/</Card.Body>
-					<Comment purchaseId={purchaseId} />
+		<div className="flex items-center justify-center min-h-screen bg-gray-50">
+			<div className="w-full max-w-3xl bg-white rounded-xl shadow-lg overflow-hidden">
+				{/* Image Section */}
+				<div className="h-64 w-full">
+					<img
+						src="/path-to-your-image.jpg" // 실제 이미지 경로로 교체
+						alt="마감 관련 이미지"
+						className="h-full w-full object-cover"
+					/>
 				</div>
-			</Card>
+
+				{/* Content Section */}
+				<div className="p-6">
+					{/* Title and Description */}
+					<div className="border-b pb-4 mb-4">
+						<h1 className="text-3xl font-bold text-gray-800 mb-2">
+							{purchaseDetails.title}
+						</h1>
+						<p className="text-gray-600">{purchaseDetails.content}</p>
+					</div>
+
+					{/* Deadline Section */}
+					<div className="flex items-center justify-between mb-4">
+						<div>
+							<h2 className="text-lg font-medium text-gray-700">마감일</h2>
+							<p className="text-gray-500">{purchaseDetails.end_date}</p>
+						</div>
+					</div>
+
+					{/* Participant and Comment Section */}
+					<div className="flex items-center justify-between text-gray-700">
+						<div className="flex items-center space-x-4">
+							<span className="text-lg">
+								마감인원: {purchaseDetails.participants}명
+							</span>
+							<Comment purchaseId={purchaseId} />
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }

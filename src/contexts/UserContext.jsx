@@ -11,11 +11,11 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
-				const response = await axios.get("api/users/me", {
+				const response = await axios.get("/api/users/me", {
 					withCredentials: true, // 쿠키를 포함한 요청
 				});
-
 				if (response.status === 200) {
+					console.log("user-reponse", response);
 					setUser(response.data); // 서버에서 받은 유저 정보 저장
 				}
 			} catch (error) {
