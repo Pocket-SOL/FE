@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
@@ -7,8 +7,22 @@ import axios from "axios";
 //여기서도 객체에 담아서 보내자 송금하기할때
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
-	const amount = location.state?.amount;
+	const location = useLocation();
 	const { fixedInfoList } = useFixed();
+	const [amount, setAmount] = useState(() => {
+		const savedAmount = localStorage.getItem("amount");
+		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
+	});
+
+	useEffect(() => {
+		if (location.state?.amount !== undefined) {
+			setAmount(location.state.amount);
+		}
+	}, [location.state]);
+
+	useEffect(() => {
+		localStorage.setItem("amount", JSON.stringify(amount));
+	}, [amount]);
 
 	// 차트 데이터 정의
 	const data = [
@@ -32,6 +46,14 @@ export default function FixedExpenseListPage() {
 
 	const handleTransfer = async () => {
 		try {
+			const reservations = fixedInfoList.map((info) => ({
+				account_holder: info.name,
+				bank: info.bank,
+				account_number: info.account,
+				amount: Number(info.transAmount),
+				scheduled_date: info.transDate,
+			}));
+
 			const requestBody = {
 				from: {
 					transaction_type: "출금",
@@ -43,16 +65,7 @@ export default function FixedExpenseListPage() {
 					account_holder: "김도은",
 					amount: Number(amount),
 				},
-				// 예약송금이 필요한 경우 추가
-				// reservations: [
-				//   {
-				//     account_holder: "수학학원",
-				//     bank: "국민은행",
-				//     account_number: "1002123012345",
-				//     amount: 500,
-				//     scheduled_date: "2024-12-05"
-				//   }
-				// ]
+				reservations,
 			};
 
 			const response = await axios.post(
@@ -85,7 +98,7 @@ export default function FixedExpenseListPage() {
 				alert("송금 요청 중 오류가 발생했습니다.");
 			}
 		}
-		navigate("/parents/fixed-expense-list");
+		navigate("/parents/fixed-expense-list", { state: { amount } });
 	};
 
 	return (
