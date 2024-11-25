@@ -52,28 +52,33 @@ const router = createBrowserRouter([
 
 			//children
 			{
-				path: "chileren", // 그룹 구매 부모 경로
+				path: "children",
 				children: [
-					{ path: "", element: <ChildrenHomePage /> }, // 그룹 구매 목록
+					{ path: "", element: <ChildrenHomePage /> },
+					{
+						// 용돈 조르기
+						path: "allowance-request",
+						element: <AllowanceRequest />,
+					},
+					{
+						// 우리학교 공동구매
+						path: "group-purchase", // 그룹 구매 부모 경로
+						children: [
+							{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
+							{ path: ":purchaseId", element: <GroupPurchaseDetailPage /> }, // 그룹 구매 상세 (purchaseId 포함)
+							{ path: "reg", element: <GroupPurchaseReg /> }, // 그룹 구매 등록
+							{ path: "complete", element: <GroupPurchaseComplete /> }, // 그룹 구매 완료
+						],
+					},
+					{
+						path: "usage-history",
+						children: [
+							{ path: "", element: <UsageHistoryPage /> },
+							{ path: "photo", element: <PhotoUpload /> },
+						],
+					},
 				],
 			},
-			{
-				path: "group-purchase", // 그룹 구매 부모 경로
-				children: [
-					{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
-					{ path: ":purchaseId", element: <GroupPurchaseDetailPage /> }, // 그룹 구매 상세 (purchaseId 포함)
-					{ path: "reg", element: <GroupPurchaseReg /> }, // 그룹 구매 등록
-					{ path: "complete", element: <GroupPurchaseComplete /> }, // 그룹 구매 완료
-				],
-			},
-			{
-				path: "/UsageHistory",
-				children: [
-					{ index: true, element: <UsageHistoryPage /> },
-					{ path: "photo", element: <PhotoUpload /> },
-				],
-			},
-			{ path: "/AllowanceRequest", element: <AllowanceRequest /> },
 		],
 	},
 ]);
