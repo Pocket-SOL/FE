@@ -45,3 +45,18 @@ export async function fetchWithdrawal(userId) {
 		return {};
 	}
 }
+
+export async function fetchAccountNumber(userId) {
+	try {
+		const res = await fetch(`${BASE_URL}/accounts/number?id=${userId}`, {
+			method: "GET",
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		return await res.json();
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
+}
