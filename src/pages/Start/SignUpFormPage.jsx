@@ -1,13 +1,19 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "~/components/SignUpPage.module.css";
 
 export default function SignUpFormPage() {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const role = location.state?.role || "parent";
+
 	const [formData, setFormData] = useState({
 		name: "",
 		birthdate: "",
 		username: "",
 		password: "",
 		confirmPassword: "",
+		phone: "",
 	});
 
 	const handleChange = (e) => {
@@ -36,6 +42,8 @@ export default function SignUpFormPage() {
 					password: formData.password,
 					birth: formData.birthdate,
 					username: formData.name,
+					role,
+					phone: formData.phone,
 				}),
 			});
 
@@ -43,6 +51,7 @@ export default function SignUpFormPage() {
 			if (response.ok) {
 				alert("회원가입이 완료되었습니다!");
 				// 성공 시 추가 동작 (예: 페이지 이동)
+				navigate("/login");
 			} else {
 				alert(result.message || "회원가입 중 오류가 발생했습니다.");
 			}
@@ -72,6 +81,17 @@ export default function SignUpFormPage() {
 						type="date"
 						className={styles.input}
 						value={formData.birthdate}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className={styles.inputGroup}>
+					<label htmlFor="phone">전화번호</label>
+					<input
+						id="phone"
+						type="text"
+						placeholder="전화번호를 입력해주세요"
+						className={styles.input}
+						value={formData.phone}
 						onChange={handleChange}
 					/>
 				</div>
