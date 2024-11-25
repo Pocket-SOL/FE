@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../layouts/Layout";
 
 // Start
-import OnboardingPage from "../pages/Start/OnboardingPage";
+import { OnboardingPage } from "../pages/Start/Onboarding/OnboardingPage";
 import LoginPage from "../pages/Start/LoginPage";
 import SignUpRolePage from "../pages/Start/SignUpRolePage";
 import SignUpFormPage from "../pages/Start/SignUpFormPage";
@@ -50,25 +50,16 @@ const router = createBrowserRouter([
 				],
 			},
 
-			// Children
+			//children
 			{
-				path: "children",
+				path: "group-purchase", // 그룹 구매 부모 경로
 				children: [
-					{ path: "", element: <ChildrenHomePage /> },
-					{ path: "group-purchase-list", element: <GroupPurchaseListPage /> },
-					{
-						path: "group-purchase-detail",
-						element: <GroupPurchaseDetailPage />,
-					},
-					{ path: "group-purchase-reg", element: <GroupPurchaseReg /> },
-					{
-						path: "group-purchase-complete",
-						element: <GroupPurchaseComplete />,
-					},
-					{ path: "usage-history", element: <UsageHistoryPage /> },
+					{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
+					{ path: ":purchaseId", element: <GroupPurchaseDetailPage /> }, // 그룹 구매 상세 (purchaseId 포함)
+					{ path: "reg", element: <GroupPurchaseReg /> }, // 그룹 구매 등록
+					{ path: "complete", element: <GroupPurchaseComplete /> }, // 그룹 구매 완료
 				],
 			},
-
 			{
 				path: "/UsageHistory",
 				children: [
