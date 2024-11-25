@@ -14,6 +14,7 @@ import {
 
 import DataSelection from "../../Children/GroupPurchase/DataSelection";
 import "./AddFixedExpensePage.css";
+import { useFixed } from "../../../contexts/FixedContext";
 export default function AddFixedExpensePage() {
 	const [agreed, setAgreed] = useState(false);
 
