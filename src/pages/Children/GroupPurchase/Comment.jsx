@@ -3,17 +3,20 @@ import axios from "axios";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
 import { useUser } from "../../../contexts/UserContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Comment({ purchaseId }) {
-	const { user } = useUser(); // AuthContext에서 user 정보 가져오기
 	const [show, setShow] = useState(false);
 	const [comments, setComments] = useState([]); // 댓글 리스트
 	const [newComment, setNewComment] = useState(""); // 새로운 댓글 내용
 	const [loading, setLoading] = useState(false); // 댓글 로딩 상태
-
+	// const { user, userChecked } = useUser(); // AuthContext에서 user 정보 가져오기
+	const { user } = useAuth();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	console.log("user", user.user_id);
+	// console.log("user", user.username);
+	// console.log("userchecked", userChecked);
+	console.log("user-auth", user);
 
 	// 댓글 조회 함수
 	const fetchComments = async () => {

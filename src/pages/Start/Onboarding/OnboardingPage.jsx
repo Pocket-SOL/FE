@@ -53,9 +53,9 @@ export const OnboardingPage = () => {
 					))}
 				</section>
 
-				<section className={styles.character}>
+				{/* <section className={styles.character}>
 					<img src={mascotImage} alt="" />
-				</section>
+				</section> */}
 
 				<button
 					className={styles.loginButton}
