@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "~/contexts/AuthContext";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
@@ -24,7 +24,6 @@ export default function LoginPage() {
 			if (response.status === 200) {
 				login();
 				console.log("로그인 성공!");
-				console.log(isAuthenticated);
 				navigate("/parents");
 			}
 		} catch (error) {
@@ -63,6 +62,16 @@ export default function LoginPage() {
 					로그인 하기
 				</Button>
 			</Form>
+			<div>
+				<p>
+					<a
+						style={{ color: "#0084FC", fontSize: "15px" }}
+						href="/sign-up-role"
+					>
+						아이디가 없으신가요?
+					</a>
+				</p>
+			</div>
 		</Container>
 	);
 }

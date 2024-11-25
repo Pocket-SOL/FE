@@ -1,4 +1,4 @@
-import styles from "~/components/UsageHistory.module.css";
+import styles from "~/components/Usage/Usage.module.css";
 
 export default function HistoryItem({ merchant, date, amount, type, time }) {
 	const isExpense = type === "출금";

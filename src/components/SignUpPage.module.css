@@ -1,0 +1,91 @@
+.signUpContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	padding: 20px;
+}
+
+.signUpTitle {
+	font-size: 1.5rem;
+	color: #000;
+	margin-bottom: 2rem;
+}
+
+.roleButtons {
+	display: flex;
+	gap: 1rem; /* 버튼 간격 */
+}
+
+.roleButton {
+	width: 100px;
+	height: 140px;
+	border-radius: 15px; /* 모서리 둥글게 */
+	font-size: 1rem;
+	font-weight: bold;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}
+
+.parentButton {
+	background-color: #0084fc; /* 부모님 버튼 색상 */
+}
+
+.childButton {
+	background-color: #ffd455;
+}
+
+.pageTitle {
+	font-size: 1.5rem;
+	margin-bottom: 20px;
+}
+
+.form {
+	width: 100%;
+	max-width: 400px;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.inputGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+label {
+	font-size: 1rem;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+	text-align: left; /* label을 왼쪽 정렬 */
+}
+
+.input {
+	width: 100%; /* 입력 필드 너비를 100%로 설정 */
+	max-width: 350px; /* 최대 너비 설정 */
+	padding: 12px;
+	font-size: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+}
+
+.submitButton {
+	width: 100%;
+	max-width: 350px; /* 버튼 너비 제한 */
+	padding: 12px;
+	font-size: 1.2rem;
+	color: white;
+	background-color: #0084fc;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	margin-top: 1rem;
+}
+
+.submitButton:hover {
+	background-color: #006bb3;
+}

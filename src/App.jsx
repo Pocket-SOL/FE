@@ -2,7 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routers/MainRouter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
 	return (

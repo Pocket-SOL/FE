@@ -5,6 +5,8 @@ import Layout from "../layouts/Layout";
 // Start
 import { OnboardingPage } from "../pages/Start/Onboarding/OnboardingPage";
 import LoginPage from "../pages/Start/LoginPage";
+import SignUpRolePage from "../pages/Start/SignUpRolePage";
+import SignUpFormPage from "../pages/Start/SignUpFormPage";
 
 // Parents
 import ParentsHomePage from "../pages/Parents/HomePage";
@@ -14,12 +16,15 @@ import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage"
 import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 // Children
+import ChildrenHomePage from "../pages/Children/HomePage";
 import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
 import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
 import GroupPurchaseComplete from "../pages/Children/GroupPurchase/GroupPurchaseComplete";
 import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
+import PhotoUpload from "../pages/Children/Usage/PhotoUploadPage";
+import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 
 const router = createBrowserRouter([
 	{
@@ -29,6 +34,8 @@ const router = createBrowserRouter([
 			// Start
 			{ path: "/", element: <OnboardingPage /> },
 			{ path: "/login", element: <LoginPage /> },
+			{ path: "/sign-up-role", element: <SignUpRolePage /> },
+			{ path: "/sign-up-form", element: <SignUpFormPage /> },
 
 			// Parents
 			{
@@ -53,7 +60,14 @@ const router = createBrowserRouter([
 					{ path: "complete", element: <GroupPurchaseComplete /> }, // 그룹 구매 완료
 				],
 			},
-			{ path: "/UsageHistory", element: <UsageHistoryPage />, index: true },
+			{
+				path: "/UsageHistory",
+				children: [
+					{ index: true, element: <UsageHistoryPage /> },
+					{ path: "photo", element: <PhotoUpload /> },
+				],
+			},
+			{ path: "/AllowanceRequest", element: <AllowanceRequest /> },
 		],
 	},
 ]);
