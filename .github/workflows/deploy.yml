@@ -35,13 +35,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # backend_network가 없으면 생성
-            docker network ls | grep app-network || docker network create app-network
+            # ubuntu_app-network가 없으면 생성
+            docker network ls | grep ubuntu_app-network || docker network create ubuntu_app-network
 
             # 최신 이미지를 pull하고 기존 컨테이너를 중단 및 삭제 후 새로 시작
             docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
             docker stop react-app || true
             docker rm react-app || true
 
-            # 프론트엔드 컨테이너를 backend_network에 연결하여 실행
-            docker run -d --name react-app --network app-network -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            # 프론트엔드 컨테이너를 ubuntu_app-network에 연결하여 실행
+            docker run -d --name react-app --network ubuntu_app-network -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
