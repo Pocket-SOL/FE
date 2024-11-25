@@ -25,6 +25,7 @@ import UsageHistoryPage from "../pages/Children/Usage/UsageHistoryPage";
 import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
 import PhotoUpload from "../pages/Children/Usage/PhotoUploadPage";
 import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
+import HistoryDetailPage from "../pages/Children/Usage/HistoryDetailPage";
 
 const router = createBrowserRouter([
 	{
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
 						children: [
 							{ path: "", element: <UsageHistoryPage /> },
 							{ path: "photo", element: <PhotoUpload /> },
+							{ path: ":id", element: <HistoryDetailPage /> },
 						],
 					},
 				],

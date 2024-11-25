@@ -4,7 +4,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
 import axios from "axios";
-//여기서도 객체에 담아서 보내자 송금하기할때
+
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -81,7 +81,7 @@ export default function FixedExpenseListPage() {
 			// 성공 처리
 			alert("송금이 성공적으로 처리되었습니다.");
 			console.log("송금 성공:", response.data);
-			// 여기에 성공 후 처리 추가 (예: 페이지 이동)
+			navigate("/parents/send-complete");
 		} catch (error) {
 			// 에러 처리
 			console.error("송금 처리 중 오류:", error);
@@ -98,7 +98,6 @@ export default function FixedExpenseListPage() {
 				alert("송금 요청 중 오류가 발생했습니다.");
 			}
 		}
-		navigate("/parents/fixed-expense-list", { state: { amount } });
 	};
 
 	return (
