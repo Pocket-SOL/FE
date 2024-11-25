@@ -10,7 +10,7 @@ export default function UsageHistoryPage() {
 	const [loading, setLoading] = useState(true);
 	const [sub, setSub] = useState([]);
 	const [total, setTotal] = useState([]);
-	const userId = 2;
+	const userId = 1;
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -80,16 +80,17 @@ export default function UsageHistoryPage() {
 
 				<section className={styles.historySection}>
 					<h2 className={styles.balanceHeader}>이용 내역</h2>
-					{history.map((transaction, index) => (
-						<HistoryItem
-							key={index}
-							merchant={transaction.account_holder}
-							date={transaction.date}
-							amount={transaction.amount}
-							type={transaction.transaction_type}
-							time={transaction.time}
-						/>
-					))}
+					{history &&
+						history.map((transaction, index) => (
+							<HistoryItem
+								key={index}
+								merchant={transaction.account_holder}
+								date={transaction.date}
+								amount={transaction.amount}
+								type={transaction.transaction_type}
+								time={transaction.time}
+							/>
+						))}
 				</section>
 			</div>
 		</main>
