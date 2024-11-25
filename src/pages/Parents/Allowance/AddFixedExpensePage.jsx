@@ -2,20 +2,37 @@
 
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import {
-	Field,
-	Label,
-	Switch,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuItems,
-} from "@headlessui/react";
 
 import DataSelection from "../../Children/GroupPurchase/DataSelection";
 import "./AddFixedExpensePage.css";
+import { useNavigate } from "react-router-dom";
+import { useFixed } from "../../../contexts/FixedContext";
 export default function AddFixedExpensePage() {
-	const [agreed, setAgreed] = useState(false);
+	const { addFixedInfo } = useFixed();
+	const [formData, setFormData] = useState({
+		name: "",
+		account: "",
+		transAmount: "",
+		transDate: "",
+		bank: "경남은행",
+	});
+
+	const navigate = useNavigate();
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	const handleComplete = () => {
+		addFixedInfo(formData);
+		console.log("저장된 데이터:", formData);
+		alert("고정 지출 정보가 저장되었습니다.");
+		navigate("/parents/fixed-expense-list");
+	};
 
 	return (
 		<div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -25,6 +42,7 @@ export default function AddFixedExpensePage() {
 			<div className="block text-2xl  text-gray-900">편하게 송금하세요</div>
 
 			<div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+				{/* 받는 분 */}
 				<div className="sm:col-span-2">
 					<label
 						htmlFor="받는 분"
@@ -34,14 +52,16 @@ export default function AddFixedExpensePage() {
 					</label>
 					<div className="mt-2.5">
 						<input
-							id="email"
-							name="email"
-							type="email"
-							autoComplete="email"
+							type="text"
+							name="name"
+							placeholder="받는 분 이름"
+							value={formData.name}
+							onChange={handleChange}
 							className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
 						/>
 					</div>
 				</div>
+				{/* 계좌번호 */}
 				<div className="sm:col-span-2">
 					<label
 						htmlFor="계좌번호"
@@ -55,8 +75,10 @@ export default function AddFixedExpensePage() {
 								Country
 							</label>
 							<select
-								id="country"
-								name="country"
+								id="bank"
+								name="bank"
+								value={formData.bank}
+								onChange={handleChange}
 								className="h-full rounded-md border-0 bg-transparent bg-none text-xs  py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
 							>
 								<option>경남은행</option>
@@ -91,11 +113,13 @@ export default function AddFixedExpensePage() {
 								className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
 							/>
 						</div>
+
 						<input
-							id="phone-number"
-							name="phone-number"
-							type="tel"
-							autoComplete="tel"
+							type="text"
+							name="account"
+							placeholder="계좌번호"
+							value={formData.account}
+							onChange={handleChange}
 							className="block w-full rounded-md border-0 px-3.5 py-2 pl-36 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
 						/>
 					</div>
@@ -109,10 +133,11 @@ export default function AddFixedExpensePage() {
 					</label>
 					<div className="mt-2.5">
 						<input
-							id="email"
-							name="email"
-							type="email"
-							autoComplete="email"
+							type="text"
+							name="transAmount"
+							placeholder="금액"
+							value={formData.transAmount}
+							onChange={handleChange}
 							className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
 						/>
 					</div>
@@ -125,20 +150,23 @@ export default function AddFixedExpensePage() {
 						자동 이체 날짜
 					</label>
 					<div className="mt-2.5">
-						{/* <input
-							id="email"
-							name="email"
-							type="email"
-							autoComplete="email"
+						<input
+							type="text"
+							name="transDate"
+							placeholder="YYYY-MM-DD"
+							value={formData.transDate}
+							onChange={handleChange}
 							className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-						/> */}
-						<DataSelection className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" />
+						/>
+						{/* <DataSelection /> */}
 					</div>
 				</div>
 			</div>
 
 			<div className="mt-10">
-				<button className="complete-button">완료</button>
+				<button className="complete-button" onClick={handleComplete}>
+					완료
+				</button>
 			</div>
 		</div>
 	);

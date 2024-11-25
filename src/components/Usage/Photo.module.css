@@ -1,0 +1,127 @@
+.uploadContainer {
+    border-radius: 15px;
+    background: #fff;
+    display: flex;
+    max-width: 480px;
+    width: 100%;
+    padding: 0 0 218px;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Pretendard Variable, -apple-system, Roboto, Helvetica, sans-serif;
+    color: #000;
+    font-weight: 400;
+    margin: 0 auto;
+  }
+  .container {
+    border-radius: 15px;
+    /* min-height: 700px; */
+    background: #fff;
+    display: flex;
+    max-width: 480px;
+    width: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: Pretendard Variable, -apple-system, Roboto, Helvetica, sans-serif;
+    margin: 0 auto;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    flex-direction: column;
+    align-items: start;
+    padding: 0 26px;
+  }
+  
+  .titleContainer {
+    display: flex;
+    width: 217px;
+    max-width: 100%;
+    gap: 20px;
+    font-size: 24px;
+    justify-content: space-between;
+  }
+  
+  .titleIcon {
+    aspect-ratio: 1.19;
+    object-fit: contain;
+    object-position: center;
+    width: 19px;
+    align-self: start;
+    margin-top: 9px;
+  }
+  
+  .uploadArea {
+    border-radius: 15px;
+    background: #f3f3f3;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    align-self: stretch;
+    display: flex;
+    margin-top: 60px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    color: #818181;
+    letter-spacing: 0.3px;
+    justify-content: center;
+    aspect-ratio: 1;
+  }
+  
+  .photoArea {
+    border-radius: 15px;
+    width: 290px; 
+    overflow: hidden;
+    align-self: stretch;
+    display: flex;
+    margin: 60px auto 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    height: 323px;
+  }
+
+  .addButton {
+    display: flex;
+    margin-bottom: -29px;
+    justify-content: start;
+  }
+  
+  .addButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    justify-content: start;
+    height: 100%;
+    padding: 4px 8px;
+  }
+  
+  .actionButtonsContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 32px auto;
+    gap: 35px;
+    font-size: 20px;
+  }
+  
+  .actionButton {
+    border-radius: 10px;
+    background: #f3f3f3;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    gap: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .actionIcon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    align-self: center;
+  }
+  

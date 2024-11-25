@@ -1,45 +1,63 @@
-import { Fragment } from "react";
-import styles from "./HomePage.module.css";
+import { Fragment, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "~/contexts/AuthContext";
+import { useUser } from "~/contexts/UserContext";
+
+import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
-import sendAllowanceImage from "~/images/sendAllowance.png";
-import assignMissionImage from "~/images/assignMission.png";
+import allowanceIcon from "~/images/allowanceIcon.png";
+import missionIcon from "~/images/missionIcon.png";
 
-const ActionItem = ({ title, iconSrc, backgroundColor }) => {
-	return (
-		<div className={`${styles.actionItem} ${styles[backgroundColor]}`}>
-			<div className={styles[`${backgroundColor}Text`]}>
-				{title.split(" ").map((word, index) => (
-					<Fragment key={index}>
-						{word}
-						<br />
-					</Fragment>
-				))}
-			</div>
-			<img
-				src={iconSrc}
-				alt=""
-				className={styles[`${backgroundColor}Icon`]}
-				loading="lazy"
-			/>
+const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
+	<button
+		className={`${styles.actionItem} ${styles[backgroundColor]}`}
+		onClick={onClick}
+	>
+		<div className={styles[`${backgroundColor}Text`]}>
+			{title.split(" ").map((word, index) => (
+				<Fragment key={index}>
+					{word}
+					<br />
+				</Fragment>
+			))}
 		</div>
-	);
-};
+		<img
+			src={iconSrc}
+			alt=""
+			className={styles[`${backgroundColor}Icon`]}
+			loading="lazy"
+		/>
+	</button>
+);
 
-const ChildItem = ({ name, isSelected, onClick }) => {
-	return (
-		<div className={styles.childItem} onClick={onClick}>
-			<div
-				className={`${styles.childName} ${isSelected ? styles.selectedChild : ""}`}
-			>
-				{name}
-			</div>
+const ChildItem = ({ name, isSelected, onClick }) => (
+	<div className={styles.childItem} onClick={onClick}>
+		<div
+			className={`${styles.childName} ${isSelected ? styles.selectedChild : ""}`}
+		>
+			{name}
 		</div>
-	);
-};
+	</div>
+);
 
 export default function ParentsHomePage() {
+	const navigate = useNavigate();
+	const { isAuthenticated, authChecked, login, logout } = useAuth();
+	const { userChecked, user } = useUser();
+
+	useEffect(() => {
+		if (authChecked && !isAuthenticated) {
+			navigate("/login");
+		}
+	}, [authChecked, isAuthenticated, navigate]);
+
+	if (!userChecked) {
+		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+		return <div>Loading...</div>;
+	}
+
 	const children = [
 		{ name: "조인후", isSelected: false },
 		{ name: "하민지", isSelected: true },
@@ -75,7 +93,7 @@ export default function ParentsHomePage() {
 						<p>
 							<strong>이민호님의 계좌</strong>
 							<br />
-							923302-00-632254
+							110-508-283124
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
@@ -105,13 +123,19 @@ export default function ParentsHomePage() {
 			<div className={styles.actionContainer}>
 				<ActionItem
 					title="용돈 보내기"
-					iconSrc={sendAllowanceImage}
+					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
+					onClick={() => {
+						navigate("/parents/send-allowance");
+					}}
 				/>
 				<ActionItem
 					title="미션 주기"
-					iconSrc={assignMissionImage}
+					iconSrc={missionIcon}
 					backgroundColor="assignMission"
+					onClick={() => {
+						navigate("/parents");
+					}}
 				/>
 			</div>
 		</div>

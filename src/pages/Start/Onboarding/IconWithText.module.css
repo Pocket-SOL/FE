@@ -1,0 +1,17 @@
+.iconTextContainer {
+	display: flex;
+	gap: 15px;
+	font-size: 15px;
+	margin: 9px 0 0 14px;
+}
+
+.icon {
+	aspect-ratio: 1;
+	object-fit: contain;
+	object-position: center;
+	width: 25px;
+}
+
+.text {
+	flex-basis: auto;
+}
