@@ -39,7 +39,7 @@ jobs:
           docker network ls | grep app-network || docker network create app-network
           
           # 최신 이미지를 pull하고 기존 컨테이너를 중단 및 삭제 후 새로 시작
-          docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
+          docker pull ${{ secrets.DOCKER_IMAGE_NAME }}/react-app
           docker stop react-app || true
           docker rm react-app || true
           
