@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
-import { useAuth } from "~/context/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 export default function Comment({ purchaseId }) {
 	const { user } = useAuth(); // AuthContext에서 user 정보 가져오기
 	const [show, setShow] = useState(false);
