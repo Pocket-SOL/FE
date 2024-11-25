@@ -50,7 +50,7 @@ function AllowanceRequest() {
 							<div
 								className="absolute left-1/2 w-4 h-12 bg-blue-500 rounded-full shadow-lg transform"
 								style={{
-									transform: `translateX(${(amount / MAX_AMOUNT) * 50}%)`,
+									transform: `translateX(${(amount / MAX_AMOUNT) * 800}%)`,
 								}}
 							/>
 
@@ -59,7 +59,7 @@ function AllowanceRequest() {
 								min={0}
 								max={MAX_AMOUNT * 2}
 								step={500}
-								value={amount + MAX_AMOUNT}
+								value={amount}
 								onChange={handleSliderChange}
 								className="absolute inset-0 opacity-0 cursor-pointer"
 							/>

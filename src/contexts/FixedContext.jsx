@@ -1,19 +1,16 @@
-import {
-	createContext,
-	useContext,
-	useState,
-	useEffect,
-	Children,
-} from "react";
-import axios from "axios";
+import { createContext, useContext, useState } from "react";
 
 const FixedContext = createContext();
 
 export const FixedProvider = ({ children }) => {
-	const [fixedInfo, setFixedInfo] = useState(null);
+	const [fixedInfoList, setFixedInfoList] = useState([]); // 배열로 초기화
+
+	const addFixedInfo = (newInfo) => {
+		setFixedInfoList((prev) => [...prev, newInfo]);
+	};
 
 	return (
-		<FixedContext.Provider value={{ fixedInfo, setFixedInfo }}>
+		<FixedContext.Provider value={{ fixedInfoList, addFixedInfo }}>
 			{children}
 		</FixedContext.Provider>
 	);
