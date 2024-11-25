@@ -10,7 +10,7 @@ export default function UsageHistoryPage() {
 	const [loading, setLoading] = useState(true);
 	const [sub, setSub] = useState([]);
 	const [total, setTotal] = useState([]);
-	const userId = 1;
+	const userId = 2;
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -84,6 +84,7 @@ export default function UsageHistoryPage() {
 						history.map((transaction, index) => (
 							<HistoryItem
 								key={index}
+								id={transaction.history_id}
 								merchant={transaction.account_holder}
 								date={transaction.date}
 								amount={transaction.amount}
