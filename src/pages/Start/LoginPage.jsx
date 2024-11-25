@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from "~/contexts/AuthContext";
+import { useUser } from "~/contexts/UserContext";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
 	const { isAuthenticated, authChecked, login, logout } = useAuth();
+	const { setUser } = useUser(); // 사용자 정보를 설정하는 함수 사용
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
@@ -23,8 +25,17 @@ export default function LoginPage() {
 
 			if (response.status === 200) {
 				login();
+
+				const { username, birth, phone, role } = response.data; // 응답에서 user 정보 추출
+				setUser({ username, birth, phone, role });
+
+				if (role === "parent") {
+					navigate("/parents"); // 부모 페이지로 리디렉션
+				} else if (role === "child") {
+					navigate("/children"); // 자녀 페이지로 리디렉션
+				}
+
 				console.log("로그인 성공!");
-				navigate("/parents");
 			}
 		} catch (error) {
 			const errorMessage = error.response

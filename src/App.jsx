@@ -3,11 +3,14 @@ import router from "./routers/MainRouter";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import { AuthProvider } from "./contexts/AuthContext";
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
 	return (
 		<AuthProvider>
-			<RouterProvider router={router} />
+			<UserProvider>
+				<RouterProvider router={router} />
+			</UserProvider>
 		</AuthProvider>
 	);
 }
