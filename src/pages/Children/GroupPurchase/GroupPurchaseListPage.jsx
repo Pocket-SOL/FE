@@ -50,7 +50,9 @@ export default function GroupPurchaseListPage() {
 									<h3
 										className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600"
 										onClick={() =>
-											navigate(`/group-purchase/${purchase.purchase_id}`)
+											navigate(
+												`/children/group-purchase/${purchase.purchase_id}`,
+											)
 										}
 									>
 										{purchase.title}
@@ -94,7 +96,7 @@ export default function GroupPurchaseListPage() {
 				</div>
 				{/* 플로팅 버튼 */}
 				<button
-					onClick={() => navigate("/Group-Purchase/reg")}
+					onClick={() => navigate("/children/Group-Purchase/reg")}
 					className="fixed bottom-8 right-8 bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-600"
 				>
 					+
