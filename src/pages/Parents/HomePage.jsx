@@ -2,6 +2,7 @@ import { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
+import { useUser } from "~/contexts/UserContext";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -44,12 +45,18 @@ const ChildItem = ({ name, isSelected, onClick }) => (
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { isAuthenticated, authChecked, login, logout } = useAuth();
+	const { userChecked, user } = useUser();
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
 			navigate("/login");
 		}
 	}, [authChecked, isAuthenticated, navigate]);
+
+	if (!userChecked) {
+		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+		return <div>Loading...</div>;
+	}
 
 	const children = [
 		{ name: "조인후", isSelected: false },

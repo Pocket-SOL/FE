@@ -5,6 +5,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
+	const [userChecked, setUserChecked] = useState(false);
 
 	// 컴포넌트가 마운트될 때마다 유저 정보를 서버에서 가져오기
 	useEffect(() => {
@@ -19,6 +20,8 @@ export const UserProvider = ({ children }) => {
 				}
 			} catch (error) {
 				console.error("사용자 정보 불러오기 실패:", error);
+			} finally {
+				setUserChecked(true);
 			}
 		};
 
@@ -26,7 +29,7 @@ export const UserProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<UserContext.Provider value={{ user, setUser }}>
+		<UserContext.Provider value={{ userChecked, user, setUser }}>
 			{children}
 		</UserContext.Provider>
 	);
