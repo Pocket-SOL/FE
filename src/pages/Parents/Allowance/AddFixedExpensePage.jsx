@@ -2,15 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import {
-	Field,
-	Label,
-	Switch,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuItems,
-} from "@headlessui/react";
 
 import DataSelection from "../../Children/GroupPurchase/DataSelection";
 import "./AddFixedExpensePage.css";
@@ -37,7 +28,7 @@ export default function AddFixedExpensePage() {
 	};
 
 	const handleComplete = () => {
-		addFixedInfo(formData); // 새로운 정보를 리스트에 추가
+		addFixedInfo(formData);
 		console.log("저장된 데이터:", formData);
 		alert("고정 지출 정보가 저장되었습니다.");
 		navigate("/parents/fixed-expense-list");
@@ -67,7 +58,6 @@ export default function AddFixedExpensePage() {
 							value={formData.name}
 							onChange={handleChange}
 							className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
-							// 상태 업데이트
 						/>
 					</div>
 				</div>
@@ -85,10 +75,10 @@ export default function AddFixedExpensePage() {
 								Country
 							</label>
 							<select
-								id="country"
-								name="bank" // name을 bank로 변경
-								value={formData.bank} // formData의 bank 값을 사용
-								onChange={handleChange} // handleChange를 호출하여 상태 업데이트
+								id="bank"
+								name="bank"
+								value={formData.bank}
+								onChange={handleChange}
 								className="h-full rounded-md border-0 bg-transparent bg-none text-xs  py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
 							>
 								<option>경남은행</option>
@@ -123,13 +113,7 @@ export default function AddFixedExpensePage() {
 								className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
 							/>
 						</div>
-						{/* <input
-							id="phone-number"
-							name="phone-number"
-							type="tel"
-							autoComplete="tel"
-							className="block w-full rounded-md border-0 px-3.5 py-2 pl-36 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-						/> */}
+
 						<input
 							type="text"
 							name="account"
@@ -176,9 +160,6 @@ export default function AddFixedExpensePage() {
 						/>
 						{/* <DataSelection /> */}
 					</div>
-					{/* <div className="mt-2.5">
-						<DataSelection className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6" />
-					</div> */}
 				</div>
 			</div>
 
