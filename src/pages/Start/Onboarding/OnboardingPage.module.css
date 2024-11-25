@@ -1,0 +1,102 @@
+.onboardingContainer {
+	border-radius: 15px;
+	background: #fff;
+	display: flex;
+	max-width: 480px;
+	width: 100%;
+	padding-bottom: 25px;
+	flex-direction: column;
+	overflow: hidden;
+	font-family:
+		Pretendard Variable,
+		-apple-system,
+		Roboto,
+		Helvetica,
+		sans-serif;
+	color: #000;
+	font-weight: 400;
+	margin: 0 auto;
+}
+
+.headerImage {
+	aspect-ratio: 8.7;
+	object-fit: contain;
+	object-position: center;
+	width: 100%;
+}
+
+.contentSection {
+	display: flex;
+	margin-top: 46px;
+	width: 100%;
+	flex-direction: column;
+	align-items: start;
+	padding: 0 30px;
+}
+
+.headerContent {
+	display: flex;
+	margin-left: 11px;
+	gap: 11px;
+	text-align: center;
+}
+
+.titleWrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	font-size: 32px;
+	width: 100%;
+	margin: 0;
+}
+
+.highlight {
+	font-weight: 600;
+	color: #0084fc;
+}
+
+.subtitle {
+	font-size: 16px;
+	align-self: start;
+	margin-top: 17px;
+}
+
+.mascotImage {
+	aspect-ratio: 1;
+	object-fit: contain;
+	object-position: center;
+	width: 35px;
+	margin: auto 0;
+}
+
+.featuresList {
+	margin-top: 20px;
+	width: 100%;
+}
+
+.loginButton {
+	border-radius: 15px;
+	background: #0084fc;
+	width: 100%;
+	font-size: 16px;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	padding: 21px 70px;
+	border: none;
+	cursor: pointer;
+	margin-top: 134px;
+}
+
+.loginButton:hover {
+	background: #0073e6;
+}
+
+.loginButton:focus {
+	outline: none;
+	box-shadow:
+		0 0 0 2px #fff,
+		0 0 0 4px #0084fc;
+}

@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../layouts/Layout";
 
 // Start
-import OnboardingPage from "../pages/Start/OnboardingPage";
+import { OnboardingPage } from "../pages/Start/Onboarding/OnboardingPage";
 import LoginPage from "../pages/Start/LoginPage";
 
 // Parents
