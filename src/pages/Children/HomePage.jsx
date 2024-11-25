@@ -2,6 +2,7 @@ import { Fragment, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
+import { useUser } from "~/contexts/UserContext";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -50,6 +51,7 @@ const WideActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
 	const { isAuthenticated, authChecked, login, logout } = useAuth();
+	const { userChecked, user } = useUser();
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
@@ -57,17 +59,16 @@ export default function ChildrenHomePage() {
 		}
 	}, [authChecked, isAuthenticated, navigate]);
 
-	const children = [
-		{ name: "조인후", isSelected: false },
-		{ name: "하민지", isSelected: true },
-		{ name: "김도은", isSelected: false },
-	];
+	if (!userChecked) {
+		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div className={styles.homePageContainer}>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
-					하민지님,
+					{user.username}님,
 					<br />
 					용돈 관리도 멋지게!
 					<br />
@@ -92,7 +93,7 @@ export default function ChildrenHomePage() {
 							loading="lazy"
 						/>
 						<p>
-							<strong>하민지님의 계좌</strong>
+							<strong>{user.username}님의 계좌</strong>
 							<br />
 							110-508-283123
 						</p>
@@ -104,7 +105,7 @@ export default function ChildrenHomePage() {
 			</div>
 			<div className={styles.wideActionContainer}>
 				<WideActionItem
-					title="빠르게 계산해봐요"
+					title="빠르게 결제해봐요"
 					backgroundColor="simplePayment"
 					onClick={() => {
 						navigate("/children");
@@ -117,7 +118,7 @@ export default function ChildrenHomePage() {
 					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
 					onClick={() => {
-						navigate("/children");
+						navigate("/children/allowance-request");
 					}}
 				/>
 				<ActionItem
@@ -135,7 +136,7 @@ export default function ChildrenHomePage() {
 					iconSrc={schoolIcon}
 					backgroundColor="groupPurchase"
 					onClick={() => {
-						navigate("/children/group-purchase-list");
+						navigate("/children/group-purchase");
 					}}
 				/>
 			</div>
