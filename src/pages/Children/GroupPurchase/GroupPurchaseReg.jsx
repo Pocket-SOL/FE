@@ -41,14 +41,13 @@ export default function GroupPurchaseReg() {
 			console.log("등록 성공:", response.data);
 			if (response.data.ok === true) {
 				window.alert("등록 성공 하셨습니다.");
-				navigate("/GroupPurchaselistpage");
+				navigate("/Group-Purchase/");
 			}
 		} catch (error) {
 			console.error("등록 실패:", error);
 			setMessage("등록에 실패했습니다.");
 		}
 	};
-
 	console.log(formData);
 	return (
 		<Card

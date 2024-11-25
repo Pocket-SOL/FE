@@ -14,7 +14,7 @@ export default function Comment({ purchaseId }) {
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	console.log(user);
+	console.log("user", user);
 
 	// 댓글 조회 함수
 	const fetchComments = async () => {
