@@ -1,8 +1,10 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
 import { useUser } from "~/contexts/UserContext";
+
+import { fetchAccountNumber } from "../../libs/apis/accounts";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -52,12 +54,28 @@ export default function ChildrenHomePage() {
 	const navigate = useNavigate();
 	const { isAuthenticated, authChecked, login, logout } = useAuth();
 	const { userChecked, user } = useUser();
+	const [userAccountNumber, setUserAccountNumber] = useState("");
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
 			navigate("/login");
 		}
 	}, [authChecked, isAuthenticated, navigate]);
+
+	// 계좌번호 가져오기
+	useEffect(() => {
+		const fetchAccountData = async () => {
+			try {
+				const accountNumber = await fetchAccountNumber(user.user_id); // API 호출
+				setUserAccountNumber(accountNumber.account_number); // 상태 업데이트
+			} catch (error) {
+				console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+			}
+		};
+		if (userChecked && user) {
+			fetchAccountData();
+		}
+	}, [userChecked, user]);
 
 	if (!userChecked) {
 		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
@@ -95,7 +113,7 @@ export default function ChildrenHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							110-508-283123
+							{userAccountNumber}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
