@@ -2,7 +2,7 @@ import axios from "axios";
 import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useUser } from "../../../contexts/UserContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function GroupPurchaseDetailPage() {
 	const { purchaseId } = useParams(); // URL에서 purchaseId 파라미터 추출
@@ -10,8 +10,7 @@ export default function GroupPurchaseDetailPage() {
 	const [comments, setComments] = useState([]); // 댓글 리스트
 	const [loading, setLoading] = useState(false); // 댓글 로딩 상태
 	const [people, setPeople] = useState(0);
-	// const { user } = useAuth();
-	const { user } = useUser();
+	const { user } = useAuth();
 
 	console.log("detail-user", user);
 	console.log("purchase-detail", purchaseDetails);

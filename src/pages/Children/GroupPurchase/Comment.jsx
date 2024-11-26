@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
-import { useUser } from "../../../contexts/UserContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Comment({
 	purchaseId,
@@ -10,7 +10,7 @@ export default function Comment({
 	setComments,
 	loading,
 }) {
-	const { user } = useUser(); // user context 유지.
+	const { user } = useAuth(); // user context 유지.
 	const [show, setShow] = useState(false);
 	const [newComment, setNewComment] = useState(""); // 새로운 댓글 내용
 	const handleClose = () => setShow(false);
