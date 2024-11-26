@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
-				const response = await axios.get("api/users/me", {
+				const response = await axios.get("/api/users/me", {
 					withCredentials: true, // 쿠키를 포함한 요청
 				});
 
