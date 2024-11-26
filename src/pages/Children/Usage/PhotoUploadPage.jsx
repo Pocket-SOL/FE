@@ -7,6 +7,8 @@ import {
 	PlusIcon,
 } from "@heroicons/react/24/outline";
 import { useState, useEffect, useRef } from "react";
+import { uploadHistoryImage } from "../../../libs/apis/histories";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function PhotoUpload() {
 	const [isMobile, setIsMobile] = useState(false);
@@ -14,9 +16,32 @@ export default function PhotoUpload() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [stream, setStream] = useState(null);
+	const { user } = useAuth();
 
 	const handleFileChange = (file) => {
 		setSelectedFile(file);
+
+		setTimeout(() => {
+			const saveConfirmed = confirm("사진을 저장하시겠습니까?");
+			console.log(saveConfirmed);
+			if (saveConfirmed) {
+				uploadHistoryImage(file, `history/${user.user_id}`)
+					.then((result) => {
+						if (result) {
+							alert("사진이 저장되었습니다!");
+						} else {
+							alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
+						}
+						console.log(result);
+					})
+					.catch((error) => {
+						console.error(error);
+						alert("저장 중 오류가 발생했습니다.");
+					});
+			} else {
+				alert("저장이 취소되었습니다.");
+			}
+		}, 100); // 미리보기 갱신 후 잠시 대기
 	};
 
 	useEffect(() => {
@@ -29,7 +54,7 @@ export default function PhotoUpload() {
 		};
 
 		checkMobile();
-		console.log(isMobile);
+		console.log("isMobile", isMobile);
 		window.addEventListener("resize", checkMobile);
 
 		return () => window.removeEventListener("resize", checkMobile);
@@ -89,6 +114,23 @@ export default function PhotoUpload() {
 					new File([blob], "captured-image.png", { type: "image/png" }),
 				);
 				stopWebCam();
+				const saveConfirmed = confirm("사진을 저장하시겠습니까?");
+				if (saveConfirmed) {
+					uploadHistoryImage(selectedFile, `history/${user.user_id}`)
+						.then((result) => {
+							if (result) {
+								alert("캡처된 사진이 저장되었습니다!");
+							} else {
+								alert("사진 저장에 실패했습니다.");
+							}
+						})
+						.catch((error) => {
+							console.error(error);
+							alert("저장 중 오류가 발생했습니다.");
+						});
+				} else {
+					alert("저장이 취소되었습니다.");
+				}
 			});
 		}
 	};
