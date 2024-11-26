@@ -1,8 +1,8 @@
-import { Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
-import { useUser } from "~/contexts/UserContext";
+import { fetchAccountNumber } from "~/libs/apis/accounts";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -17,10 +17,10 @@ const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 	>
 		<div className={styles[`${backgroundColor}Text`]}>
 			{title.split(" ").map((word, index) => (
-				<Fragment key={index}>
+				<div key={index}>
 					{word}
 					<br />
-				</Fragment>
+				</div>
 			))}
 		</div>
 		<img
@@ -44,8 +44,10 @@ const ChildItem = ({ name, isSelected, onClick }) => (
 
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
-	const { isAuthenticated, authChecked, login, logout } = useAuth();
-	const { userChecked, user } = useUser();
+	const { isAuthenticated, authChecked, user } = useAuth();
+	const [userAccountNumber, setUserAccountNumber] = useState("");
+	const [childrenList, setChildrenList] = useState([]);
+	const [setIsLoading] = useState(true);
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
@@ -53,22 +55,63 @@ export default function ParentsHomePage() {
 		}
 	}, [authChecked, isAuthenticated, navigate]);
 
-	if (!userChecked) {
-		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+	// 데이터 fetch 함수
+	const fetchAccountData = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchAccountNumber(user.user_id);
+				setUserAccountNumber(response.account_number);
+			}
+		} catch (error) {
+			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+		}
+	};
+
+	const fetchChildrenList = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetch(
+					`/api/users/my-children?parent_id=${user.user_id}`,
+				);
+				if (!response.ok) {
+					throw new Error("사용자를 가져오는 중 오류가 발생했습니다.");
+				}
+				const userDetails = await response.json();
+				setChildrenList(userDetails);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	// 모든 데이터 로드
+	useEffect(() => {
+		if (authChecked && isAuthenticated && user?.user_id) {
+			const loadData = async () => {
+				setIsLoading(true);
+				await Promise.all([fetchAccountData(), fetchChildrenList()]);
+				setIsLoading(false);
+			};
+			loadData();
+		}
+	}, [authChecked, isAuthenticated, user]);
+
+	if (!authChecked) {
+		// 인증 확인이 완료되지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
-	const children = [
-		{ name: "조인후", isSelected: false },
-		{ name: "하민지", isSelected: true },
-		{ name: "김도은", isSelected: false },
-	];
-
+	if (!isAuthenticated) {
+		// 인증되지 않은 경우 로그인 페이지로 이동
+		navigate("/login");
+		return null;
+	}
+	console.log(user);
 	return (
 		<div className={styles.homePageContainer}>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
-					이민호님,
+					{user.username}님,
 					<br />
 					자녀와 함께 하는 금융을
 					<br />
@@ -91,9 +134,9 @@ export default function ParentsHomePage() {
 							loading="lazy"
 						/>
 						<p>
-							<strong>이민호님의 계좌</strong>
+							<strong>{user.username}님의 계좌</strong>
 							<br />
-							110-508-283124
+							{userAccountNumber}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
@@ -105,11 +148,11 @@ export default function ParentsHomePage() {
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
 				<div className={styles.childSelectionContainer}>
-					{children.map((child, index) => (
+					{childrenList.map((child, index) => (
 						<ChildItem
 							key={index}
-							name={child.name}
-							isSelected={child.isSelected}
+							name={child.name} // 실제 자녀 이름을 childrenList에서 가져옴
+							isSelected={child.isSelected} // 자녀 선택 여부
 							onClick={() => {}}
 						/>
 					))}

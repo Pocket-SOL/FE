@@ -1,8 +1,8 @@
-import { Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
-import { useUser } from "~/contexts/UserContext";
+import { fetchAccountNumber } from "~/libs/apis/accounts";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -18,10 +18,10 @@ const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 	>
 		<div className={styles[`${backgroundColor}Text`]}>
 			{title.split(" ").map((word, index) => (
-				<Fragment key={index}>
+				<div key={index}>
 					{word}
 					<br />
-				</Fragment>
+				</div>
 			))}
 		</div>
 		<img
@@ -50,8 +50,8 @@ const WideActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
-	const { isAuthenticated, authChecked, login, logout } = useAuth();
-	const { userChecked, user } = useUser();
+	const { isAuthenticated, authChecked, user, login, logout } = useAuth();
+	const [userAccountNumber, setUserAccountNumber] = useState("");
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
@@ -59,8 +59,23 @@ export default function ChildrenHomePage() {
 		}
 	}, [authChecked, isAuthenticated, navigate]);
 
-	if (!userChecked) {
-		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+	// 계좌번호 가져오기
+	useEffect(() => {
+		const fetchAccountData = async () => {
+			try {
+				const accountNumber = await fetchAccountNumber(user.user_id); // API 호출
+				setUserAccountNumber(accountNumber.account_number); // 상태 업데이트
+			} catch (error) {
+				console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+			}
+		};
+		if (user) {
+			fetchAccountData();
+		}
+	}, [user]);
+
+	if (!authChecked) {
+		// 인증 확인이 완료되지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
@@ -95,7 +110,7 @@ export default function ChildrenHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							110-508-283123
+							{userAccountNumber}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
