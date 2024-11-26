@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
+import { useAuth } from "~/contexts/AuthContext";
 import "./FixedExpenseListPage.css";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { fixedInfoList } = useFixed();
+	const { childId } = useAuth();
 	const [amount, setAmount] = useState(() => {
 		const savedAmount = localStorage.getItem("amount");
 		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
@@ -50,7 +52,7 @@ export default function FixedExpenseListPage() {
 				account_holder: info.name,
 				bank: info.bank,
 				account_number: info.account,
-				amount: Number(info.transAmount),
+				amount: info.transAmount,
 				scheduled_date: info.transDate,
 			}));
 
@@ -58,18 +60,19 @@ export default function FixedExpenseListPage() {
 				from: {
 					transaction_type: "출금",
 					account_holder: "하민지",
-					amount: Number(amount),
+					amount: Number(amount.replace(/[^0-9]/g, "")),
 				},
 				to: {
 					transaction_type: "입금",
 					account_holder: "김도은",
-					amount: Number(amount),
+					amount: Number(amount.replace(/[^0-9]/g, "")),
 				},
 				reservations,
 			};
-
+			//const id = useContext로 아이 id 값 전역관리 이 값을 불러와서
+			console.log("자녀 ID", childId, amount, Number(amount));
 			const response = await axios.post(
-				"http://localhost:3000/api/accounts/2",
+				`/api/accounts/${childId}`,
 				requestBody,
 				{
 					headers: {
@@ -78,6 +81,7 @@ export default function FixedExpenseListPage() {
 				},
 			);
 
+			// const balance = fetchUsageBalance(2);
 			// 성공 처리
 			alert("송금이 성공적으로 처리되었습니다.");
 			console.log("송금 성공:", response.data);
@@ -103,7 +107,7 @@ export default function FixedExpenseListPage() {
 	return (
 		<>
 			<div className="Container">
-				<p style={{ marginBottom: "0" }}>김도은님에게 용돈보내기</p>
+				<p style={{ marginBottom: "0" }}>{childId}도은님에게 용돈보내기</p>
 				<p className="Font">얼마를 보낼까요?</p>
 				<div style={{ width: "100%", height: "200px" }}>
 					<ResponsivePie
