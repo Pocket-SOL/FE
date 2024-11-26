@@ -1,10 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
-import { useUser } from "~/contexts/UserContext";
-
-import { fetchAccountNumber } from "../../libs/apis/accounts";
+import { fetchAccountNumber } from "~/libs/apis/accounts";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -20,10 +18,10 @@ const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 	>
 		<div className={styles[`${backgroundColor}Text`]}>
 			{title.split(" ").map((word, index) => (
-				<Fragment key={index}>
+				<div key={index}>
 					{word}
 					<br />
-				</Fragment>
+				</div>
 			))}
 		</div>
 		<img
@@ -52,8 +50,7 @@ const WideActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
-	const { isAuthenticated, authChecked, login, logout } = useAuth();
-	const { userChecked, user } = useUser();
+	const { isAuthenticated, authChecked, user, login, logout } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
 
 	useEffect(() => {
@@ -72,13 +69,13 @@ export default function ChildrenHomePage() {
 				console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
 			}
 		};
-		if (userChecked && user) {
+		if (user) {
 			fetchAccountData();
 		}
-	}, [userChecked, user]);
+	}, [user]);
 
-	if (!userChecked) {
-		// 사용자 정보가 아직 로딩 중일 때 로딩 표시
+	if (!authChecked) {
+		// 인증 확인이 완료되지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
