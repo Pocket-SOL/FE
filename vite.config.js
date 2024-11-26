@@ -15,7 +15,6 @@ export default defineConfig({
 		alias: [
 			// 절대경로로 접근하기
 			{ find: "~/images", replacement: "/src/assets/images" },
-			{ find: "~/context", replacement: "/src/context" },
 			{ find: "~/components", replacement: "/src/components" },
 			{ find: "~/contexts", replacement: "/src/contexts" },
 			{ find: "~/libs", replacement: "/src/libs" },

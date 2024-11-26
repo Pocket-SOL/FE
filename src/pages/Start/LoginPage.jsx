@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
+
+import { Container, Form, Button } from "react-bootstrap";
 import { useAuth } from "~/contexts/AuthContext";
-import { useUser } from "~/contexts/UserContext";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
-	const { isAuthenticated, authChecked, login, logout } = useAuth();
-	const { setUser } = useUser(); // 사용자 정보를 설정하는 함수 사용
+
+	const { login, setUser } = useAuth();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ export default function LoginPage() {
 		const loginData = { id, password };
 
 		try {
-			// 로그인 요청, 쿠키에 JWT를 자동으로 저장하려면 withCredentials: true 사용
+			// 로그인 요청, 쿠키에 JWT를 자동으로 저장
 			const response = await axios.post("api/users/login", loginData, {
 				withCredentials: true, // 쿠키를 포함한 요청을 보냄
 			});
@@ -26,8 +26,9 @@ export default function LoginPage() {
 			if (response.status === 200) {
 				login();
 
-				const { username, birth, phone, role } = response.data; // 응답에서 user 정보 추출
-				setUser({ username, birth, phone, role });
+				const { user_id, id, username, birth, phone, school_auth, role } =
+					response.data; // 응답에서 user 정보 추출
+				setUser({ user_id, id, username, birth, phone, school_auth, role });
 
 				if (role === "parent") {
 					navigate("/parents"); // 부모 페이지로 리디렉션

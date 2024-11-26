@@ -16,22 +16,21 @@ export function AuthProvider({ children }) {
 				});
 				if (response.status === 200) {
 					setIsAuthenticated(true);
-					console.log("auth-response", response);
-					setUser(response.data.user); // 서버에서 받은 사용자 정보 저장
+					setUser(response.data); // 서버에서 받은 사용자 정보 저장
 				}
 			} catch (error) {
+				console.error("Authentication check failed:", error);
 				setIsAuthenticated(false);
-				setUser(null); // 사용자 정보 초기화
+				setUser(null);
 			} finally {
-				setAuthChecked(true); // 인증 확인 완료
+				setAuthChecked(true); // 반드시 호출
 			}
 		};
 		checkAuthStatus();
 	}, []);
 
-	const login = (userData) => {
+	const login = () => {
 		setIsAuthenticated(true);
-		setUser(userData); // 로그인 시 전달받은 사용자 정보 설정
 	};
 
 	const logout = () => {
@@ -41,13 +40,13 @@ export function AuthProvider({ children }) {
 
 	return (
 		<AuthContext.Provider
-			value={{ isAuthenticated, authChecked, user, login, logout }}
+			value={{ isAuthenticated, authChecked, user, setUser, login, logout }}
 		>
 			{children}
 		</AuthContext.Provider>
 	);
 }
 
-export const useAuth = () => {
+export function useAuth() {
 	return useContext(AuthContext);
-};
+}
