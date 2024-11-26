@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
-import { useUser } from "../../../contexts/UserContext";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Comment({ purchaseId }) {
