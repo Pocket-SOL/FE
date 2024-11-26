@@ -2,34 +2,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
-import { useUser } from "../../../contexts/UserContext";
 import { useAuth } from "../../../contexts/AuthContext";
 
-export default function Comment({ purchaseId }) {
+export default function Comment({
+	purchaseId,
+	comments,
+	setComments,
+	loading,
+}) {
+	const { user } = useAuth(); // user context 유지.
 	const [show, setShow] = useState(false);
-	const [comments, setComments] = useState([]); // 댓글 리스트
 	const [newComment, setNewComment] = useState(""); // 새로운 댓글 내용
-	const [loading, setLoading] = useState(false); // 댓글 로딩 상태
-	// const { user, userChecked } = useUser(); // AuthContext에서 user 정보 가져오기
-	const { user } = useAuth();
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	// console.log("user", user.username);
-	// console.log("userchecked", userChecked);
-	console.log("user-auth", user);
-
-	// 댓글 조회 함수
-	const fetchComments = async () => {
-		try {
-			setLoading(true);
-			const response = await axios.get(`/api/comments/${purchaseId}`);
-			setComments(response.data.response); // API 응답에서 댓글 리스트 저장
-		} catch (error) {
-			console.error("댓글 조회 중 오류 발생:", error);
-		} finally {
-			setLoading(false);
-		}
-	};
+	console.log("comment", user);
 
 	// 새로운 댓글 작성 함수
 	const submitComment = async () => {
@@ -39,7 +25,7 @@ export default function Comment({ purchaseId }) {
 		}
 		try {
 			const response = await axios.post(`/api/comments/${purchaseId}`, {
-				user_id: user.id, // 실제 사용자 ID로 대체
+				username: user.username, // 실제 사용자 ID로 대체
 				content: newComment,
 			});
 			setComments((prev) => [...prev, response.data.response]); // 새로운 댓글 추가
@@ -48,13 +34,6 @@ export default function Comment({ purchaseId }) {
 			console.error("댓글 작성 중 오류 발생:", error);
 		}
 	};
-
-	// 댓글 컴포넌트가 열릴 때 댓글 로드
-	useEffect(() => {
-		if (show) {
-			fetchComments();
-		}
-	}, [show]);
 
 	// 댓글 목록 렌더링
 	const renderComments = () => {
@@ -76,7 +55,7 @@ export default function Comment({ purchaseId }) {
 						className="bg-gray-100 p-4 rounded-lg shadow-sm flex flex-col"
 					>
 						<div className="font-semibold text-sm text-gray-800">
-							{comment.user_id}
+							{comment.username}
 						</div>
 						<div className="text-gray-600">{comment.content}</div>
 						<div className="text-xs text-gray-400 mt-1">

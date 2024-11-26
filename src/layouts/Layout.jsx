@@ -7,7 +7,14 @@ const Layout = () => {
 	return (
 		<div>
 			<Header />
-			<main style={{ width: "100%", maxWidth: 375, margin: "0 auto" }}>
+			<main
+				style={{
+					width: "100%",
+					maxWidth: 375,
+					margin: "0 auto",
+					minHeight: "calc(100vh - 10rem)",
+				}}
+			>
 				<Outlet /> {/* 자식 컴포넌트가 이 위치에 렌더링됩니다 */}
 			</main>
 			<Footer />

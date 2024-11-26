@@ -22,9 +22,7 @@ const Header = () => {
 		<header id="header" role="banner">
 			<div className="header__inner">
 				<div className="header__logo">
-					<a href="/">
-						main<em>react.js</em>
-					</a>
+					<a href="/">main</a>
 				</div>
 				<nav
 					className={`header__nav ${show ? "show" : ""}`}

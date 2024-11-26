@@ -41,7 +41,7 @@ export default function GroupPurchaseReg() {
 			console.log("등록 성공:", response.data);
 			if (response.data.ok === true) {
 				window.alert("등록 성공 하셨습니다.");
-				navigate("/Group-Purchase/");
+				navigate("/children/Group-Purchase/");
 			}
 		} catch (error) {
 			console.error("등록 실패:", error);
