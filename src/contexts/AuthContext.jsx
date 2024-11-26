@@ -7,7 +7,8 @@ export function AuthProvider({ children }) {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [authChecked, setAuthChecked] = useState(false); // 인증 여부 확인 완료 상태
 	const [user, setUser] = useState(null); // 사용자 정보 (예: userId)
-
+	const [child, setChild] = useState(null);
+	const [childId, setChildId] = useState(2);
 	useEffect(() => {
 		const checkAuthStatus = async () => {
 			try {
@@ -39,9 +40,41 @@ export function AuthProvider({ children }) {
 		setUser(null); // 사용자 정보 초기화
 	};
 
+	const fetchChild = async (parentId = 1) => {
+		try {
+			const response = await axios.get("/api/users/my-children", {
+				params: {
+					// parent_id: response.data.id,
+					parent_id: parentId,
+				},
+				withCredentials: true,
+			});
+			if (response.status === 200) {
+				setChild(response.data);
+			}
+		} catch (error) {
+			console.error("자녀 정보 불러오기 실패:", error);
+		}
+	};
+
+	const selectChild = (childId) => {
+		setChildId(childId);
+	};
+
 	return (
 		<AuthContext.Provider
-			value={{ isAuthenticated, authChecked, user, login, logout }}
+			value={{
+				isAuthenticated,
+				authChecked,
+				user,
+				login,
+				logout,
+				fetchChild,
+				child,
+				selectChild,
+				setChildId,
+				childId,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>
