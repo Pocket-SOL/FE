@@ -38,7 +38,11 @@ export default function SendAllowancePage() {
 				))}
 			</div>
 			<Link to="/parents/fixed-expense-list" state={{ amount: localeAmount }}>
-				<button className="complete-button" onClick={handleComplete}>
+				<button
+					className="complete-button"
+					onClick={handleComplete}
+					style={{ marginTop: 40 }}
+				>
 					완료
 				</button>
 			</Link>
