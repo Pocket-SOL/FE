@@ -11,7 +11,7 @@ export default function AllowanceRequestConfirmPage() {
 		console.log("현재 amount:", amount);
 
 		try {
-			const response = await axios.post(`/api/plea/2`, {
+			const response = await axios.post(`/api/plea/${user.user_id}`, {
 				amount: amount,
 			});
 			console.log(amount);
