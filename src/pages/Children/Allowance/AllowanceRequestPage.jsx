@@ -1,5 +1,7 @@
 import { useState } from "react";
 import hand from "~/images/hand.png";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function AllowanceRequest() {
 	const [amount, setAmount] = useState(0);
@@ -15,6 +17,9 @@ function AllowanceRequest() {
 
 	// UI에 표시할 때는 음수 값을 0으로 표시
 	const displayAmount = Math.max(0, amount);
+	const { user } = useAuth();
+	console.log(user);
+	const navigate = useNavigate();
 
 	return (
 		<div className="flex flex-col min-h-screen bg-white">
@@ -71,7 +76,12 @@ function AllowanceRequest() {
 					<button className="bg-gray-200 text-black rounded-2xl w-36 h-12 text-center text-lg shadow-md">
 						직접입력
 					</button>
-					<button className="bg-gray-200 text-black rounded-2xl w-36 h-12 text-center text-lg shadow-md">
+					<button
+						onClick={() => {
+							navigate("/children/allowance-request-confirm");
+						}}
+						className="bg-gray-200 text-black rounded-2xl w-36 h-12 text-center text-lg shadow-md"
+					>
 						다음
 					</button>
 				</div>
