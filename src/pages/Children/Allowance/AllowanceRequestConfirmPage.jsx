@@ -2,8 +2,9 @@ import allowanceRequestIcon from "~/images/allowanceRequestIcon.png";
 import { useAllowance } from "../../../contexts/AllowanceContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export default function AllowanceRequestConfirmPage() {
+	const navigate = useNavigate();
 	const { amount } = useAllowance();
 	const { user } = useAuth();
 
@@ -16,6 +17,7 @@ export default function AllowanceRequestConfirmPage() {
 			});
 			console.log(amount);
 			console.log(response);
+			navigate("/children/allowance-complete");
 			// const result = await response.data;
 		} catch (error) {
 			console.error("댓글 작성 중 오류 발생:", error);
