@@ -1,6 +1,6 @@
 import styles from "~/components/Usage/Usage.module.css";
 import { useNavigate } from "react-router-dom";
-
+import { PhotoIcon } from "@heroicons/react/24/outline";
 export default function HistoryItem({
 	id,
 	merchant,
@@ -8,6 +8,7 @@ export default function HistoryItem({
 	amount,
 	type,
 	time,
+	img,
 }) {
 	const isExpense = type === "출금";
 	const navigate = useNavigate();
@@ -33,7 +34,12 @@ export default function HistoryItem({
 			onClick={handleClick}
 		>
 			<div className={styles.transactionDetails}>
-				<h3 className={styles.transactionTitle}>{merchant}</h3>
+				<div
+					style={{ display: "flex", alignItems: "center", marginTop: "2px" }}
+				>
+					<h3 className={styles.transactionTitle}>{merchant}</h3>
+					{img ? <PhotoIcon className="h-4 w-4 ml-2" /> : null}
+				</div>
 				<time className={styles.transactionDate}>
 					{formatDate(date)}
 					{formatTime(time)}
