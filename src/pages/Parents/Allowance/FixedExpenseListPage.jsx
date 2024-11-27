@@ -4,16 +4,18 @@ import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
 import axios from "axios";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { fixedInfoList } = useFixed();
+	const { child, user } = useAuth();
 	const [amount, setAmount] = useState(() => {
 		const savedAmount = localStorage.getItem("amount");
 		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
 	});
-
+	console.log(user);
 	useEffect(() => {
 		if (location.state?.amount !== undefined) {
 			setAmount(location.state.amount);
@@ -53,23 +55,23 @@ export default function FixedExpenseListPage() {
 				amount: Number(info.transAmount),
 				scheduled_date: info.transDate,
 			}));
-
+			console.log(user.username, child, child.name);
 			const requestBody = {
 				from: {
 					transaction_type: "출금",
-					account_holder: "하민지",
-					amount: Number(amount),
+					account_holder: user.username,
+					amount: Number(amount.replace(/,/g, "")),
 				},
 				to: {
 					transaction_type: "입금",
-					account_holder: "김도은",
-					amount: Number(amount),
+					account_holder: child.name,
+					amount: Number(amount.replace(/,/g, "")),
 				},
 				reservations,
 			};
 
 			const response = await axios.post(
-				"http://localhost:3000/api/accounts/2",
+				`http://localhost:3000/api/accounts/${child.id}`,
 				requestBody,
 				{
 					headers: {
@@ -103,7 +105,7 @@ export default function FixedExpenseListPage() {
 	return (
 		<>
 			<div className="Container">
-				<p style={{ marginBottom: "0" }}>김도은님에게 용돈보내기</p>
+				<p style={{ marginBottom: "0" }}>{child.name}님에게 용돈보내기</p>
 				<p className="Font">얼마를 보낼까요?</p>
 				<div style={{ width: "100%", height: "200px" }}>
 					<ResponsivePie
