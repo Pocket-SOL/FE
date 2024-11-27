@@ -158,7 +158,11 @@ export default function ParentsHomePage() {
 					))}
 				</div>
 			</div>
-			<div>
+			<div
+				onClick={() => {
+					navigate("usagehistory");
+				}}
+			>
 				<p className={styles.selectedChildBalance}>
 					하민지님의 잔액: <strong>9,800</strong>원
 				</p>
