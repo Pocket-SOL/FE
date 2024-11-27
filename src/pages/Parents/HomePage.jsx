@@ -47,7 +47,7 @@ export default function ParentsHomePage() {
 	const { isAuthenticated, authChecked, user } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [childrenList, setChildrenList] = useState([]);
-	const [setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
