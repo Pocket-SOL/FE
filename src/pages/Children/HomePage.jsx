@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
 import { fetchAccountNumber } from "~/libs/apis/accounts";
+import { ActionItem, WideActionItem } from "~/components/HomeComponents";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -11,71 +12,46 @@ import allowanceIcon from "~/images/allowanceIcon.png";
 import missionIcon from "~/images/missionIcon.png";
 import schoolIcon from "~/images/schoolIcon.png";
 
-const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
-	<button
-		className={`${styles.actionItem} ${styles[backgroundColor]}`}
-		onClick={onClick}
-	>
-		<div className={styles[`${backgroundColor}Text`]}>
-			{title.split(" ").map((word, index) => (
-				<div key={index}>
-					{word}
-					<br />
-				</div>
-			))}
-		</div>
-		<img
-			src={iconSrc}
-			alt=""
-			className={styles[`${backgroundColor}Icon`]}
-			loading="lazy"
-		/>
-	</button>
-);
-
-const WideActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
-	<button
-		className={`${styles.wideActionItem} ${styles[backgroundColor]}`}
-		onClick={onClick}
-	>
-		<div className={styles[`${backgroundColor}Text`]}>{title}</div>
-		<img
-			src={iconSrc}
-			alt=""
-			className={styles[`${backgroundColor}Icon`]}
-			loading="lazy"
-		/>
-	</button>
-);
-
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
-	const { isAuthenticated, authChecked, user, login, logout } = useAuth();
+	const { authChecked, user } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
-
-	useEffect(() => {
-		if (authChecked && !isAuthenticated) {
-			navigate("/login");
-		}
-	}, [authChecked, isAuthenticated, navigate]);
+	const [userAccuontBalance, setUserAccuontBalance] = useState();
 
 	// 계좌번호 가져오기
-	useEffect(() => {
-		const fetchAccountData = async () => {
-			try {
-				const accountNumber = await fetchAccountNumber(user.user_id); // API 호출
-				setUserAccountNumber(accountNumber.account_number); // 상태 업데이트
-			} catch (error) {
-				console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+	const fetchAccountData = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchAccountNumber(user.user_id);
+				setUserAccountNumber(response.account_number);
 			}
-		};
-		if (user) {
-			fetchAccountData();
+		} catch (error) {
+			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+		}
+	};
+
+	// 계좌잔액 가져오기
+	const fetchAccountBalance = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchUsageBalance(user.user_id);
+				setUserAccuontBalance(response.totalAmount);
+			}
+		} catch (error) {
+			console.error("계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
+		}
+	};
+
+	useEffect(() => {
+		if (authChecked && user?.user_id) {
+			const loadData = async () => {
+				await Promise.all([fetchAccountData(), fetchAccountBalance()]);
+			};
 		}
 	}, [user]);
 
-	if (!authChecked) {
-		// 인증 확인이 완료되지 않은 경우 로딩 표시
+	if (!authChecked || !user) {
+		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
@@ -117,7 +93,7 @@ export default function ChildrenHomePage() {
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>19,800</strong>원
+						잔액 : <strong>{userAccuontBalance}</strong>원
 					</div>
 				</div>
 			</div>
