@@ -1,10 +1,26 @@
 import allowanceRequestIcon from "~/images/allowanceRequestIcon.png";
 import { useAllowance } from "../../../contexts/AllowanceContext";
 import { useAuth } from "../../../contexts/AuthContext";
+import axios from "axios";
 
 export default function AllowanceRequestConfirmPage() {
 	const { amount } = useAllowance();
 	const { user } = useAuth();
+
+	const handleReq = async () => {
+		console.log("현재 amount:", amount);
+
+		try {
+			const response = await axios.post(`/api/plea/2`, {
+				amount: amount,
+			});
+			console.log(amount);
+			console.log(response);
+			// const result = await response.data;
+		} catch (error) {
+			console.error("댓글 작성 중 오류 발생:", error);
+		}
+	};
 	return (
 		<div>
 			<div style={{ position: "relative" }}>
@@ -25,9 +41,9 @@ export default function AllowanceRequestConfirmPage() {
 				<p
 					style={{
 						position: "absolute",
-						top: "75%", // 수직 중앙
-						left: "50%", // 수평 중앙
-						transform: "translate(-50%, -50%)", // 중앙 정렬을 위한 변환
+						top: "75%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
 						textAlign: "center",
 						// padding: 20,
 						fontSize: 18,
@@ -45,6 +61,7 @@ export default function AllowanceRequestConfirmPage() {
 					color: "black",
 					marginTop: 150,
 				}}
+				onClick={handleReq}
 			>
 				조르기
 			</button>
