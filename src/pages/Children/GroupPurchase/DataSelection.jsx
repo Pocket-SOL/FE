@@ -47,13 +47,15 @@ const DateSelection = ({ onChange }) => {
 					value={date}
 				/>
 			) : (
-				<button
-					style={{ borderRadius: "5px" }}
-					type="button"
-					onClick={handleOpenCalander}
-				>
-					<BsFillCalendarHeartFill />
-				</button>
+				<span>
+					<button
+						style={{ borderRadius: "5px" }}
+						type="button"
+						onClick={handleOpenCalander}
+					>
+						<BsFillCalendarHeartFill />
+					</button>
+				</span>
 			)}
 		</div>
 	);

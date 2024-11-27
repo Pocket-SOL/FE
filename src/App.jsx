@@ -6,14 +6,17 @@ import "./index.css";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
+import { PurchaseProvider } from "./contexts/PurchaseContext";
 
 function App() {
 	return (
-		<AuthProvider>
-			<FixedProvider>
-				<RouterProvider router={router} />
-			</FixedProvider>
-		</AuthProvider>
+		<PurchaseProvider>
+			<AuthProvider>
+				<FixedProvider>
+					<RouterProvider router={router} />
+				</FixedProvider>
+			</AuthProvider>
+		</PurchaseProvider>
 	);
 }
 
