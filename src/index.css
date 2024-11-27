@@ -4,6 +4,20 @@
 
 /* 폰트 정의 */
 @font-face {
+	font-family: "Moneygraphy-Pixel";
+	src: url("./assets/fonts/Moneygraphy-Pixel.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Moneygraphy-Rounded";
+	src: url("./assets/fonts/Moneygraphy-Rounded.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
 	font-family: "PretendardVariable";
 	src: url("./assets/fonts/PretendardVariable.ttf") format("truetype"); /* 폰트 파일 경로 */
 	font-weight: normal;
@@ -19,5 +33,5 @@
 
 /* 폰트를 전역적으로 설정 */
 body {
-	font-family: "Recipekorea", sans-serif;
+	font-family: "Moneygraphy-Rounded", sans-serif;
 }

@@ -5,16 +5,14 @@ import Footer from "../components/Footer";
 
 const Layout = () => {
 	return (
-		<div>
+		<div
+			style={{
+				width: "100vw",
+				margin: "0 auto",
+			}}
+		>
 			<Header />
-			<main
-				style={{
-					width: "100%",
-					maxWidth: 375,
-					margin: "0 auto",
-					minHeight: "calc(100vh - 10rem)",
-				}}
-			>
+			<main style={{ minHeight: "100vh" }}>
 				<Outlet /> {/* 자식 컴포넌트가 이 위치에 렌더링됩니다 */}
 			</main>
 			<Footer />
