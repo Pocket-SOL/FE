@@ -7,8 +7,12 @@ import {
 	PlusIcon,
 } from "@heroicons/react/24/outline";
 import { useState, useEffect, useRef } from "react";
-import { uploadHistoryImage } from "../../../libs/apis/histories";
+import {
+	uploadHistoryImage,
+	updateHistoryImage,
+} from "../../../libs/apis/histories";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PhotoUpload() {
 	const [isMobile, setIsMobile] = useState(false);
@@ -17,21 +21,29 @@ export default function PhotoUpload() {
 	const canvasRef = useRef(null);
 	const [stream, setStream] = useState(null);
 	const { user } = useAuth();
+	const navigate = useNavigate();
+	const { search } = useLocation();
+	const queryParams = new URLSearchParams(search);
+	const historyId = queryParams.get("historyId");
 
 	const handleFileChange = (file) => {
 		setSelectedFile(file);
-
+		console.log(historyId);
 		setTimeout(() => {
 			const saveConfirmed = confirm("사진을 저장하시겠습니까?");
 			console.log(saveConfirmed);
 			if (saveConfirmed) {
 				uploadHistoryImage(file, `history/${user.user_id}`)
 					.then((result) => {
-						if (result) {
-							alert("사진이 저장되었습니다!");
-						} else {
-							alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
-						}
+						console.log(result);
+						updateHistoryImage(historyId, result.data.imageUrl).then((res) => {
+							if (res) {
+								alert("사진이 저장되었습니다!");
+							} else {
+								alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
+							}
+							console.log(res);
+						});
 						console.log(result);
 					})
 					.catch((error) => {
@@ -140,7 +152,7 @@ export default function PhotoUpload() {
 			<section className={styles.contentWrapper}>
 				<header className={styles.titleContainer}>
 					<button className="text-gray-600">
-						<ChevronLeftIcon className="h-5 w-6" />
+						<ChevronLeftIcon className="h-5 w-6" onClick={() => navigate(-1)} />
 					</button>
 					<h1>사진 업로드</h1>
 				</header>
