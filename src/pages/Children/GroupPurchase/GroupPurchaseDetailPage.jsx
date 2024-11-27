@@ -3,24 +3,78 @@ import Comment from "./Comment";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
-
+import { usePurchase } from "../../../contexts/PurchaseContext";
+import { useNavigate } from "react-router-dom";
 export default function GroupPurchaseDetailPage() {
 	const { purchaseId } = useParams(); // URL에서 purchaseId 파라미터 추출
 	const [purchaseDetails, setPurchaseDetails] = useState(null);
 	const [comments, setComments] = useState([]); // 댓글 리스트
 	const [loading, setLoading] = useState(false); // 댓글 로딩 상태
-	const [people, setPeople] = useState(0);
+	const { people, setPeople } = usePurchase();
+	// const [people, setPeople] = useState(0);
+	const [addPossible, setAddPossible] = useState(true);
+	const [isClosedModalOpen, setIsClosedModalOpen] = useState(false); // 마감 모달 상태
+	const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false); // 참여 모달 상태
 	const { user } = useAuth();
+	const navigate = useNavigate();
 
-	console.log("detail-user", user);
-	console.log("purchase-detail", purchaseDetails);
+	const handleClosed = async () => {
+		if (people !== purchaseDetails.participants) {
+			setIsClosedModalOpen(true); // 마감 모달 열기
+		}
+	};
+
+	const confirmClosed = async () => {
+		setIsClosedModalOpen(false); // 마감 모달 닫기
+		alert("마감 처리되었습니다.");
+
+		await axios.put(`/api/purchases/${purchaseId}`);
+		navigate("/children/group-purchase");
+	};
 
 	const handleAddUser = async () => {
+		if (people === purchaseDetails.participants) {
+			alert("인원이 다 찼어요!");
+			return;
+		}
+		setIsAddUserModalOpen(true); // 참여 모달 열기
+	};
+
+	const confirmAddUser = async () => {
 		const response = await axios.post(`/api/purchases/user/${user.user_id}`, {
 			purchase_id: purchaseId,
 		});
-		console.log(response.data);
+
+		setPeople(response.data.count);
+
+		setAddPossible(false);
+		setIsAddUserModalOpen(false); // 참여 모달 닫기
 	};
+
+	const handleDeleteUser = async () => {
+		const response = await axios.post(
+			`/api/purchases/user/delete/${user.user_id}`,
+			{
+				purchase_id: purchaseId,
+			},
+		);
+
+		setPeople(response.data.count);
+		setAddPossible(true);
+	};
+
+	const handleGetUser = async () => {
+		const response = await axios.get(`/api/purchases/user/${purchaseId}`);
+		const userArr = response.data.userList;
+		if (userArr.includes(user.user_id)) {
+			setAddPossible(false);
+		}
+		setPeople(response.data.count);
+	};
+
+	useEffect(() => {
+		handleGetUser();
+	}, []);
 
 	useEffect(() => {
 		const fetchComments = async () => {
@@ -67,7 +121,7 @@ export default function GroupPurchaseDetailPage() {
 				<div className="h-64 w-full">
 					<img
 						src="/path-to-your-image.jpg" // 실제 이미지 경로로 교체
-						alt="마감 관련 이미지"
+						alt="상품 관련 이미지"
 						className="h-full w-full object-cover"
 					/>
 				</div>
@@ -90,6 +144,8 @@ export default function GroupPurchaseDetailPage() {
 								마감일 : {purchaseDetails.end_date}
 								<br />
 								마감인원 : {purchaseDetails.participants}명
+								<br />
+								현재 : {people}명
 							</p>
 						</div>
 					</div>
@@ -104,21 +160,81 @@ export default function GroupPurchaseDetailPage() {
 								loading={loading}
 							/>
 							{user.username === purchaseDetails.username ? (
-								<button className="flex items-center space-x-2 bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg shadow hover:bg-gray-700">
+								<button
+									onClick={handleClosed}
+									className="flex items-center space-x-2 bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg shadow hover:bg-gray-700"
+								>
 									마감하기
 								</button>
-							) : (
+							) : addPossible ? (
 								<button
 									onClick={handleAddUser}
 									className="flex items-center space-x-2 bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg shadow hover:bg-gray-700"
 								>
 									참여하기
 								</button>
+							) : (
+								<button
+									onClick={handleDeleteUser}
+									className="flex items-center space-x-2 bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg shadow hover:bg-gray-700"
+								>
+									취소하기
+								</button>
 							)}
 						</div>
 					</div>
 				</div>
 			</div>
+
+			{/* Closed Modal */}
+			{isClosedModalOpen && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+						<h2 className="text-lg font-semibold text-gray-800 mb-4">
+							인원이 다 모집되지 않았습니다. 마감하시겠습니까?
+						</h2>
+						<div className="flex justify-end space-x-4">
+							<button
+								onClick={() => setIsClosedModalOpen(false)}
+								className="bg-gray-200 px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-300"
+							>
+								아니오
+							</button>
+							<button
+								onClick={confirmClosed}
+								className="bg-red-500 px-4 py-2 rounded-lg text-white hover:bg-red-600"
+							>
+								네
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Add User Modal */}
+			{isAddUserModalOpen && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+						<h2 className="text-lg font-semibold text-gray-800 mb-4">
+							이 모집에 참여하시겠습니까?
+						</h2>
+						<div className="flex justify-end space-x-4">
+							<button
+								onClick={() => setIsAddUserModalOpen(false)}
+								className="bg-gray-200 px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-300"
+							>
+								취소
+							</button>
+							<button
+								onClick={confirmAddUser}
+								className="bg-blue-500 px-4 py-2 rounded-lg text-white hover:bg-blue-600"
+							>
+								확인
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

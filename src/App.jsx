@@ -7,16 +7,18 @@ import "./index.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
 import { AllowanceProvider } from "./contexts/AllowanceContext";
-
+import { PurchaseProvider } from "./contexts/PurchaseContext";
 function App() {
 	return (
-		<AuthProvider>
-			<FixedProvider>
-				<AllowanceProvider>
-					<RouterProvider router={router} />
-				</AllowanceProvider>
-			</FixedProvider>
-		</AuthProvider>
+		<PurchaseProvider>
+			<AuthProvider>
+				<FixedProvider>
+					<AllowanceProvider>
+						<RouterProvider router={router} />
+					</AllowanceProvider>
+				</FixedProvider>
+			</AuthProvider>
+		</PurchaseProvider>
 	);
 }
 

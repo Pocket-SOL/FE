@@ -15,7 +15,6 @@ export default function Comment({
 	const [newComment, setNewComment] = useState(""); // 새로운 댓글 내용
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	console.log("comment", user);
 
 	// 새로운 댓글 작성 함수
 	const submitComment = async () => {
@@ -51,7 +50,7 @@ export default function Comment({
 			<ul className="space-y-4">
 				{comments.map((comment) => (
 					<li
-						key={comment.id}
+						key={comment.comment_id}
 						className="bg-gray-100 p-4 rounded-lg shadow-sm flex flex-col"
 					>
 						<div className="font-semibold text-sm text-gray-800">
