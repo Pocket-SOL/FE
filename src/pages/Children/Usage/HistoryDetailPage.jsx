@@ -7,6 +7,7 @@ export default function HistoryDetailPage() {
 	const [history, setHistory] = useState();
 	const [loading, setLoading] = useState(true);
 	const [photo, setPhoto] = useState(false);
+	const [historyId, setHistoryId] = useState(null);
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -14,6 +15,7 @@ export default function HistoryDetailPage() {
 		const fetchData = async () => {
 			try {
 				const historyData = await fetchHistoryDetail(id);
+				setHistoryId(id);
 				//사진 불러오는 api
 				setHistory(historyData);
 				if (historyData.photo) {
@@ -62,6 +64,11 @@ export default function HistoryDetailPage() {
 								className="flex shrink-0 w-36 h-36 rounded-xl bg-zinc-100"
 								src={history.photo}
 								alt="History Photo"
+								onClick={() =>
+									navigate(
+										`/children/usage-history/photo?historyId=${historyId}`,
+									)
+								}
 							/>
 						</>
 					) : (
@@ -73,14 +80,22 @@ export default function HistoryDetailPage() {
 						<>
 							<p
 								className="basis-auto text-black text-lg"
-								onClick={() => navigate("/children/usage-history/photo")}
+								onClick={() =>
+									navigate(
+										`/children/usage-history/photo?historyId=${historyId}`,
+									)
+								}
 							>
 								사진을 남겨보세요
 							</p>
 							<button>
 								<ChevronRightIcon
 									className="h-4 w-4"
-									onClick={() => navigate("/children/usage-history/photo")}
+									onClick={() =>
+										navigate(
+											`/children/usage-history/photo?historyId=${historyId}`,
+										)
+									}
 								/>
 							</button>
 						</>
