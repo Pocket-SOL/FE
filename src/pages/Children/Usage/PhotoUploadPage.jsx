@@ -24,35 +24,39 @@ export default function PhotoUpload() {
 	const navigate = useNavigate();
 	const { search } = useLocation();
 	const queryParams = new URLSearchParams(search);
-	const historyId = queryParams.get("historyId");
+	const [historyId, setHistoryId] = useState();
+
+	const handleUploadImage = (file) => {
+		const saveConfirmed = confirm("사진을 저장하시겠습니까?");
+		console.log(historyId);
+		if (saveConfirmed) {
+			uploadHistoryImage(file, `history/${user.user_id}`)
+				.then((result) => {
+					console.log(result);
+					updateHistoryImage(historyId, result.data.imageUrl).then((res) => {
+						if (res) {
+							alert("사진이 저장되었습니다!");
+						} else {
+							alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
+						}
+						console.log(res);
+					});
+					console.log(result);
+				})
+				.catch((error) => {
+					console.error(error);
+					alert("저장 중 오류가 발생했습니다.");
+				});
+		} else {
+			alert("저장이 취소되었습니다.");
+		}
+	};
 
 	const handleFileChange = (file) => {
 		setSelectedFile(file);
 		console.log(historyId);
 		setTimeout(() => {
-			const saveConfirmed = confirm("사진을 저장하시겠습니까?");
-			console.log(saveConfirmed);
-			if (saveConfirmed) {
-				uploadHistoryImage(file, `history/${user.user_id}`)
-					.then((result) => {
-						console.log(result);
-						updateHistoryImage(historyId, result.data.imageUrl).then((res) => {
-							if (res) {
-								alert("사진이 저장되었습니다!");
-							} else {
-								alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
-							}
-							console.log(res);
-						});
-						console.log(result);
-					})
-					.catch((error) => {
-						console.error(error);
-						alert("저장 중 오류가 발생했습니다.");
-					});
-			} else {
-				alert("저장이 취소되었습니다.");
-			}
+			handleUploadImage(file);
 		}, 100); // 미리보기 갱신 후 잠시 대기
 	};
 
@@ -65,6 +69,7 @@ export default function PhotoUpload() {
 			setIsMobile(isMobileDevice || isMobileScreen);
 		};
 
+		setHistoryId(queryParams.get("historyId"));
 		checkMobile();
 		console.log("isMobile", isMobile);
 		window.addEventListener("resize", checkMobile);
@@ -126,23 +131,10 @@ export default function PhotoUpload() {
 					new File([blob], "captured-image.png", { type: "image/png" }),
 				);
 				stopWebCam();
-				const saveConfirmed = confirm("사진을 저장하시겠습니까?");
-				if (saveConfirmed) {
-					uploadHistoryImage(selectedFile, `history/${user.user_id}`)
-						.then((result) => {
-							if (result) {
-								alert("캡처된 사진이 저장되었습니다!");
-							} else {
-								alert("사진 저장에 실패했습니다.");
-							}
-						})
-						.catch((error) => {
-							console.error(error);
-							alert("저장 중 오류가 발생했습니다.");
-						});
-				} else {
-					alert("저장이 취소되었습니다.");
-				}
+				setTimeout(() => {
+					console.log(selectedFile);
+					handleUploadImage(selectedFile);
+				}, 100);
 			});
 		}
 	};
