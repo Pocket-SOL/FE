@@ -23,7 +23,7 @@ export default function SendCompletePage() {
 					className="complete-button"
 					style={{ backgroundColor: "#F3F3F3", color: "black", marginTop: 100 }}
 					onClick={() => {
-						navigate("/");
+						navigate("/parents");
 					}}
 				>
 					확인
