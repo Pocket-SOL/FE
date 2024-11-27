@@ -6,12 +6,15 @@ import "./index.css";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
+import { AllowanceProvider } from "./contexts/AllowanceContext";
 
 function App() {
 	return (
 		<AuthProvider>
 			<FixedProvider>
-				<RouterProvider router={router} />
+				<AllowanceProvider>
+					<RouterProvider router={router} />
+				</AllowanceProvider>
 			</FixedProvider>
 		</AuthProvider>
 	);
