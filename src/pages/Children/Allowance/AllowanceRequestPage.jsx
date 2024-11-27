@@ -2,11 +2,11 @@ import { useState } from "react";
 import hand from "~/images/hand.png";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { useAllowance } from "../../../contexts/AllowanceContext";
 function AllowanceRequest() {
-	const [amount, setAmount] = useState(0);
+	// const [amount, setAmount] = useState(0);
 	const MAX_AMOUNT = 25000; // 최대값 늘리면 500원씩 증가가안됨 /수정
-
+	const { amount, setAmount } = useAllowance();
 	const handleSliderChange = (e) => {
 		const rawValue = Number(e.target.value);
 		// -MAX_AMOUNT부터 +MAX_AMOUNT까지의 값을 0을 중심으로 변환

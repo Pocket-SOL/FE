@@ -1,6 +1,10 @@
 import allowanceRequestIcon from "~/images/allowanceRequestIcon.png";
+import { useAllowance } from "../../../contexts/AllowanceContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function AllowanceRequestConfirmPage() {
+	const { amount } = useAllowance();
+	const { user } = useAuth();
 	return (
 		<div>
 			<div style={{ position: "relative" }}>
@@ -10,6 +14,7 @@ export default function AllowanceRequestConfirmPage() {
 					loading="lazy"
 					style={{
 						display: "flex",
+						width: "100%",
 						flexDirection: "column",
 						alignItems: "center",
 						padding: 20,
@@ -20,14 +25,17 @@ export default function AllowanceRequestConfirmPage() {
 				<p
 					style={{
 						position: "absolute",
-						bottom: "10%",
-						left: "20%",
-						padding: 5,
-						fontSize: 20,
+						top: "75%", // 수직 중앙
+						left: "50%", // 수평 중앙
+						transform: "translate(-50%, -50%)", // 중앙 정렬을 위한 변환
+						textAlign: "center",
+						// padding: 20,
+						fontSize: 18,
 					}}
 				>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;조인후님에게
-					<br /> 3000원을 요청합니다.
+					{user && <span>{user.username}</span>}님에게
+					<br /> {amount.toLocaleString()}원을
+					<br /> 요청합니다.
 				</p>
 			</div>
 			<button
