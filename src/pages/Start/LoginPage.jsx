@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import { Container, Form, Button } from "react-bootstrap";
 import { useAuth } from "~/contexts/AuthContext";
+import { Container, Form, Button } from "react-bootstrap";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
