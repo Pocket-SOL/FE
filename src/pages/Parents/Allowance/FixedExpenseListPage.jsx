@@ -4,16 +4,18 @@ import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
 import axios from "axios";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { fixedInfoList } = useFixed();
+	const { child, user } = useAuth();
 	const [amount, setAmount] = useState(() => {
 		const savedAmount = localStorage.getItem("amount");
 		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
 	});
-
+	// console.log(user);
 	useEffect(() => {
 		if (location.state?.amount !== undefined) {
 			setAmount(location.state.amount);
@@ -24,25 +26,22 @@ export default function FixedExpenseListPage() {
 		localStorage.setItem("amount", JSON.stringify(amount));
 	}, [amount]);
 
-	// 차트 데이터 정의
-	const data = [
-		{
-			id: "수학학원",
-			label: "수학학원",
-			value: 40,
-		},
-		{
-			id: "학습지",
-			label: "학습지",
-			value: 20,
-		},
-		{
-			id: "자유이용",
-			label: "자유이용",
-			value: 40,
-		},
-	];
-	const colors = ["#0084FC", "#00DB49", "#FFD455"];
+	// 차트 데이터 정의, ResponsivePie와 같은 차트 라이브러리는 특정 형식의 데이터를 요구
+	const data = fixedInfoList.map((info) => ({
+		id: info.name,
+		label: info.name,
+		value: Number(info.transAmount),
+	}));
+	console.log("fixedlist", fixedInfoList);
+
+	console.log("Data", data);
+	const totalAmount = data.reduce((sum, item) => sum + item.value, 0);
+	const adjustedData = data.map((item) => ({
+		...item,
+		value: totalAmount > 0 ? (item.value / totalAmount) * 100 : 0, // 비율 계산
+	}));
+
+	const colors = ["#0084FC", "#00DB49", "#FFD455", "#FC25D5", "#FC9B00"];
 
 	const handleTransfer = async () => {
 		try {
@@ -53,23 +52,23 @@ export default function FixedExpenseListPage() {
 				amount: Number(info.transAmount),
 				scheduled_date: info.transDate,
 			}));
-
+			console.log(user.username, child, child.name);
 			const requestBody = {
 				from: {
 					transaction_type: "출금",
-					account_holder: "하민지",
-					amount: Number(amount),
+					account_holder: user.username,
+					amount: Number(amount.replace(/,/g, "")),
 				},
 				to: {
 					transaction_type: "입금",
-					account_holder: "김도은",
-					amount: Number(amount),
+					account_holder: child.name,
+					amount: Number(amount.replace(/,/g, "")),
 				},
 				reservations,
 			};
 
 			const response = await axios.post(
-				"http://localhost:3000/api/accounts/2",
+				`http://localhost:3000/api/accounts/${child.id}`,
 				requestBody,
 				{
 					headers: {
@@ -103,11 +102,11 @@ export default function FixedExpenseListPage() {
 	return (
 		<>
 			<div className="Container">
-				<p style={{ marginBottom: "0" }}>김도은님에게 용돈보내기</p>
+				<p style={{ marginBottom: "0" }}>{child.name}님에게 용돈보내기</p>
 				<p className="Font">얼마를 보낼까요?</p>
 				<div style={{ width: "100%", height: "200px" }}>
 					<ResponsivePie
-						data={data}
+						data={adjustedData}
 						colors={colors}
 						margin={{ right: 80, bottom: 10, left: 80 }}
 						innerRadius={0.5}

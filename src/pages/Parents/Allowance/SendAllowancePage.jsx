@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SendAllowancePage.css";
 import Layout from "../../../layouts/Layout";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export default function SendAllowancePage() {
 	const [amount, setAmount] = useState("");
@@ -15,9 +16,11 @@ export default function SendAllowancePage() {
 			state: { amount: localeAmount },
 		});
 	};
+	const { user, child } = useAuth();
+	console.log(child);
 	return (
 		<div className="Container">
-			<div>하민지에게 용돈보내기</div>
+			<div>{child.name}에게 용돈보내기</div>
 			<h1>얼마를 보낼래요?</h1>
 			<h3>{localeAmount}원</h3>
 			<p>출금 가능 잔액 원</p>
@@ -38,7 +41,11 @@ export default function SendAllowancePage() {
 				))}
 			</div>
 			<Link to="/parents/fixed-expense-list" state={{ amount: localeAmount }}>
-				<button className="complete-button" onClick={handleComplete}>
+				<button
+					className="complete-button"
+					onClick={handleComplete}
+					style={{ marginTop: 40 }}
+				>
 					완료
 				</button>
 			</Link>

@@ -47,7 +47,7 @@ export default function ParentsHomePage() {
 	const { isAuthenticated, authChecked, user } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [childrenList, setChildrenList] = useState([]);
-	const [setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		if (authChecked && !isAuthenticated) {
@@ -158,7 +158,11 @@ export default function ParentsHomePage() {
 					))}
 				</div>
 			</div>
-			<div>
+			<div
+				onClick={() => {
+					navigate("usagehistory");
+				}}
+			>
 				<p className={styles.selectedChildBalance}>
 					하민지님의 잔액: <strong>9,800</strong>원
 				</p>

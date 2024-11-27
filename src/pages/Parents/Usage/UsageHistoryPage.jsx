@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import styles from "~/components/Usage/Usage.module.css";
-import { fetchWithdrawal, fetchUsageHistory } from "~/libs/apis/accounts";
-// import { fetchSubUsageBalance } from "../../../libs/apis/subaccounts";
+import {
+	fetchWithdrawal,
+	fetchUsageHistory,
+	fetchUsageBalance,
+} from "~/libs/apis/accounts";
 import HistoryItem from "~/components/Usage/HistoryItem";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 export default function ChildUsageHistoryPage() {
 	const [history, setHistory] = useState([]);
 	const [withdrawal, setWithdrawal] = useState(0);
-	// const [sub, setSub] = useState([]);
+	const [balance, setBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
-	// const [total, setTotal] = useState(0);
+	const navigate = useNavigate();
 	const childId = 2;
 
 	useEffect(() => {
@@ -18,11 +23,11 @@ export default function ChildUsageHistoryPage() {
 				//2: 로컬 db 상 자녀 아이디 임시로 넣어둔 것..
 				const withData = await fetchWithdrawal(childId);
 				const historyData = await fetchUsageHistory(childId);
-				// const subData = await fetchSubUsageBalance(childId);
+				const balanceData = await fetchUsageBalance(childId);
 
 				setWithdrawal(withData.total_withdrawal || 0);
 				setHistory(historyData || []);
-				// setSub(subData || []);
+				setBalance(balanceData.totalAmount || 0);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			} finally {
@@ -49,15 +54,23 @@ export default function ChildUsageHistoryPage() {
 		<main className={styles.container}>
 			<div>
 				<section className={styles.balanceSection}>
-					<h1 className={styles.balanceHeader}>자녀의 이용 금액</h1>
+					<div className="flex items-center">
+						<button className="text-gray-600">
+							<ChevronLeftIcon
+								className="h-5 w-6"
+								onClick={() => navigate(-1)}
+							/>
+						</button>
+						<h1 className={styles.balanceHeader}>자녀 계좌 잔액</h1>
+					</div>
 					<div className={styles.amountWrapper}>
-						<span className={styles.amount}>{withdrawal}</span>
+						<span className={styles.amount}>{balance}</span>
 						<span className={styles.currency}>원</span>
 					</div>
-					{/* <div className={styles.balanceDetails}>
-						<div>이번달 잔여 금액</div>
-						<div>{total}원</div>
-					</div> */}
+					<div className={styles.balanceDetails}>
+						<div>이용 금액</div>
+						<div>{withdrawal}원</div>
+					</div>
 				</section>
 
 				<hr className={styles.divider} />
@@ -72,6 +85,7 @@ export default function ChildUsageHistoryPage() {
 							amount={transaction.amount}
 							type={transaction.transaction_type}
 							time={transaction.time}
+							img={transaction.photo}
 						/>
 					))}
 				</section>

@@ -7,6 +7,12 @@ import {
 	PlusIcon,
 } from "@heroicons/react/24/outline";
 import { useState, useEffect, useRef } from "react";
+import {
+	uploadHistoryImage,
+	updateHistoryImage,
+} from "../../../libs/apis/histories";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function PhotoUpload() {
 	const [isMobile, setIsMobile] = useState(false);
@@ -14,9 +20,44 @@ export default function PhotoUpload() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [stream, setStream] = useState(null);
+	const { user } = useAuth();
+	const navigate = useNavigate();
+	const { search } = useLocation();
+	const queryParams = new URLSearchParams(search);
+	const [historyId, setHistoryId] = useState();
+
+	const handleUploadImage = (file) => {
+		const saveConfirmed = confirm("사진을 저장하시겠습니까?");
+		console.log(historyId);
+		if (saveConfirmed) {
+			uploadHistoryImage(file, `history/${user.user_id}`)
+				.then((result) => {
+					console.log(result);
+					updateHistoryImage(historyId, result.data.imageUrl).then((res) => {
+						if (res) {
+							alert("사진이 저장되었습니다!");
+						} else {
+							alert("사진 저장에 실패했습니다. 다시 시도해주세요.");
+						}
+						console.log(res);
+					});
+					console.log(result);
+				})
+				.catch((error) => {
+					console.error(error);
+					alert("저장 중 오류가 발생했습니다.");
+				});
+		} else {
+			alert("저장이 취소되었습니다.");
+		}
+	};
 
 	const handleFileChange = (file) => {
 		setSelectedFile(file);
+		console.log(historyId);
+		setTimeout(() => {
+			handleUploadImage(file);
+		}, 100); // 미리보기 갱신 후 잠시 대기
 	};
 
 	useEffect(() => {
@@ -28,8 +69,9 @@ export default function PhotoUpload() {
 			setIsMobile(isMobileDevice || isMobileScreen);
 		};
 
+		setHistoryId(queryParams.get("historyId"));
 		checkMobile();
-		console.log(isMobile);
+		console.log("isMobile", isMobile);
 		window.addEventListener("resize", checkMobile);
 
 		return () => window.removeEventListener("resize", checkMobile);
@@ -89,6 +131,10 @@ export default function PhotoUpload() {
 					new File([blob], "captured-image.png", { type: "image/png" }),
 				);
 				stopWebCam();
+				setTimeout(() => {
+					console.log(selectedFile);
+					handleUploadImage(selectedFile);
+				}, 100);
 			});
 		}
 	};
@@ -98,7 +144,7 @@ export default function PhotoUpload() {
 			<section className={styles.contentWrapper}>
 				<header className={styles.titleContainer}>
 					<button className="text-gray-600">
-						<ChevronLeftIcon className="h-5 w-6" />
+						<ChevronLeftIcon className="h-5 w-6" onClick={() => navigate(-1)} />
 					</button>
 					<h1>사진 업로드</h1>
 				</header>

@@ -98,7 +98,7 @@
   width: 100%;
   flex-direction: column;
   font-weight: 500;
-  padding: 15px 17px 150px;
+  padding: 15px 23px 150px;
 }
 
 .historyTitle {
@@ -135,7 +135,6 @@
   color: #000;
   font-size: 18px;
   font-weight: 500;
-  margin-top:5px;
   align-self: start;
 }
 
@@ -153,11 +152,11 @@
 .debitAmount {
   margin-left : auto;
   color: #dc2626;
-  margin-top:0.6rem;
+  margin-top:0.4rem;
 }
 
 .creditAmount {
   margin-left : auto;
   color: #014cc5;
-  margin-top:0.6rem;
+  margin-top:0.4rem;
 }

@@ -1,6 +1,7 @@
 import styles from "~/components/Usage/Usage.module.css";
 import { useNavigate } from "react-router-dom";
-
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../contexts/AuthContext";
 export default function HistoryItem({
 	id,
 	merchant,
@@ -8,9 +9,12 @@ export default function HistoryItem({
 	amount,
 	type,
 	time,
+	img,
 }) {
 	const isExpense = type === "출금";
 	const navigate = useNavigate();
+	const { user } = useAuth();
+
 	const formatDate = (dateString) => {
 		const date = new Date(dateString);
 		const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
@@ -22,8 +26,9 @@ export default function HistoryItem({
 		return timeString.split(":").slice(0, 2).join(":");
 	};
 	const handleClick = () => {
-		// 특정 id로 이동
-		navigate(`${id}`);
+		if (user.role === "child") {
+			navigate(`${id}`);
+		}
 	};
 	return (
 		<article
@@ -33,7 +38,14 @@ export default function HistoryItem({
 			onClick={handleClick}
 		>
 			<div className={styles.transactionDetails}>
-				<h3 className={styles.transactionTitle}>{merchant}</h3>
+				<div
+					style={{ display: "flex", alignItems: "center", marginTop: "2px" }}
+				>
+					<h3 className={styles.transactionTitle}>{merchant}</h3>
+					{img && user.role === "child" ? (
+						<PhotoIcon className="h-4 w-4 ml-2" />
+					) : null}
+				</div>
 				<time className={styles.transactionDate}>
 					{formatDate(date)}
 					{formatTime(time)}
