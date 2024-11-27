@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "../layouts/Layout";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Start
 import { OnboardingPage } from "../pages/Start/Onboarding/OnboardingPage";
@@ -10,6 +11,7 @@ import SignUpFormPage from "../pages/Start/SignUpFormPage";
 
 // Parents
 import ParentsHomePage from "../pages/Parents/HomePage";
+import ChildRegistrationPage from "../pages/Parents/ChildRegistrationPage";
 import SendAllowancePage from "../pages/Parents/Allowance/SendAllowancePage";
 import FixedExpenseListPage from "../pages/Parents/Allowance/FixedExpenseListPage";
 import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
@@ -17,6 +19,7 @@ import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 // Children
 import ChildrenHomePage from "../pages/Children/HomePage";
+import ChildAcceptancePage from "../pages/Children/ChildAcceptancePage";
 import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
 import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
 import GroupPurchaseReg from "../pages/Children/GroupPurchase/GroupPurchaseReg";
@@ -43,10 +46,24 @@ const router = createBrowserRouter([
 			// Parents
 			{
 				path: "parents",
+				element: <ProtectedRoute />,
 				children: [
-					{ path: "", element: <ParentsHomePage /> },
-					{ path: "send-allowance", element: <SendAllowancePage /> },
-					{ path: "fixed-expense-list", element: <FixedExpenseListPage /> },
+					{
+						path: "",
+						element: <ParentsHomePage />,
+					},
+					{
+						path: "child-registration",
+						element: <ChildRegistrationPage />,
+					},
+					{
+						path: "send-allowance",
+						element: <SendAllowancePage />,
+					},
+					{
+						path: "fixed-expense-list",
+						element: <FixedExpenseListPage />,
+					},
 					{ path: "add-fixed-expense", element: <AddFixedExpensePage /> },
 					{ path: "send-complete", element: <SendCompletePage /> },
 					{ path: "usagehistory", element: <ChildUsageHistoryPage /> },
@@ -56,8 +73,13 @@ const router = createBrowserRouter([
 			//children
 			{
 				path: "children",
+				element: <ProtectedRoute />,
 				children: [
 					{ path: "", element: <ChildrenHomePage /> },
+					{
+						path: "child-acceptance",
+						element: <ChildAcceptancePage />,
+					},
 					{
 						// 용돈 조르기
 						path: "allowance-request",
