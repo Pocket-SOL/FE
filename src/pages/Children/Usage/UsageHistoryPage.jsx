@@ -3,13 +3,15 @@ import styles from "~/components/Usage/Usage.module.css";
 import { fetchUsageBalance, fetchUsageHistory } from "~/libs/apis/accounts";
 import { fetchSubUsageBalance } from "../../../libs/apis/subaccounts";
 import HistoryItem from "~/components/Usage/HistoryItem";
-
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 export default function UsageHistoryPage() {
 	const [history, setHistory] = useState([]);
 	const [balance, setBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [sub, setSub] = useState([]);
 	const [total, setTotal] = useState([]);
+	const navigate = useNavigate();
 	const userId = 2;
 
 	useEffect(() => {
@@ -57,7 +59,15 @@ export default function UsageHistoryPage() {
 		<main className={styles.container}>
 			<div>
 				<section className={styles.balanceSection}>
-					<h1 className={styles.balanceHeader}>11월 남은 금액</h1>
+					<div className="flex items-center">
+						<button className="text-gray-600">
+							<ChevronLeftIcon
+								className="h-5 w-6"
+								onClick={() => navigate(-1)}
+							/>
+						</button>
+						<h1 className={styles.balanceHeader}>11월 남은 금액</h1>
+					</div>
 					<div className={styles.amountWrapper}>
 						<span className={styles.amount}>{balance}</span>
 						<span className={styles.currency}>원</span>
