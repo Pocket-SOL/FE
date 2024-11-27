@@ -8,10 +8,10 @@ function AllowanceRequest() {
 	const MAX_AMOUNT = 25000; // 최대값 늘리면 500원씩 증가가안됨 /수정
 	const { amount, setAmount } = useAllowance();
 	const handleSliderChange = (e) => {
-		const rawValue = Number(e.target.value);
+		const value = Number(e.target.value);
 		// -MAX_AMOUNT부터 +MAX_AMOUNT까지의 값을 0을 중심으로 변환
-		const centered = rawValue - MAX_AMOUNT;
-		const roundedValue = Math.round(centered / 500) * 500;
+		// const centered = rawValue - MAX_AMOUNT;
+		const roundedValue = Math.max(0, Math.round(value / 500) * 500);
 		setAmount(roundedValue);
 	};
 
@@ -53,9 +53,9 @@ function AllowanceRequest() {
 							</div>
 
 							<div
-								className="absolute left-1/2 w-4 h-12 bg-blue-500 rounded-full shadow-lg transform"
+								className="absolute left-0 w-4 h-12 bg-blue-500 rounded-full shadow-lg transform"
 								style={{
-									transform: `translateX(${(amount / MAX_AMOUNT) * 800}%)`,
+									transform: `translateX(${(amount / MAX_AMOUNT) * 900}%)`,
 								}}
 							/>
 
