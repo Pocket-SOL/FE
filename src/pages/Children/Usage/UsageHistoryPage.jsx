@@ -100,6 +100,7 @@ export default function UsageHistoryPage() {
 								amount={transaction.amount}
 								type={transaction.transaction_type}
 								time={transaction.time}
+								img={transaction.photo}
 							/>
 						))}
 				</section>
