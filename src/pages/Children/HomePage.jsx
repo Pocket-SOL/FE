@@ -100,7 +100,10 @@ export default function ChildrenHomePage() {
 			</div>
 			<div className={styles.accountSection}>
 				<div className={styles.accountInfo}>
-					<div className={styles.accountDetails}>
+					<div
+						className={styles.accountDetails}
+						onClick={() => navigate("usage-history")}
+					>
 						<img
 							src={bankIcon}
 							alt="bank"
