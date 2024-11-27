@@ -26,6 +26,7 @@ import ChildUsageHistoryPage from "../pages/Parents/Usage/UsageHistoryPage";
 import PhotoUpload from "../pages/Children/Usage/PhotoUploadPage";
 import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 import HistoryDetailPage from "../pages/Children/Usage/HistoryDetailPage";
+import AllowanceRequestConfirmPage from "../pages/Children/Allowance/AllowanceRequestConfirmPage";
 
 const router = createBrowserRouter([
 	{
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
 						// 용돈 조르기
 						path: "allowance-request",
 						element: <AllowanceRequest />,
+					},
+					{
+						path: "allowance-request-confirm",
+						element: <AllowanceRequestConfirmPage />,
 					},
 					{
 						// 우리학교 공동구매
