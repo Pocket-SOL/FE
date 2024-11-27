@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
 import { fetchAccountNumber } from "~/libs/apis/accounts";
+import { fetchUsageBalance } from "~/libs/apis/accounts";
+import {
+	ActionItem,
+	WideActionItem,
+	ChildItem,
+} from "~/components/HomeComponents";
 
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
@@ -10,52 +16,14 @@ import bankIcon from "~/images/bankIcon.png";
 import allowanceIcon from "~/images/allowanceIcon.png";
 import missionIcon from "~/images/missionIcon.png";
 
-const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
-	<button
-		className={`${styles.actionItem} ${styles[backgroundColor]}`}
-		onClick={onClick}
-	>
-		<div className={styles[`${backgroundColor}Text`]}>
-			{title.split(" ").map((word, index) => (
-				<div key={index}>
-					{word}
-					<br />
-				</div>
-			))}
-		</div>
-		<img
-			src={iconSrc}
-			alt=""
-			className={styles[`${backgroundColor}Icon`]}
-			loading="lazy"
-		/>
-	</button>
-);
-
-const ChildItem = ({ name, isSelected, onClick }) => (
-	<div className={styles.childItem} onClick={onClick}>
-		<div
-			className={`${styles.childName} ${isSelected ? styles.selectedChild : ""}`}
-		>
-			{name}
-		</div>
-	</div>
-);
-
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
-	const { isAuthenticated, authChecked, user } = useAuth();
+	const { authChecked, user } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
+	const [userAccuontBalance, setUserAccuontBalance] = useState();
 	const [childrenList, setChildrenList] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		if (authChecked && !isAuthenticated) {
-			navigate("/login");
-		}
-	}, [authChecked, isAuthenticated, navigate]);
-
-	// 데이터 fetch 함수
+	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
 		try {
 			if (user?.user_id) {
@@ -67,6 +35,19 @@ export default function ParentsHomePage() {
 		}
 	};
 
+	// 계좌잔액 가져오기
+	const fetchAccountBalance = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchUsageBalance(user.user_id);
+				setUserAccuontBalance(response.totalAmount);
+			}
+		} catch (error) {
+			console.error("계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
+		}
+	};
+
+	// 자녀 리스트 가져오기
 	const fetchChildrenList = async () => {
 		try {
 			if (user?.user_id) {
@@ -74,39 +55,34 @@ export default function ParentsHomePage() {
 					`/api/users/my-children?parent_id=${user.user_id}`,
 				);
 				if (!response.ok) {
-					throw new Error("사용자를 가져오는 중 오류가 발생했습니다.");
+					throw new Error("자녀 리스트를 가져오는 중 오류가 발생했습니다.");
 				}
-				const userDetails = await response.json();
-				setChildrenList(userDetails);
+				const childrenList = await response.json();
+				setChildrenList(childrenList);
 			}
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	// 모든 데이터 로드
 	useEffect(() => {
-		if (authChecked && isAuthenticated && user?.user_id) {
+		if (authChecked && user?.user_id) {
 			const loadData = async () => {
-				setIsLoading(true);
-				await Promise.all([fetchAccountData(), fetchChildrenList()]);
-				setIsLoading(false);
+				await Promise.all([
+					fetchAccountData(),
+					fetchAccountBalance(),
+					fetchChildrenList(),
+				]);
 			};
 			loadData();
 		}
-	}, [authChecked, isAuthenticated, user]);
+	}, [user]);
 
-	if (!authChecked) {
-		// 인증 확인이 완료되지 않은 경우 로딩 표시
+	if (!authChecked || !user) {
+		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
-	if (!isAuthenticated) {
-		// 인증되지 않은 경우 로그인 페이지로 이동
-		navigate("/login");
-		return null;
-	}
-	console.log(user);
 	return (
 		<div className={styles.homePageContainer}>
 			<div className={styles.welcomeSection}>
@@ -140,7 +116,7 @@ export default function ParentsHomePage() {
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>765,000</strong>원
+						잔액 : <strong>{userAccuontBalance}</strong>원
 					</div>
 				</div>
 				<button className={styles.rechargeButton}>충전하기</button>
@@ -148,14 +124,26 @@ export default function ParentsHomePage() {
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
 				<div className={styles.childSelectionContainer}>
-					{childrenList.map((child, index) => (
-						<ChildItem
-							key={index}
-							name={child.name} // 실제 자녀 이름을 childrenList에서 가져옴
-							isSelected={child.isSelected} // 자녀 선택 여부
-							onClick={() => {}}
+					{/* childrenList가 비어있으면 자녀추가하기 버튼 렌더링 */}
+					{childrenList.length === 0 ? (
+						<WideActionItem
+							title="자녀 추가하기"
+							backgroundColor="simplePayment"
+							onClick={() => {
+								navigate("/parents/child-registration");
+							}}
 						/>
-					))}
+					) : (
+						// childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링
+						childrenList.map((child, index) => (
+							<ChildItem
+								key={index}
+								name={child.name}
+								isSelected={child.isSelected} // 자녀 선택 여부
+								onClick={() => {}}
+							/>
+						))
+					)}
 				</div>
 			</div>
 			<div
