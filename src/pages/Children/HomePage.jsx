@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "~/contexts/AuthContext";
 import { fetchAccountNumber } from "~/libs/apis/accounts";
 import { ActionItem, WideActionItem } from "~/components/HomeComponents";
-
+import { fetchUsageBalance } from "../../libs/apis/accounts";
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
@@ -130,7 +130,11 @@ export default function ChildrenHomePage() {
 					iconSrc={schoolIcon}
 					backgroundColor="groupPurchase"
 					onClick={() => {
-						navigate("/children/group-purchase");
+						if (user.school_auth) {
+							navigate("/children/group-purchase"); // 학교 param으로 주기.
+						} else {
+							navigate("/children/group-purchase/school");
+						}
 					}}
 				/>
 			</div>

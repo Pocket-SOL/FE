@@ -26,16 +26,33 @@ export default function LoginPage() {
 			if (response.status === 200) {
 				login();
 
-				const { user_id, id, username, birth, phone, school_auth, role } =
-					response.data; // 응답에서 user 정보 추출
-				setUser({ user_id, id, username, birth, phone, school_auth, role });
+				const {
+					user_id,
+					id,
+					username,
+					birth,
+					phone,
+					school_auth,
+					role,
+					school,
+				} = response.data; // 응답에서 user 정보 추출
+				setUser({
+					user_id,
+					id,
+					username,
+					birth,
+					phone,
+					school_auth,
+					role,
+					school,
+				});
 
 				if (role === "parent") {
 					navigate("/parents"); // 부모 페이지로 리디렉션
 				} else if (role === "child") {
 					navigate("/children"); // 자녀 페이지로 리디렉션
 				}
-
+				console.log(school);
 				console.log("로그인 성공!");
 			}
 		} catch (error) {

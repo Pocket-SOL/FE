@@ -4,17 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { usePurchase } from "../../../contexts/PurchaseContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import defaultcharacter from "~/images/defaultcharacter.png";
+
 export default function GroupPurchaseListPage() {
 	const navigate = useNavigate();
+	const { user } = useAuth();
 	const [purchaseList, setPurchaseList] = useState([]); // 구매 목록 상태
 	const [activeTab, setActiveTab] = useState("ongoing"); // 현재 활성 탭 상태
-	const { people } = usePurchase();
-	const { user } = useAuth();
+	const [isClosedModalOpen, setIsClosedModalOpen] = useState(false);
+	const [purchaseIds, setpurchaseIds] = useState([]);
 	const [isToggled, setIsToggled] = useState(false);
+	const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
-	const handleToggle = () => {
-		setIsToggled((prev) => !prev);
-	};
+	console.log(purchaseList);
+	console.log(user);
+	console.log(user.school);
+	console.log(user.id);
 
 	useEffect(() => {
 		const fetchPurchases = async () => {
@@ -25,42 +29,85 @@ export default function GroupPurchaseListPage() {
 				console.error("구매 목록을 가져오는 중 오류 발생:", error);
 			}
 		};
-
+		const fetcharr = async () => {
+			try {
+				const response = await axios.get(
+					`/api/purchases/participant/${user.user_id}`,
+				);
+				setpurchaseIds(response.data.purchaseIds);
+			} catch (error) {
+				console.error("참가 배열을 가져오는 중 오류 발생", error);
+			}
+		};
 		fetchPurchases();
+		fetcharr();
+		setLoading(false); // 데이터 로드 완료 후 로딩 종료
 	}, []); // 빈 배열을 전달하여 컴포넌트 마운트 시 한 번만 실행
+
+	// 진행중인 목록, 완료된 목록
+	const handleToggle = () => {
+		setIsToggled((prev) => !prev);
+	};
 
 	const handleTabChange = (tab) => {
 		setActiveTab(tab);
 	};
-	// 진행중인 목록, 완료된 목록
+
+	const handleDelete = async (purchaseId) => {
+		try {
+			const response = await axios.delete(`/api/purchases/${purchaseId}`, {
+				data: { user_id: user.user_id }, // 현재 사용자의 user_id 전달
+			});
+
+			if (response.data.ok) {
+				alert("삭제되었습니다.");
+				setPurchaseList((prev) =>
+					prev.filter((item) => item.purchase_id !== purchaseId),
+				);
+			}
+		} catch (error) {
+			if (error.response?.status === 403) {
+				setIsClosedModalOpen(true); // 권한 없음 경고 모달 띄우기
+			} else {
+				console.error("삭제 중 오류 발생:", error);
+			}
+		}
+	};
+
 	const ftPurchaseList =
 		activeTab === "ongoing"
 			? purchaseList.filter((purchase) => {
-					return purchase.status === "ongoing";
+					return (
+						purchase.status === "ongoing" && purchase.school === user.school
+					);
 				})
 			: purchaseList.filter((purchase) => {
-					return purchase.status === "end";
+					return purchase.status === "end" && purchase.school === user.school;
 				});
 
-	// 진행중인 목록, 완료된 목록 & 내가 참여한 글
 	const ftPurchaseList2 =
 		activeTab === "ongoing"
 			? purchaseList.filter((purchase) => {
 					return (
-						purchase.status === "ongoing" && purchase.user_id === user.user_id
+						purchase.status === "ongoing" &&
+						purchaseIds.includes(purchase.purchase_id) &&
+						purchase.school === user.school
 					);
 				})
 			: purchaseList.filter((purchase) => {
-					return purchase.status === "end" && purchase.user_id === user.user_id;
+					return (
+						purchase.status === "end" &&
+						purchaseIds.includes(purchase.purchase_id) &&
+						purchase.school === user.school
+					);
 				});
 
-	console.log(purchaseList);
 	return (
 		<div className="bg-gray-50 py-10 sm:py-10">
 			<div className="mx-auto max-w-3xl px-6 lg:px-8">
 				{/* Nav & Tabs */}
-				<div className="border-b border-gray-200 mb-8  ">
-					<nav className="flex space-x-4 justify-center ">
+				<div className="border-b border-gray-200 mb-8">
+					<nav className="flex space-x-4 justify-center">
 						<button
 							onClick={() => handleTabChange("ongoing")}
 							className={`py-3 px-6 text-lg font-medium ${
@@ -83,9 +130,12 @@ export default function GroupPurchaseListPage() {
 						</button>
 					</nav>
 				</div>
+				<div>
+					<p className="text-gray-600">{user.school}</p>
+				</div>
 				{activeTab === "ongoing" ? (
 					<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
-						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-3 sm:py-7 ">
+						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
 							진행중인 목록
 						</h2>
 						<p className=" text-lg text-gray-600">
@@ -94,7 +144,7 @@ export default function GroupPurchaseListPage() {
 					</div>
 				) : (
 					<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
-						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-3 sm:py-7 ">
+						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
 							완료된 목록
 						</h2>
 						<p className=" text-lg text-gray-600">
@@ -103,139 +153,133 @@ export default function GroupPurchaseListPage() {
 					</div>
 				)}
 
-				<div className="flex items-center space-x-4">
-					<button
-						onClick={handleToggle}
-						className={`w-12 h-6 flex items-center rounded-full p-1 ${
-							isToggled ? "bg-blue-500" : "bg-gray-300"
-						}`}
-					>
-						<div
-							className={`h-4 w-4 bg-white rounded-full shadow-md transform duration-300 ${
-								isToggled ? "translate-x-6" : "translate-x-0"
-							}`}
-						></div>
-					</button>
-					<span className="text-gray-700">
-						{isToggled ? "내가 참여한 글만 보기" : "내가 참여한 글만 보기"}
-					</span>
-				</div>
-				<div className="mt-5 flex flex-col gap-y-16">
-					{purchaseList.length > 0 ? (
-						isToggled ? (
-							ftPurchaseList2.map((purchase) => (
-								<article
-									key={purchase.id}
-									className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
-								>
-									{/* 내용 */}
-									<div className="p-8">
-										{/* 제목 */}
-										<h3
-											className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600"
-											onClick={() =>
-												navigate(
-													`/children/group-purchase/${purchase.purchase_id}`,
-												)
-											}
-										>
-											{purchase.title}
-										</h3>
-
-										{/* 설명 */}
-										{/* <p className="mt-4 text-base text-gray-600 line-clamp-3">
-										{purchase.content || "내용이 없습니다."}
-									</p> */}
-
-										{/* 날짜 및 카테고리 */}
-										<div className="mt-6 flex flex-col text-sm text-gray-500">
-											<time className="mb-2">마감일: {purchase.end_date}</time>
-											<p className="text-lg font-semibold text-blue-600">
-												현재 {people}명 진행 중
-											</p>
-										</div>
-									</div>
-
-									{/* 작성자 */}
-									<div className="flex items-center p-6 border-t border-gray-200">
-										<img
-											src={purchase.creator_avatar || defaultcharacter}
-											alt="작성자 프로필"
-											className="w-14 h-14 rounded-full bg-gray-50"
-										/>
-										<div className="ml-4">
-											<p className="text-sm font-medium text-gray-900">
-												{purchase.username || "익명"}
-											</p>
-											<p className="text-sm text-gray-500">작성자</p>
-										</div>
-									</div>
-								</article>
-							))
-						) : (
-							ftPurchaseList.map((purchase) => (
-								<article
-									key={purchase.id}
-									className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
-								>
-									{/* 내용 */}
-									<div className="p-8">
-										{/* 제목 */}
-										<h3
-											className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600"
-											onClick={() =>
-												navigate(
-													`/children/group-purchase/${purchase.purchase_id}`,
-												)
-											}
-										>
-											{purchase.title}
-										</h3>
-
-										{/* 설명 */}
-										{/* <p className="mt-4 text-base text-gray-600 line-clamp-3">
-										{purchase.content || "내용이 없습니다."}
-									</p> */}
-
-										{/* 날짜 및 카테고리 */}
-										<div className="mt-6 flex flex-col text-sm text-gray-500">
-											<time className="mb-2">마감일: {purchase.end_date}</time>
-											<p className="text-lg font-semibold text-blue-600">
-												현재 {people}명 진행 중
-											</p>
-										</div>
-									</div>
-
-									{/* 작성자 */}
-									<div className="flex items-center p-6 border-t border-gray-200">
-										<img
-											src={purchase.creator_avatar || defaultcharacter}
-											alt="작성자 프로필"
-											className="w-14 h-14 rounded-full bg-gray-50"
-										/>
-										<div className="ml-4">
-											<p className="text-sm font-medium text-gray-900">
-												{purchase.username || "익명"}
-											</p>
-											<p className="text-sm text-gray-500">작성자</p>
-										</div>
-									</div>
-								</article>
-							))
-						)
-					) : (
-						<div className="text-gray-500 text-center">
-							목록이 비어 있습니다.
+				{/* 로딩 스피너 */}
+				{loading ? (
+					<div className="flex justify-center items-center py-10">
+						<div className="w-16 h-16 border-4 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+					</div>
+				) : (
+					<div>
+						<div className="flex items-center space-x-4">
+							<button
+								onClick={handleToggle}
+								className={`w-12 h-6 flex items-center rounded-full p-1 ${
+									isToggled ? "bg-blue-500" : "bg-gray-300"
+								}`}
+							>
+								<div
+									className={`h-4 w-4 bg-white rounded-full shadow-md transform duration-300 ${
+										isToggled ? "translate-x-6" : "translate-x-0"
+									}`}
+								></div>
+							</button>
+							<span className="text-gray-600">
+								{isToggled ? "내가 참여한 글만 보기" : "내가 참여한 글만 보기"}
+							</span>
 						</div>
-					)}
-				</div>
-				{/* 플로팅 버튼 */}
-				<button
-					onClick={() => navigate("/children/Group-Purchase/reg")}
-					className="fixed bottom-8 right-8 bg-blue-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-blue-600"
-				>
-					+
-				</button>
+						<div className="mt-5 flex flex-col gap-y-16">
+							{purchaseList.length > 0 ? (
+								isToggled ? (
+									ftPurchaseList2.map((purchase) => (
+										<article
+											key={purchase.purchase_id}
+											className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+											onClick={() =>
+												navigate(
+													`/children/group-purchase/${purchase.purchase_id}`,
+												)
+											}
+										>
+											{/* 내용 */}
+											<div className="p-8">
+												{/* 제목 */}
+												<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+													{purchase.title}
+												</h3>
+
+												{/* 날짜 및 카테고리 */}
+												<div className="mt-6 flex flex-col text-sm text-gray-500">
+													<time className="mb-2">
+														마감일: {purchase.end_date}
+													</time>
+													{purchase.participants}명 모집중
+													<p className="text-lg font-semibold text-blue-600">
+														현재 {purchase.count}명 진행 중
+													</p>
+												</div>
+											</div>
+
+											{/* 작성자 */}
+											<div className="flex items-center p-6 border-t border-gray-200">
+												<img
+													src={purchase.creator_avatar || defaultcharacter}
+													alt="작성자 프로필"
+													className="w-14 h-14 rounded-full bg-gray-50"
+												/>
+												<div className="ml-4">
+													<p className="text-sm font-medium text-gray-900">
+														{purchase.username || "익명"}
+													</p>
+													<p className="text-sm text-gray-500">작성자</p>
+												</div>
+											</div>
+										</article>
+									))
+								) : (
+									ftPurchaseList.map((purchase) => (
+										<article
+											key={purchase.purchase_id}
+											className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+											onClick={() =>
+												navigate(
+													`/children/group-purchase/${purchase.purchase_id}`,
+												)
+											}
+										>
+											{/* 내용 */}
+											<div className="p-8">
+												{/* 제목 */}
+												<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+													{purchase.title}
+												</h3>
+
+												{/* 날짜 및 카테고리 */}
+												<div className="mt-6 flex flex-col text-sm text-gray-500">
+													<time className="mb-2">
+														마감일: {purchase.end_date}
+													</time>
+													{purchase.participants}명 모집중
+													<p className="text-lg font-semibold text-blue-600">
+														현재 {purchase.count}명 진행 중
+													</p>
+												</div>
+											</div>
+
+											{/* 작성자 */}
+											<div className="flex items-center p-6 border-t border-gray-200">
+												<img
+													src={purchase.creator_avatar || defaultcharacter}
+													alt="작성자 프로필"
+													className="w-14 h-14 rounded-full bg-gray-50"
+												/>
+												<div className="ml-4">
+													<p className="text-sm font-medium text-gray-900">
+														{purchase.username || "익명"}
+													</p>
+													<p className="text-sm text-gray-500">작성자</p>
+												</div>
+											</div>
+										</article>
+									))
+								)
+							) : (
+								<div className="text-center py-10">
+									진행 중인 목록이 없습니다.
+								</div>
+							)}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

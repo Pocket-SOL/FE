@@ -1,6 +1,7 @@
 "use client";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
 	Dialog,
@@ -66,6 +67,7 @@ const callsToAction = [
 ];
 
 export default function Header() {
+	const navigate = useNavigate();
 	const { user } = useAuth();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const handleLogout = async () => {
@@ -86,6 +88,13 @@ export default function Header() {
 					<a href="#" className="-m-1.5 p-1.5">
 						<span className="sr-only">Your Company</span>
 						<img
+							onClick={() => {
+								if (user.role === parent) {
+									navigate("/parents");
+								} else {
+									navigate("children");
+								}
+							}}
 							alt=""
 							src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
 							className="h-8 w-auto"

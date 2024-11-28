@@ -63,7 +63,7 @@ export const OnboardingPage = () => {
 						navigate("/login");
 					}}
 				>
-					그냥 로그인 할래요
+					로그인 하기
 				</button>
 			</section>
 		</main>
