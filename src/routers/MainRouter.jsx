@@ -31,7 +31,8 @@ import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 import HistoryDetailPage from "../pages/Children/Usage/HistoryDetailPage";
 import AllowanceRequestConfirmPage from "../pages/Children/Allowance/AllowanceRequestConfirmPage";
 import AllowanceComplete from "../pages/Children/Allowance/AllowanceComplete";
-
+import School from "../pages/Children/GroupPurchase/School";
+import Photo from "../pages/Children/GroupPurchase/Photo";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -97,6 +98,8 @@ const router = createBrowserRouter([
 						// 우리학교 공동구매
 						path: "group-purchase", // 그룹 구매 부모 경로
 						children: [
+							{ path: "school", element: <School /> }, // 그룹 구매 목록
+							{ path: "photo", element: <Photo /> }, // 학생증 인증
 							{ path: "", element: <GroupPurchaseListPage /> }, // 그룹 구매 목록
 							{ path: ":purchaseId", element: <GroupPurchaseDetailPage /> }, // 그룹 구매 상세 (purchaseId 포함)
 							{ path: "reg", element: <GroupPurchaseReg /> }, // 그룹 구매 등록

@@ -14,6 +14,7 @@ export default function GroupPurchaseReg() {
 		participants: 0,
 		end_date: "",
 		content: "",
+		school: user.school,
 	});
 
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -42,7 +43,7 @@ export default function GroupPurchaseReg() {
 
 			if (response.data.ok) {
 				// Purchase ID를 서버 응답에서 가져오기
-				console.log(response);
+
 				const purchaseId = response.data.response.purchase_id;
 
 				// 사용자와 Purchase 연관 관계 추가
