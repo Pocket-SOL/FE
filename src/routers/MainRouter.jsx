@@ -31,6 +31,7 @@ import AllowanceRequest from "../pages/Children/Allowance/AllowanceRequestPage";
 import HistoryDetailPage from "../pages/Children/Usage/HistoryDetailPage";
 import AllowanceRequestConfirmPage from "../pages/Children/Allowance/AllowanceRequestConfirmPage";
 import AllowanceComplete from "../pages/Children/Allowance/AllowanceComplete";
+import Quiz from "../pages/Children/Quiz/Quiz";
 
 const router = createBrowserRouter([
 	{
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
 					{
 						path: "allowance-complete",
 						element: <AllowanceComplete />,
+					},
+					{
+						path: "quiz",
+						element: <Quiz />,
 					},
 					{
 						// 우리학교 공동구매
