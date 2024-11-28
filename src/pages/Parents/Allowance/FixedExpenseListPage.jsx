@@ -178,7 +178,9 @@ export default function FixedExpenseListPage() {
 					className="complete-button"
 					style={{ backgroundColor: "#F3F3F3", color: "black" }}
 					onClick={() => {
-						navigate("/parents/add-fixed-expense");
+						navigate("/parents/add-fixed-expense", {
+							state: { amount: amount },
+						});
 					}}
 				>
 					추가
