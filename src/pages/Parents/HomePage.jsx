@@ -123,9 +123,10 @@ export default function ParentsHomePage() {
 			</div>
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
-				<div className={styles.childSelectionContainer}>
-					{/* childrenList가 비어있으면 자녀추가하기 버튼 렌더링 */}
-					{childrenList.length === 0 ? (
+				{childrenList.length === 0 ? (
+					<div className={styles.wideActionContainer}>
+						{" "}
+						{/* className에 중괄호를 없애야 합니다 */}
 						<WideActionItem
 							title="자녀 추가하기"
 							backgroundColor="simplePayment"
@@ -133,19 +134,24 @@ export default function ParentsHomePage() {
 								navigate("/parents/child-registration");
 							}}
 						/>
-					) : (
-						// childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링
-						childrenList.map((child, index) => (
+					</div>
+				) : (
+					<div className={styles.childSelectionContainer}>
+						{" "}
+						{/* className에 중괄호를 없애야 합니다 */}
+						{/* childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링 */}
+						{childrenList.map((child, index) => (
 							<ChildItem
 								key={index}
 								name={child.name}
 								isSelected={child.isSelected} // 자녀 선택 여부
 								onClick={() => {}}
 							/>
-						))
-					)}
-				</div>
+						))}
+					</div>
+				)}
 			</div>
+
 			<div
 				onClick={() => {
 					navigate("usagehistory");
