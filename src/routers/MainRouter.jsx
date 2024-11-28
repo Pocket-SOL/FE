@@ -32,6 +32,7 @@ import HistoryDetailPage from "../pages/Children/Usage/HistoryDetailPage";
 import AllowanceRequestConfirmPage from "../pages/Children/Allowance/AllowanceRequestConfirmPage";
 import AllowanceComplete from "../pages/Children/Allowance/AllowanceComplete";
 import Quiz from "../pages/Children/Quiz/Quiz";
+import Answer from "../pages/Children/Quiz/Answer";
 
 const router = createBrowserRouter([
 	{
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
 						path: "quiz",
 						element: <Quiz />,
 					},
+					{ path: "answer", element: <Answer /> },
 					{
 						// 우리학교 공동구매
 						path: "group-purchase", // 그룹 구매 부모 경로
