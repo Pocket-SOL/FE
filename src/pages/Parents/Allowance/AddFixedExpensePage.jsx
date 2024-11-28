@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-
-import DataSelection from "../../Children/GroupPurchase/DataSelection";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./AddFixedExpensePage.css";
-import { useNavigate } from "react-router-dom";
 import { useFixed } from "../../../contexts/FixedContext";
 export default function AddFixedExpensePage() {
 	const { addFixedInfo } = useFixed();
@@ -18,6 +16,7 @@ export default function AddFixedExpensePage() {
 	});
 
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -27,11 +26,17 @@ export default function AddFixedExpensePage() {
 		}));
 	};
 
+	const realAmount = Number(location.state.amount.replace(/,/g, ""));
+
 	const handleComplete = () => {
-		addFixedInfo(formData);
-		console.log("저장된 데이터:", formData);
-		alert("고정 지출 정보가 저장되었습니다.");
-		navigate("/parents/fixed-expense-list");
+		if (realAmount < Number(formData.transAmount)) {
+			alert("고정지출 금액이 송금금액보다 큽니다.");
+		} else {
+			addFixedInfo(formData);
+			console.log("저장된 데이터:", formData);
+			alert("고정 지출 정보가 저장되었습니다.");
+			navigate("/parents/fixed-expense-list");
+		}
 	};
 
 	return (
@@ -40,7 +45,6 @@ export default function AddFixedExpensePage() {
 				고정 지출 정보를 등록하고
 			</div>
 			<div className="block text-2xl  text-gray-900">편하게 송금하세요</div>
-
 			<div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 				{/* 받는 분 */}
 				<div className="sm:col-span-2">
@@ -133,7 +137,7 @@ export default function AddFixedExpensePage() {
 					</label>
 					<div className="mt-2.5">
 						<input
-							type="text"
+							type="number"
 							name="transAmount"
 							placeholder="금액"
 							value={formData.transAmount}
@@ -162,7 +166,6 @@ export default function AddFixedExpensePage() {
 					</div>
 				</div>
 			</div>
-
 			<div className="mt-10">
 				<button className="complete-button" onClick={handleComplete}>
 					완료
