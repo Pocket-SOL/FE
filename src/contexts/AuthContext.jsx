@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
 					withCredentials: true,
 				});
 				if (response.status === 200) {
+					console.log("auth-response", response.data);
 					setIsAuthenticated(true);
 					setUser(response.data); // 서버에서 받은 사용자 정보 저장
 				}
