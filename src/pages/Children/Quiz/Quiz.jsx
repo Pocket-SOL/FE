@@ -4,7 +4,6 @@ import QuizImg from "~/images/Quiz.png";
 import CorrectImg from "~/images/Correct.png";
 import InCorrectImg from "~/images/InCorrect.png";
 export default function Quiz() {
-	const [isAnswered, setIsAnswered] = useState(false);
 	const [quizState, setQuizState] = useState("question");
 
 	const correctAnswer = "O";
@@ -12,8 +11,8 @@ export default function Quiz() {
 	//문제화면
 	if (quizState === "question") {
 		return (
-			<div className="flex items-center gap-0">
-				<div className="space-y-8">
+			<div className="flex justify-center min-h-screen pt-0">
+				<div className="space-y-8  ">
 					<div className="ml-4">
 						{/* 날짜 */}
 						<motion.h2
@@ -69,8 +68,7 @@ export default function Quiz() {
 					>
 						<button
 							onClick={() => {
-								console.log("ff");
-								setIsAnswered(true);
+								setQuizState(correctAnswer === "X" ? "correct" : "incorrect");
 							}}
 							className="group relative  mx-14 z-20"
 						>
@@ -87,8 +85,7 @@ export default function Quiz() {
 
 						<button
 							onClick={() => {
-								console.log("click");
-								setIsAnswered(true);
+								setQuizState(correctAnswer === "O" ? "correct" : "incorrect");
 							}}
 							className="group relative  mx-14 z-20"
 						>
@@ -130,8 +127,8 @@ export default function Quiz() {
 			<div className="flex items-center justify-center ">
 				<img
 					style={{ width: 270 }}
-					src={CorrectImg}
-					className="relative top-60 left-6  z-0"
+					src={InCorrectImg}
+					className="relative top-60 z-0"
 				/>
 				{/* <img
 				style={{ width: 270 }}
@@ -139,8 +136,7 @@ export default function Quiz() {
 				className="absolute top-10 left-15 z-0"
 			/> */}
 				<div className="flex items-center justify-center absolute text-2xl top-48">
-					축하합니다 <br />
-					정답입니다!
+					오답입니다! <br />
 				</div>
 			</div>
 		);
