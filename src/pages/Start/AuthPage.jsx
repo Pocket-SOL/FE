@@ -2,12 +2,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Onboarding/OnboardingPage.module.css";
 import qs from "qs";
 import axios from "axios";
-
+import { fetchSaveToken } from "../../libs/apis/users";
+import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 export default function AuthPage() {
+	const { userId, setUserId } = useAuth();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const code = queryParams.get("code");
+
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log("useEffect");
+
+		let temp = location.state?.userId;
+		console.log(temp);
+
+		if (temp) {
+			setUserId(temp);
+			// localStorage.setItem("userId", userId);
+		}
+	}, []);
 	//Oauth
 	const fetchOauth = async () => {
 		const newWindow = window.open("", "_blank");
@@ -36,7 +52,6 @@ export default function AuthPage() {
 		});
 
 		try {
-			// 요청 보내기 (프록시를 통해)
 			const response = await axios.post(
 				"/oauth/2.0/token", // Proxy 경유
 				requestData,
@@ -47,14 +62,19 @@ export default function AuthPage() {
 				},
 			);
 
-			// 응답 데이터 확인
 			console.log("응답 데이터:", response.data);
 			if (response.data.rsp_code) {
 				alert("토큰 요청 중 오류가 발생했습니다. 처음부터 다시 시도해주세요");
 				return;
 			}
+			alert("토큰 발급을 완료했습니다. 로그인 페이지로 이동합니다.");
+			console.log("userId", userId);
+			fetchSaveToken(
+				localStorage.getItem("userId"),
+				response.data.access_token,
+			);
 			navigate("/login");
-			return response.data;
+			// return response.data;
 		} catch (error) {
 			// 오류 처리
 			if (error.response) {
