@@ -78,7 +78,12 @@ export default function AuthPage() {
 			alert("토큰 발급을 완료했습니다. 로그인 페이지로 이동합니다.");
 			const userId = localStorage.getItem("userId");
 			// token을 db에 저장
-			fetchSaveToken(userId, response.data.access_token);
+			console.log(response.data);
+			fetchSaveToken(
+				userId,
+				response.data.access_token,
+				response.data.user_seq_no,
+			);
 			navigate("/login");
 <<<<<<< HEAD
 <<<<<<< Updated upstream
