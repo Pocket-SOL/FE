@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { usePurchase } from "../../../contexts/PurchaseContext";
 import { useNavigate } from "react-router-dom";
+import noimage from "~/images/noimage.png";
+
 export default function GroupPurchaseDetailPage() {
 	const { purchaseId } = useParams(); // URL에서 purchaseId 파라미터 추출
 	const [purchaseDetails, setPurchaseDetails] = useState(null);
@@ -18,6 +20,7 @@ export default function GroupPurchaseDetailPage() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 
+	console.log(purchaseDetails);
 	const handleClosed = async () => {
 		if (people !== purchaseDetails.participants) {
 			setIsClosedModalOpen(true); // 마감 모달 열기
@@ -120,9 +123,9 @@ export default function GroupPurchaseDetailPage() {
 				{/* Image Section */}
 				<div className="h-64 w-full">
 					<img
-						src="/path-to-your-image.jpg" // 실제 이미지 경로로 교체
+						src={purchaseDetails.image || noimage} // 실제 이미지 경로로 교체
 						alt="상품 관련 이미지"
-						className="h-full w-full object-cover"
+						className="h-full w-full object-contain"
 					/>
 				</div>
 

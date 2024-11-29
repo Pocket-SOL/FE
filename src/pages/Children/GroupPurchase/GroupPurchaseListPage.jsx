@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { usePurchase } from "../../../contexts/PurchaseContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import defaultcharacter from "~/images/defaultcharacter.png";
+import noimage from "~/images/noimage.png";
 
 export default function GroupPurchaseListPage() {
 	const navigate = useNavigate();
@@ -14,12 +14,7 @@ export default function GroupPurchaseListPage() {
 	const [purchaseIds, setpurchaseIds] = useState([]);
 	const [isToggled, setIsToggled] = useState(false);
 	const [loading, setLoading] = useState(true); // 로딩 상태 추가
-
 	console.log(purchaseList);
-	console.log(user);
-	console.log(user.school);
-	console.log(user.id);
-
 	useEffect(() => {
 		const fetchPurchases = async () => {
 			try {
@@ -176,6 +171,13 @@ export default function GroupPurchaseListPage() {
 							<span className="text-gray-600">
 								{isToggled ? "내가 참여한 글만 보기" : "내가 참여한 글만 보기"}
 							</span>
+							{/* 오른쪽 하단에 글쓰기 버튼 추가 */}
+							<button
+								className="fixed bottom-5 right-8 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105"
+								onClick={() => navigate("/children/group-purchase/reg")}
+							>
+								글쓰기
+							</button>
 						</div>
 						<div className="mt-5 flex flex-col gap-y-16">
 							{purchaseList.length > 0 ? (
@@ -183,33 +185,42 @@ export default function GroupPurchaseListPage() {
 									ftPurchaseList2.map((purchase) => (
 										<article
 											key={purchase.purchase_id}
-											className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+											className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
 											onClick={() =>
 												navigate(
 													`/children/group-purchase/${purchase.purchase_id}`,
 												)
 											}
 										>
-											{/* 내용 */}
-											<div className="p-8">
-												{/* 제목 */}
-												<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
-													{purchase.title}
-												</h3>
-
-												{/* 날짜 및 카테고리 */}
-												<div className="mt-6 flex flex-col text-sm text-gray-500">
-													<time className="mb-2">
-														마감일: {purchase.end_date}
-													</time>
-													{purchase.participants}명 모집중
-													<p className="text-lg font-semibold text-blue-600">
-														현재 {purchase.count}명 진행 중
-													</p>
+											<div className="flex items-center">
+												{" "}
+												{/* 이미지와 텍스트 수직 정렬 */}
+												{/* 텍스트 섹션 */}
+												<div className="w-1/2 p-8 pr-0">
+													<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+														{purchase.title}
+													</h3>
+													<div className="mt-6 flex flex-col text-sm text-gray-500">
+														<time className="mb-2">
+															마감일: {purchase.end_date}
+														</time>
+														{purchase.participants}명 모집 중
+														<p className="text-lg font-semibold text-blue-600">
+															현재 {purchase.count}명 진행 중
+														</p>
+													</div>
+												</div>
+												{/* 이미지 섹션 */}
+												<div className="w-1/2 flex items-center justify-center">
+													<img
+														src={purchase.image || noimage}
+														alt={purchase.title}
+														className="h-[130px] object-cover object-center rounded-lg shadow"
+													/>
 												</div>
 											</div>
 
-											{/* 작성자 */}
+											{/* 작성자 정보 */}
 											<div className="flex items-center p-6 border-t border-gray-200">
 												<img
 													src={purchase.creator_avatar || defaultcharacter}
@@ -229,33 +240,42 @@ export default function GroupPurchaseListPage() {
 									ftPurchaseList.map((purchase) => (
 										<article
 											key={purchase.purchase_id}
-											className="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+											className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
 											onClick={() =>
 												navigate(
 													`/children/group-purchase/${purchase.purchase_id}`,
 												)
 											}
 										>
-											{/* 내용 */}
-											<div className="p-8">
-												{/* 제목 */}
-												<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
-													{purchase.title}
-												</h3>
-
-												{/* 날짜 및 카테고리 */}
-												<div className="mt-6 flex flex-col text-sm text-gray-500">
-													<time className="mb-2">
-														마감일: {purchase.end_date}
-													</time>
-													{purchase.participants}명 모집중
-													<p className="text-lg font-semibold text-blue-600">
-														현재 {purchase.count}명 진행 중
-													</p>
+											<div className="flex items-center">
+												<div className="w-1/2 p-8 pr-0">
+													<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+														{purchase.title}
+													</h3>
+													<div className="mt-6 flex flex-col text-sm text-gray-500">
+														<time className="mb-2">
+															마감일: {purchase.end_date}
+														</time>
+														{purchase.status === "ongoing" ? (
+															<span>{purchase.participants}명 모집 중</span>
+														) : (
+															<span>{purchase.participants}명 모집</span>
+														)}
+														<p className="text-lg font-semibold text-blue-600">
+															{purchase.status === "ongoing"
+																? `현재 ${purchase.participants}명 진행 중`
+																: `${purchase.participants}명 모집완료`}
+														</p>
+													</div>
+												</div>
+												<div className="w-1/2 flex items-center justify-center">
+													<img
+														src={purchase.image || noimage}
+														alt={purchase.title}
+														className="h-[130px] object-cover object-center rounded-lg shadow"
+													/>
 												</div>
 											</div>
-
-											{/* 작성자 */}
 											<div className="flex items-center p-6 border-t border-gray-200">
 												<img
 													src={purchase.creator_avatar || defaultcharacter}

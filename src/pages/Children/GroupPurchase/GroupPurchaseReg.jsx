@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import DateSelection from "./DataSelection";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
-
+import {
+	uploadHistoryImage,
+	updateHistoryImage,
+} from "../../../libs/apis/purchases";
 export default function GroupPurchaseReg() {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-
+	console.log("user", user);
 	const [formData, setFormData] = useState({
 		title: "",
 		amount: "",
@@ -16,7 +19,9 @@ export default function GroupPurchaseReg() {
 		content: "",
 		school: user.school,
 	});
+	const [img, setImg] = useState();
 
+	console.log("formdata", formData);
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 	const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
@@ -32,7 +37,11 @@ export default function GroupPurchaseReg() {
 	const handleChangeDate = (date) => {
 		setFormData({ ...formData, end_date: date });
 	};
+	const handleChangeImage = (img) => {
+		setImg(img);
+	};
 
+	//db에 등록해서, purchase_id받아오고, s3이미지등록, 다시 업데이트.
 	const handleSubmit = async () => {
 		try {
 			const response = await axios.post("/api/purchases", formData, {
@@ -40,10 +49,10 @@ export default function GroupPurchaseReg() {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},
 			});
+			console.log(response);
 
 			if (response.data.ok) {
 				// Purchase ID를 서버 응답에서 가져오기
-
 				const purchaseId = response.data.response.purchase_id;
 
 				// 사용자와 Purchase 연관 관계 추가
@@ -59,8 +68,32 @@ export default function GroupPurchaseReg() {
 					},
 				);
 
+				if (img) {
+					const file = img;
+					uploadHistoryImage(file, `purchases/${purchaseId}`)
+						.then((result) => {
+							console.log("upload", result);
+
+							updateHistoryImage(purchaseId, result.data.imageUrl).then(
+								(res) => {
+									if (res) {
+										console.log("update", res);
+										setIsSuccessModalOpen(true);
+										// setTimeout(() => navigate("/children/group-purchase/"), 2000); // 2초 후 이동
+									} else {
+										setIsErrorModalOpen(true);
+									}
+								},
+							);
+						})
+						.catch(() => {
+							setIsErrorModalOpen(true);
+						});
+				}
+
 				// 성공 메시지 표시
-				setIsSuccessModalOpen(true);
+				// setIsSuccessModalOpen(true);
+				navigate("/children/group-purchase/complete");
 			} else {
 				throw new Error("등록에 실패했습니다.");
 			}
@@ -134,6 +167,34 @@ export default function GroupPurchaseReg() {
 					rows="4"
 				></textarea>
 			</div>
+
+			{/* 이미지 추가 부분 */}
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-600 mb-2">
+					이미지 업로드
+				</label>
+				<input
+					type="file"
+					accept="image/*"
+					className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+					// 파일 선택 시 처리 로직을 추가하려면 onChange 이벤트 추가
+					onChange={(e) => {
+						handleChangeImage(e.target.files[0]);
+					}}
+				/>
+			</div>
+
+			{/* 이미지 미리보기 */}
+			{formData.image && (
+				<div className="mb-4">
+					<img
+						src={formData.image}
+						alt="Preview"
+						className="w-full h-64 object-cover rounded-lg mt-2"
+					/>
+				</div>
+			)}
+
 			<div className="flex justify-center">
 				<button
 					onClick={handleSubmit}
@@ -175,7 +236,7 @@ export default function GroupPurchaseReg() {
 						<div className="flex justify-end space-x-4">
 							<button
 								onClick={() => setIsErrorModalOpen(false)}
-								className="bg-gray-200 px-4 py-2 rounded-lg text-gray-800 hover:bg-gray-300"
+								className="bg-red-600 px-4 py-2 rounded-lg text-white hover:bg-red-300"
 							>
 								닫기
 							</button>
