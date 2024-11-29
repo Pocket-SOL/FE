@@ -4,9 +4,7 @@ import qs from "qs";
 import axios from "axios";
 import { fetchSaveToken } from "../../libs/apis/users";
 import { useEffect } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 export default function AuthPage() {
-	const { userId, setUserId } = useAuth();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const code = queryParams.get("code");
@@ -20,8 +18,7 @@ export default function AuthPage() {
 		console.log(temp);
 
 		if (temp) {
-			setUserId(temp);
-			// localStorage.setItem("userId", userId);
+			localStorage.setItem("userId", temp);
 		}
 	}, []);
 	//Oauth
@@ -68,13 +65,11 @@ export default function AuthPage() {
 				return;
 			}
 			alert("토큰 발급을 완료했습니다. 로그인 페이지로 이동합니다.");
-			console.log("userId", userId);
-			fetchSaveToken(
-				localStorage.getItem("userId"),
-				response.data.access_token,
-			);
+			const userId = localStorage.getItem("userId");
+			// token을 db에 저장
+			fetchSaveToken(userId, response.data.access_token);
 			navigate("/login");
-			// return response.data;
+			return response.data;
 		} catch (error) {
 			// 오류 처리
 			if (error.response) {
