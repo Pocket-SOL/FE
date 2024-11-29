@@ -17,15 +17,27 @@ export default function AuthPage() {
 	const code = queryParams.get("code");
 
 	useEffect(() => {
-		const temp = location.state?.userId;
+		console.log("useEffect");
+
+		let temp = location.state?.userId;
+		console.log(temp);
+
 		if (temp) {
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+			setUserId(temp);
+=======
+			localStorage.setItem("userId", temp);
+>>>>>>> Stashed changes
+=======
 
 			setUserId(temp);
 
 			localStorage.setItem("userId", temp);
 
+>>>>>>> 4b8ca60fe67bf4f028ad48bd2234391114852a66
 		}
-	}, [location.state, setUserId]);
+	}, []);
 
 	const fetchOauth = async () => {
 		const clientId = import.meta.env.VITE_OPEN_BANK_ID;
@@ -68,8 +80,15 @@ export default function AuthPage() {
 			// token을 db에 저장
 			fetchSaveToken(userId, response.data.access_token);
 			navigate("/login");
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+			return response.data;
+>>>>>>> Stashed changes
+=======
 			return response.data;
 
+>>>>>>> 4b8ca60fe67bf4f028ad48bd2234391114852a66
 		} catch (error) {
 			console.error("토큰 요청 실패:", error);
 			alert("토큰 발급에 실패했습니다. 다시 시도해주세요.");
