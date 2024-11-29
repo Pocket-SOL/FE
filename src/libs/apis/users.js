@@ -1,9 +1,10 @@
 const BASE_URL = "/api/users";
 
-export async function fetchSaveToken(userId, token) {
+export async function fetchSaveToken(userId, token, no) {
 	const data = {
 		userId: userId,
 		token: token,
+		user_seq_no: no,
 	};
 	console.log("data", data);
 	try {
