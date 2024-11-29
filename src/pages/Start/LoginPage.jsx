@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { useAuth } from "~/contexts/AuthContext";
 import { Container, Form, Button } from "react-bootstrap";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
-
 	const { login, setUser } = useAuth();
 	const navigate = useNavigate();
 

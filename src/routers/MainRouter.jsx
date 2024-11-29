@@ -34,6 +34,7 @@ import AllowanceComplete from "../pages/Children/Allowance/AllowanceComplete";
 import School from "../pages/Children/GroupPurchase/School";
 import Photo from "../pages/Children/GroupPurchase/Photo";
 import Quiz from "../pages/Children/Quiz/Quiz";
+import AuthPage from "../pages/Start/AuthPage";
 
 const router = createBrowserRouter([
 	{
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
 			{ path: "/login", element: <LoginPage /> },
 			{ path: "/sign-up-role", element: <SignUpRolePage /> },
 			{ path: "/sign-up-form", element: <SignUpFormPage /> },
-
+			{ path: "/auth", element: <AuthPage /> },
 			// Parents
 			{
 				path: "parents",
