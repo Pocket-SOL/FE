@@ -1,11 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import qs from "qs";
 import { fetchSaveToken } from "../../libs/apis/users";
-
-import { useEffect } from "react";
 
 export default function AuthPage() {
 	const location = useLocation();
@@ -23,19 +20,7 @@ export default function AuthPage() {
 		console.log(temp);
 
 		if (temp) {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-			setUserId(temp);
-=======
 			localStorage.setItem("userId", temp);
->>>>>>> Stashed changes
-=======
-
-			setUserId(temp);
-
-			localStorage.setItem("userId", temp);
-
->>>>>>> 4b8ca60fe67bf4f028ad48bd2234391114852a66
 		}
 	}, []);
 
@@ -85,15 +70,7 @@ export default function AuthPage() {
 				response.data.user_seq_no,
 			);
 			navigate("/login");
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 			return response.data;
->>>>>>> Stashed changes
-=======
-			return response.data;
-
->>>>>>> 4b8ca60fe67bf4f028ad48bd2234391114852a66
 		} catch (error) {
 			console.error("토큰 요청 실패:", error);
 			alert("토큰 발급에 실패했습니다. 다시 시도해주세요.");
