@@ -12,7 +12,13 @@ const Layout = () => {
 			}}
 		>
 			<Header />
-			<main style={{ minHeight: "100vh" }}>
+			<main
+				style={{
+					minHeight: "100vh",
+					display: "flex",
+					justifyContent: "center",
+				}}
+			>
 				<Outlet /> {/* 자식 컴포넌트가 이 위치에 렌더링됩니다 */}
 			</main>
 			<Footer />

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
+import { useAuth } from "~/contexts/AuthContext";
 
 export default function ChildRegistrationPage() {
-	const [isSearched, setIsSearched] = useState(false); //
+	const { authChecked, user } = useAuth();
+	const [isSearched, setIsSearched] = useState(false);
 	const [searchInput, setSearchInput] = useState("");
 	const [results, setResults] = useState([]);
 	const [selectedChild, setSelectedChild] = useState(null); // 선택된 자녀 정보
@@ -38,6 +40,7 @@ export default function ChildRegistrationPage() {
 	// 자녀 선택 시 실행
 	const handleSelectChild = (child) => {
 		setSelectedChild(child); // 선택된 자녀 정보 설정
+		console.log(child);
 		setShowModal(true); // 모달 열기
 	};
 
@@ -45,6 +48,26 @@ export default function ChildRegistrationPage() {
 	const handleCloseModal = () => {
 		setShowModal(false);
 		setSelectedChild(null); // 선택된 자녀 초기화
+	};
+
+	// 자녀 등록 API 호출
+	const handleRegisterChild = async () => {
+		if (!selectedChild) return; // 선택된 자녀가 없으면 요청하지 않음
+
+		try {
+			// 자녀 등록 API 호출
+			const response = await axios.post("/api/childregnotis/registration", {
+				sender_id: user.user_id,
+				receiver_id: selectedChild.user_id, // 선택된 자녀의 ID
+			});
+
+			console.log(response.data);
+			alert("자녀 등록 알림이 성공적으로 생성되었습니다.");
+			handleCloseModal(); // 모달 닫기
+		} catch (error) {
+			console.error("자녀 등록 알림 생성 중 오류 발생:", error);
+			alert("자녀 등록 알림 생성 중 오류가 발생했습니다.");
+		}
 	};
 
 	return (
@@ -116,7 +139,7 @@ export default function ChildRegistrationPage() {
 					<Button variant="secondary" onClick={handleCloseModal}>
 						닫기
 					</Button>
-					<Button variant="primary" onClick={() => alert("등록 완료!")}>
+					<Button variant="primary" onClick={handleRegisterChild}>
 						등록
 					</Button>
 				</Modal.Footer>
