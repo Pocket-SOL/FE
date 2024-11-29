@@ -15,11 +15,10 @@ export default function SchoolSelectionPage() {
 	const local_key = import.meta.env.VITE_APP_LOCAL_KEY;
 	const server_key = import.meta.env.VITE_APP_SERVER_KEY;
 
-	console.log(local_key);
 	const url = `http://openapi.seoul.go.kr:8088/${local_key}/json/neisSchoolInfoHs/1/1000/`;
 
 	const navigate = useNavigate();
-	const { user } = useAuth();
+	const { user, setUser } = useAuth();
 
 	// 데이터 불러오기
 	useEffect(() => {
@@ -62,6 +61,7 @@ export default function SchoolSelectionPage() {
 	const handleSubmit = async () => {
 		if (schoolList.includes(schoolName)) {
 			await axios.put(`/api/users/${user.user_id}`, { schoolName });
+			setUser({ ...user, school: schoolName });
 			setIsSuccessModalOpen(true); // 성공 모달 열기
 		} else {
 			// 학교가 목록에 없으면 경고 모달 열기
