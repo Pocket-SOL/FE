@@ -1,4 +1,3 @@
-import React from "react";
 import checkImage from "~/images/check.png";
 import { useNavigate } from "react-router-dom";
 

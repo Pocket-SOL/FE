@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import DateSelection from "./DataSelection";
 import { useNavigate } from "react-router-dom";

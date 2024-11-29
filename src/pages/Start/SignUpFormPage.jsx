@@ -51,7 +51,7 @@ export default function SignUpFormPage() {
 			if (response.ok) {
 				alert("회원가입이 완료되었습니다!");
 				// 성공 시 추가 동작 (예: 페이지 이동)
-				navigate("/login");
+				navigate("/auth", { state: { userId: result.data.user_id } });
 			} else {
 				alert(result.message || "회원가입 중 오류가 발생했습니다.");
 			}

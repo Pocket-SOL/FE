@@ -1,15 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import QuizImg from "~/images/Quiz.png";
 import CorrectImg from "~/images/Correct.png";
 import InCorrectImg from "~/images/InCorrect.png";
+import axios from "axios";
 export default function Quiz() {
-	const [quizState, setQuizState] = useState("question");
+	const [screen, setScreen] = useState("question");
+	const [quizState, setQuizState] = useState(null);
+	const [quizData, setQuizData] = useState("");
+	const [loading, setLoading] = useState(true); //loading안넣으면오류나는듯?
+	const [currentQuestion, setCurrentQuestion] = useState(null); // 현재 문제를 저장할 상태
 
-	const correctAnswer = "O";
+	const num = quizData && quizData[Math.floor(Math.random() * quizData.length)];
 
+	// 한국어 로케일 사용
+	const date = new Date();
+	console.log(num.question);
+
+	const formattedDate = date.toLocaleDateString("ko-KR", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+		weekday: "long",
+	});
+	// console.log(formattedDate);
+
+	useEffect(() => {
+		const fetchQuiz = async () => {
+			try {
+				const response = await axios.get("http://localhost:3000/api/quiz");
+				setQuizData(response.data);
+				const randomQuestion =
+					response.data[Math.floor(Math.random() * response.data.length)];
+				setCurrentQuestion(randomQuestion);
+				setLoading(false);
+			} catch (error) {
+				console.error("오류", error);
+				setLoading(true);
+			}
+		};
+		fetchQuiz();
+	}, []); //화면시작할 때 get으로 api 받아오기.
+
+	const correctAnswer = currentQuestion?.correct_answer;
+
+	//로딩중
+	if (loading) {
+		return <div> 로딩 중 </div>;
+	}
 	//문제화면
-	if (quizState === "question") {
+	if (screen === "question") {
 		return (
 			<div className="flex justify-center min-h-screen pt-0">
 				<div className="space-y-8  ">
@@ -20,7 +60,7 @@ export default function Quiz() {
 							animate={{ opacity: 1, y: 0 }}
 							className="text-blue-500 text-2xl font-bold"
 						>
-							2024년 11월
+							{formattedDate}
 						</motion.h2>
 
 						{/* 제목 */}
@@ -52,10 +92,8 @@ export default function Quiz() {
 						className="pt-12"
 					>
 						<h3 className="text-3xl font-bold text-center leading-relaxed">
-							미국 국채 금리가
-							<br />
-							오르면 달러 가치가
-							<br /> 오른다?
+							{/* {quizData?.data[0]?.question} */}
+							{currentQuestion?.question}
 						</h3>
 					</motion.div>
 
@@ -68,7 +106,9 @@ export default function Quiz() {
 					>
 						<button
 							onClick={() => {
-								setQuizState(correctAnswer === "X" ? "correct" : "incorrect");
+								setQuizState(true);
+								setScreen("answer");
+								console.log("오");
 							}}
 							className="group relative  mx-14 z-20"
 						>
@@ -85,7 +125,9 @@ export default function Quiz() {
 
 						<button
 							onClick={() => {
-								setQuizState(correctAnswer === "O" ? "correct" : "incorrect");
+								setQuizState(false);
+								setScreen("answer");
+								console.log("엑스");
 							}}
 							className="group relative  mx-14 z-20"
 						>
@@ -100,43 +142,30 @@ export default function Quiz() {
 	}
 
 	//정답화면
-	if (quizState == "correct") {
-		return (
-			<div className="flex items-center justify-center ">
-				<img
-					style={{ width: 270 }}
-					src={CorrectImg}
-					className="relative top-60 left-6  z-0"
-				/>
-				{/* <img
-				style={{ width: 270 }}
-				src={InCorrectImg}
-				className="absolute top-10 left-15 z-0"
-			/> */}
-				<div className="flex items-center justify-center absolute text-2xl top-48">
-					축하합니다 <br />
-					정답입니다!
-				</div>
-			</div>
-		);
-	}
+	if (screen === "answer") {
+		// 사용자가 선택한 답과 실제 정답이 일치하는 경우
+		const isCorrect =
+			(quizState === true && correctAnswer === true) ||
+			(quizState === false && correctAnswer === false);
 
-	//실패화면
-	if (quizState == "incorrect") {
 		return (
-			<div className="flex items-center justify-center ">
+			<div className="flex items-center justify-center">
 				<img
 					style={{ width: 270 }}
-					src={InCorrectImg}
-					className="relative top-60 z-0"
+					src={isCorrect ? CorrectImg : InCorrectImg}
+					className={`relative top-60 ${isCorrect ? "left-6" : ""} z-0`}
 				/>
-				{/* <img
-				style={{ width: 270 }}
-				src={InCorrectImg}
-				className="absolute top-10 left-15 z-0"
-			/> */}
 				<div className="flex items-center justify-center absolute text-2xl top-48">
-					오답입니다! <br />
+					{isCorrect ? (
+						<>
+							축하합니다 <br />
+							정답입니다!
+						</>
+					) : (
+						<>
+							오답입니다! <br />
+						</>
+					)}
 				</div>
 			</div>
 		);
