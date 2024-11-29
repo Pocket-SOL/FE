@@ -9,6 +9,8 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(null); // 사용자 정보 (예: userId)
 	const [childList, setChildList] = useState(null);
 	const [child, setChild] = useState({ id: 5, name: "이민호" });
+	const [userId, setUserId] = useState();
+
 	useEffect(() => {
 		const checkAuthStatus = async () => {
 			try {
@@ -74,6 +76,8 @@ export function AuthProvider({ children }) {
 				childList,
 				selectChild,
 				child,
+				userId,
+				setUserId,
 			}}
 		>
 			{children}
