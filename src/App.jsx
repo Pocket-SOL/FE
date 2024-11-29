@@ -3,7 +3,6 @@ import router from "./routers/MainRouter";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-
 import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
 import { AllowanceProvider } from "./contexts/AllowanceContext";

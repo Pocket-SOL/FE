@@ -12,8 +12,12 @@ export default function SchoolSelectionPage() {
 	const [listopen, setListOpen] = useState(true);
 	const [listclick, setListClick] = useState(false);
 
-	const url =
-		"http://openapi.seoul.go.kr:8088/4e6f747a716d696e3132314d79556b5a/json/neisSchoolInfoHs/1/1000/";
+	const local_key = import.meta.env.VITE_APP_LOCAL_KEY;
+	const server_key = import.meta.env.VITE_APP_SERVER_KEY;
+
+	console.log(local_key);
+	const url = `http://openapi.seoul.go.kr:8088/${local_key}/json/neisSchoolInfoHs/1/1000/`;
+
 	const navigate = useNavigate();
 	const { user } = useAuth();
 
