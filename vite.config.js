@@ -9,6 +9,12 @@ export default defineConfig({
 			"/api": {
 				target: "http://localhost:3000/",
 			},
+			"/oauth": {
+				target: "https://testapi.openbanking.or.kr/oauth",
+				changeOrigin: true, // 이 옵션을 추가하여 CORS 문제를 해결
+				rewrite: (path) => path.replace(/^\/oauth/, ""),
+				logLevel: "debug",
+			},
 		},
 	},
 	resolve: {
