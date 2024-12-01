@@ -19,6 +19,7 @@ import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
 
 // Children
 import ChildrenHomePage from "../pages/Children/HomePage";
+import ChildrenNotificationPage from "../pages/Children/NotificationPage";
 import ChildAcceptancePage from "../pages/Children/ChildAcceptancePage";
 import GroupPurchaseListPage from "../pages/Children/GroupPurchase/GroupPurchaseListPage";
 import GroupPurchaseDetailPage from "../pages/Children/GroupPurchase/GroupPurchaseDetailPage";
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
 				element: <ProtectedRoute />,
 				children: [
 					{ path: "", element: <ChildrenHomePage /> },
+					{
+						path: "notification/:id",
+						element: <ChildrenNotificationPage />,
+					},
 					{
 						path: "child-acceptance",
 						element: <ChildAcceptancePage />,

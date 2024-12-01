@@ -8,13 +8,17 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
 import { AllowanceProvider } from "./contexts/AllowanceContext";
 import { PurchaseProvider } from "./contexts/PurchaseContext";
+// import { WebSocketProvider } from "./contexts/WebSocketContext";
+
 function App() {
 	return (
 		<AuthProvider>
 			<PurchaseProvider>
 				<FixedProvider>
 					<AllowanceProvider>
+						{/* <WebSocketProvider> */}
 						<RouterProvider router={router} />
+						{/* </WebSocketProvider> */}
 					</AllowanceProvider>
 				</FixedProvider>
 			</PurchaseProvider>
