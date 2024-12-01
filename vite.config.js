@@ -15,6 +15,10 @@ export default defineConfig({
 				rewrite: (path) => path.replace(/^\/oauth/, ""),
 				logLevel: "debug",
 			},
+			"/v2.0": {
+				target: "https://testapi.openbanking.or.kr",
+				changeOrigin: true,
+			},
 		},
 	},
 	resolve: {

@@ -27,3 +27,24 @@ export async function fetchSaveToken(userId, token, no) {
 		throw error;
 	}
 }
+
+export async function fetchUser(token, user_seq_no) {
+	try {
+		const res = await fetch(`/v2.0/user/me?user_seq_no=${user_seq_no}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (!res.ok) {
+			throw new Error(`HTTP error! Status: ${res.status}`);
+		}
+
+		const data = await res.json();
+		//console.log(data); // 받은 데이터 처리
+		return data;
+	} catch (error) {
+		console.error("Error calling API:", error);
+	}
+}

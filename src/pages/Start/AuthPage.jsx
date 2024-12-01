@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import qs from "qs";
-import { fetchSaveToken } from "../../libs/apis/users";
+import { fetchCreateAccount } from "../../libs/apis/accounts";
+import { fetchSaveToken, fetchUser } from "../../libs/apis/users";
 
 export default function AuthPage() {
 	const location = useLocation();
@@ -31,10 +32,10 @@ export default function AuthPage() {
 	};
 
 	const fetchToken = async (code) => {
-		if (code === null) {
-			alert("인증을 먼저 진행해주세요");
-			return;
-		}
+		// if (code === null) {
+		// 	alert("인증을 먼저 진행해주세요");
+		// 	return;
+		// }
 
 		setIsLoading(true);
 
@@ -60,7 +61,6 @@ export default function AuthPage() {
 				throw new Error("토큰 요청 중 오류가 발생했습니다.");
 			}
 
-			alert("토큰 발급을 완료했습니다. 로그인 페이지로 이동합니다.");
 			const userId = localStorage.getItem("userId");
 			// token을 db에 저장
 			console.log(response.data);
@@ -69,8 +69,24 @@ export default function AuthPage() {
 				response.data.access_token,
 				response.data.user_seq_no,
 			);
+			// 토큰으로 fin_tech_num 받아오기
+			const userData = await fetchUser(
+				response.data.access_token,
+				response.data.user_seq_no,
+			);
+			// console.log(userData);
+			const num = userData.res_list[0].fintech_use_num;
+			// console.log(userData.res_list[0].fintech_use_num);
+
+			//계좌 생성
+			const account = await fetchCreateAccount(userId, num);
+			console.log(account);
+			alert(
+				"토큰 발급 및 계좌 생성을 완료했습니다. 로그인 페이지로 이동합니다.",
+			);
+
 			navigate("/login");
-			return response.data;
+			return account;
 		} catch (error) {
 			console.error("토큰 요청 실패:", error);
 			alert("토큰 발급에 실패했습니다. 다시 시도해주세요.");
