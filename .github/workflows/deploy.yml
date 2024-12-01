@@ -24,7 +24,11 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build --build-arg ENV_FILE_VARS="$(cat .env | xargs)" -t ${{ secrets.DOCKER_USERNAME }}/react-app .
+          docker build --build-arg VITE_OPEN_BANK_ID=${{ secrets.VITE_OPEN_BANK_ID }} \
+                       --build-arg VITE_CLIENT_SECRET=${{ secrets.VITE_CLIENT_SECRET }} \
+                       --build-arg VITE_SCHOOL_KEY=${{ secrets.VITE_SCHOOL_KEY }} \
+                       --build-arg VITE_BANK_TRANS_ID=${{ secrets.VITE_BANK_TRANS_ID }} \
+                      -t ${{ secrets.DOCKER_USERNAME }}/react-app .
           docker push ${{ secrets.DOCKER_USERNAME }}/react-app
 
       - name: SSH into EC2 and deploy
