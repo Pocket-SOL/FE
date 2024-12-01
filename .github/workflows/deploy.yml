@@ -44,4 +44,4 @@ jobs:
             docker rm react-app || true
 
             # 프론트엔드 컨테이너를 ubuntu_app-network에 연결하여 실행
-            docker run -d --name react-app --network ubuntu_app-network -p 80:80 --env-file /home/ubuntu/BE/.env ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            docker run -d --name react-app --network ubuntu_app-network -p 80:80 --env-file /home/ubuntu/FE/.env ${{ secrets.DOCKER_USERNAME }}/react-app:latest
