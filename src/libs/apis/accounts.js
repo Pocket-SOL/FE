@@ -60,3 +60,22 @@ export async function fetchAccountNumber(userId) {
 		return {};
 	}
 }
+
+export async function fetchCreateAccount(id, num) {
+	try {
+		const res = await fetch(`${BASE_URL}/accounts`, {
+			method: "POST",
+			body: JSON.stringify({
+				id: id,
+				num: num,
+			}),
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		return await res.json();
+	} catch (error) {
+		console.error(error);
+		return {};
+	}
+}
