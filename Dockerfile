@@ -4,7 +4,9 @@ WORKDIR /app
 COPY ./package.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+# 환경변수
+ARG ENV_FILE_VARS
+RUN export $(echo $ENV_FILE_VARS | xargs) && npm run build
 
 # Nginx로 전달
 FROM nginx:alpine
