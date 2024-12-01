@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build --build-arg ENV_FILE_VARS="$(cat FE/.env | xargs)" -t ${{ secrets.DOCKER_USERNAME }}/react-app .
+          docker build --build-arg ENV_FILE_VARS="$(cat .env | xargs)" -t ${{ secrets.DOCKER_USERNAME }}/react-app .
           docker push ${{ secrets.DOCKER_USERNAME }}/react-app
 
       - name: SSH into EC2 and deploy
