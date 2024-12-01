@@ -18,10 +18,11 @@ import missionIcon from "~/images/missionIcon.png";
 
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
-	const { authChecked, user } = useAuth();
+	const { authChecked, user, selectChild, child } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [userAccuontBalance, setUserAccuontBalance] = useState();
 	const [childrenList, setChildrenList] = useState([]);
+	const [selectedChild, setSelectedChild] = useState(null);
 
 	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
@@ -78,6 +79,13 @@ export default function ParentsHomePage() {
 		}
 	}, [user]);
 
+	useEffect(() => {
+		if (childrenList.length > 0) {
+			setSelectedChild(childrenList[0]); // 첫 번째 자녀를 선택
+			selectChild(childrenList[0]); // 선택된 자녀 상태 업데이트
+		}
+	}, [childrenList]); // childrenList가 변경될 때마다 실행
+
 	if (!authChecked || !user) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
@@ -119,13 +127,15 @@ export default function ParentsHomePage() {
 						잔액 : <strong>{userAccuontBalance}</strong>원
 					</div>
 				</div>
-				<button className={styles.rechargeButton}>충전하기</button>
+				<button className={styles.rechargeButton}>이체</button>
 			</div>
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
-				<div className={styles.childSelectionContainer}>
-					{/* childrenList가 비어있으면 자녀추가하기 버튼 렌더링 */}
-					{childrenList.length === 0 ? (
+
+				{childrenList.length === 0 ? (
+					<div className={styles.wideActionContainer}>
+						{" "}
+						{/* className에 중괄호를 없애야 합니다 */}
 						<WideActionItem
 							title="자녀 추가하기"
 							backgroundColor="simplePayment"
@@ -133,26 +143,44 @@ export default function ParentsHomePage() {
 								navigate("/parents/child-registration");
 							}}
 						/>
-					) : (
-						// childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링
-						childrenList.map((child, index) => (
+					</div>
+				) : (
+					<div className={styles.childSelectionContainer}>
+						{" "}
+						{/* className에 중괄호를 없애야 합니다 */}
+						{/* childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링 */}
+						{childrenList.map((child, index) => (
 							<ChildItem
 								key={index}
 								name={child.name}
-								isSelected={child.isSelected} // 자녀 선택 여부
-								onClick={() => {}}
+								isSelected={selectedChild === child} // 선택된 자녀와 비교하여 스타일 적용
+								onClick={() => {
+									setSelectedChild(child); // 자녀 선택
+									selectChild(child); // 자녀 선택 후 상태 업데이트
+									console.log(child);
+								}}
 							/>
-						))
-					)}
-				</div>
+						))}
+						<ChildItem
+							name="+"
+							onClick={() => {
+								navigate("/parents/child-registration");
+							}}
+						></ChildItem>
+					</div>
+				)}
 			</div>
+
 			<div
 				onClick={() => {
 					navigate("usagehistory");
 				}}
 			>
 				<p className={styles.selectedChildBalance}>
-					하민지님의 잔액: <strong>9,800</strong>원
+					{selectedChild
+						? `${selectedChild.name}님의 잔액: `
+						: "자녀를 선택해주세요."}
+					<strong>{selectedChild ? selectedChild.balance : "0"}원</strong>
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
@@ -165,7 +193,7 @@ export default function ParentsHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="미션 주기"
+					title="주식 퀴즈"
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
