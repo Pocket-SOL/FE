@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/react-app .
+          docker build --build-arg ENV_FILE_VARS="$(cat FE/.env | xargs)" -t ${{ secrets.DOCKER_USERNAME }}/react-app .
           docker push ${{ secrets.DOCKER_USERNAME }}/react-app
 
       - name: SSH into EC2 and deploy
@@ -44,4 +44,4 @@ jobs:
             docker rm react-app || true
 
             # 프론트엔드 컨테이너를 ubuntu_app-network에 연결하여 실행
-            docker run -d --name react-app --network ubuntu_app-network -p 80:80 --env-file /home/ubuntu/FE/.env ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            docker run -d --name react-app --network ubuntu_app-network -p 80:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
