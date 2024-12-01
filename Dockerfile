@@ -2,9 +2,7 @@
 FROM node:18 AS build
 WORKDIR /app
 
-ARG ENV_FILE_VARS
-ENV ENV_FILE_VARS=$ENV_FILE_VARS
-
+COPY .env .env
 COPY ./package.json ./
 RUN npm install
 COPY . .
