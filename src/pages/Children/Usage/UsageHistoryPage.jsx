@@ -5,6 +5,8 @@ import { fetchSubUsageBalance } from "../../../libs/apis/subaccounts";
 import HistoryItem from "~/components/Usage/HistoryItem";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "~/contexts/AuthContext";
+
 export default function UsageHistoryPage() {
 	const [history, setHistory] = useState([]);
 	const [balance, setBalance] = useState(0);
@@ -12,15 +14,16 @@ export default function UsageHistoryPage() {
 	const [sub, setSub] = useState([]);
 	const [total, setTotal] = useState([]);
 	const navigate = useNavigate();
-	const userId = 2;
+	// const userId = 2;
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				//2: 로컬 db 상 자녀 아이디 임시로 넣어둔 것..
-				const balanceData = await fetchUsageBalance(userId);
-				const historyData = await fetchUsageHistory(userId);
-				const subData = await fetchSubUsageBalance(userId);
+				const balanceData = await fetchUsageBalance(user.user_id);
+				const historyData = await fetchUsageHistory(user.user_id);
+				const subData = await fetchSubUsageBalance(user.user_id);
 
 				setBalance(balanceData.totalAmount || 0);
 				setHistory(historyData || []);
