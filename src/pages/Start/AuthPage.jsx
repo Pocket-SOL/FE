@@ -26,19 +26,10 @@ export default function AuthPage() {
 	}, []);
 
 	const fetchOauth = async () => {
-		const clientId = import.meta.env.VITE_OPEN_BANK_ID;
-		const redirectUri = import.meta.env.VITE_URI;
-		const params = new URLSearchParams({
-			response_type: "code",
-			client_id: clientId,
-			scope: "login inquiry transfer",
-			state: "12345678901234567890123456789012",
-			auth_type: "0",
-			redirect_uri: redirectUri,
-		});
-		console.log(params.toString());
-		const auth = `https://testapi.openbanking.or.kr/oauth/2.0/authorize?${params.toString()}`;
-		window.open(auth, "_blank");
+		const response = await axios.post("/api/users/oauth");
+		// console.log(response, response.data);
+		const authUrl = await response.data;
+		window.open(authUrl, "_blank");
 	};
 
 	const fetchToken = async (code) => {
@@ -48,27 +39,11 @@ export default function AuthPage() {
 		}
 
 		setIsLoading(true);
-
-		const clientId = import.meta.env.VITE_OPEN_BANK_ID;
-		const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
-		const redirect_uri = import.meta.env.VITE_URI;
-		const requestData = qs.stringify({
-			code: code,
-			client_id: clientId,
-			client_secret: clientSecret,
-			redirect_uri: redirect_uri,
-			grant_type: "authorization_code",
-		});
-
 		try {
-			const response = await axios.post("/oauth/2.0/token", requestData, {
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-				},
-			});
-
+			const response = await axios.post("/api/users/token", { code });
 			if (response.data.rsp_code) {
-				throw new Error("토큰 요청 중 오류가 발생했습니다.");
+				console.log(response);
+				throw new Error("토큰 요청 중 오류가 발생했습니다");
 			}
 
 			const userId = localStorage.getItem("userId");
