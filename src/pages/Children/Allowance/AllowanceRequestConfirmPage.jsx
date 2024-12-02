@@ -3,10 +3,30 @@ import { useAllowance } from "../../../contexts/AllowanceContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { fetchGetUser } from "../../../libs/apis/users";
 export default function AllowanceRequestConfirmPage() {
 	const navigate = useNavigate();
 	const { amount } = useAllowance();
 	const { user } = useAuth();
+	const [userData, setUserData] = useState(null);
+
+	// useEffect(() => {
+	// 	fetchGetUser();
+	// }, []);
+	useEffect(() => {
+		const getUserData = async () => {
+			try {
+				const userData = await fetchGetUser(user.parent_id);
+				setUserData(userData);
+				console.log("유저데이터", userData);
+			} catch (error) {
+				console.error("사용자 정보 조회 실패:", error);
+			}
+		};
+
+		getUserData();
+	}, []);
 
 	const handleReq = async () => {
 		console.log("현재 amount:", amount);
@@ -51,7 +71,7 @@ export default function AllowanceRequestConfirmPage() {
 						fontSize: 18,
 					}}
 				>
-					{user && <span>{user.username}</span>}님에게
+					{userData && <span>{userData.username}</span>}님에게
 					<br /> {amount.toLocaleString()}원을
 					<br /> 요청합니다.
 				</p>

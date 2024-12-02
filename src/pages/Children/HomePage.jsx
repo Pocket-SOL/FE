@@ -47,6 +47,7 @@ export default function ChildrenHomePage() {
 			const loadData = async () => {
 				await Promise.all([fetchAccountData(), fetchAccountBalance()]);
 			};
+			loadData();
 		}
 	}, [user]);
 

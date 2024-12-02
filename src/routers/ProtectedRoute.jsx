@@ -15,6 +15,7 @@ export default function ProtectedRoute() {
 			if (!isAuthenticated) {
 				// 인증되지 않은 경우 로그인 페이지로 리다이렉트
 				navigate(`/login`);
+				console.log(user);
 			} else if (user.role === "parent" && !isParentRoute) {
 				// 부모 계정이 자녀 전용 페이지에 접근하려는 경우
 				navigate("/parents");
