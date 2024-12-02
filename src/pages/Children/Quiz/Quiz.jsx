@@ -8,7 +8,7 @@ export default function Quiz() {
 	const [screen, setScreen] = useState("question");
 	const [quizState, setQuizState] = useState(null);
 	const [quizData, setQuizData] = useState("");
-	const [loading, setLoading] = useState(true); //loading안넣으면오류나는듯?
+	const [loading, setLoading] = useState(true);
 	const [currentQuestion, setCurrentQuestion] = useState(null); // 현재 문제를 저장할 상태
 
 	const num = quizData && quizData[Math.floor(Math.random() * quizData.length)];
