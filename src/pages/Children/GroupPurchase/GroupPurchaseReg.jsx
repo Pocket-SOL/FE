@@ -10,7 +10,6 @@ import {
 export default function GroupPurchaseReg() {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	console.log("user", user);
 	const [formData, setFormData] = useState({
 		title: "",
 		amount: "",
@@ -21,7 +20,6 @@ export default function GroupPurchaseReg() {
 	});
 	const [img, setImg] = useState();
 
-	console.log("formdata", formData);
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 	const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
@@ -49,7 +47,6 @@ export default function GroupPurchaseReg() {
 					Authorization: `Bearer ${localStorage.getItem("token")}`,
 				},
 			});
-			console.log(response);
 
 			if (response.data.ok) {
 				// Purchase ID를 서버 응답에서 가져오기
@@ -72,12 +69,9 @@ export default function GroupPurchaseReg() {
 					const file = img;
 					uploadHistoryImage(file, `purchases/${purchaseId}`)
 						.then((result) => {
-							console.log("upload", result);
-
 							updateHistoryImage(purchaseId, result.data.imageUrl).then(
 								(res) => {
 									if (res) {
-										console.log("update", res);
 										setIsSuccessModalOpen(true);
 										// setTimeout(() => navigate("/children/group-purchase/"), 2000); // 2초 후 이동
 									} else {
