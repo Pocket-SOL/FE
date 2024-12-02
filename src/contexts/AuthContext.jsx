@@ -8,8 +8,12 @@ export function AuthProvider({ children }) {
 	const [authChecked, setAuthChecked] = useState(false); // 인증 여부 확인 완료 상태
 	const [user, setUser] = useState(null); // 사용자 정보 (예: userId)
 	const [childList, setChildList] = useState(null);
+<<<<<<< Updated upstream
 	const [child, setChild] = useState({ id: 5, name: "이민호" });
 	const [userId, setUserId] = useState();
+=======
+	const [child, setChild] = useState();
+>>>>>>> Stashed changes
 
 	useEffect(() => {
 		const checkAuthStatus = async () => {
