@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "~/contexts/AuthContext";
-import { Container, Form, Button } from "react-bootstrap";
 
 export default function LoginPage() {
 	const [id, setId] = useState("");
@@ -62,34 +61,59 @@ export default function LoginPage() {
 	};
 
 	return (
-		<Container className="d-flex flex-column justify-content-center align-items-center">
-			<div className="w-100 text-center mb-4">
-				<h1 className="fw-bold">환영합니다! 😍</h1>
+		<div className="flex flex-col justify-center items-center min-h-screen">
+			<div className="w-full text-center mb-4">
+				<h1 className="text-3xl font-bold">환영합니다! 😍</h1>
 				<p>아이디와 비밀번호를 입력해주세요</p>
 			</div>
 
-			<Form className="w-100" onSubmit={handleSubmit}>
-				<Form.Group className="mb-3" controlId="id">
-					<Form.Control
+			<form
+				className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
+				onSubmit={handleSubmit}
+			>
+				<div className="mb-4">
+					<label
+						htmlFor="id"
+						className="block text-sm font-medium text-gray-700"
+					>
+						아이디
+					</label>
+					<input
+						id="id"
 						type="text"
 						placeholder="아이디를 입력해주세요"
 						value={id}
 						onChange={(e) => setId(e.target.value)}
+						className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
-				</Form.Group>
-				<Form.Group className="mb-3" controlId="password">
-					<Form.Control
+				</div>
+
+				<div className="mb-6">
+					<label
+						htmlFor="password"
+						className="block text-sm font-medium text-gray-700"
+					>
+						비밀번호
+					</label>
+					<input
+						id="password"
 						type="password"
 						placeholder="비밀번호를 입력해주세요"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
+						className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 					/>
-				</Form.Group>
-				<Button variant="primary" size="lg" className="w-100" type="submit">
+				</div>
+
+				<button
+					type="submit"
+					className="w-full py-3 text-white bg-blue-500 rounded-lg text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+				>
 					로그인 하기
-				</Button>
-			</Form>
-			<div>
+				</button>
+			</form>
+
+			<div className="mt-4">
 				<p>
 					<a
 						style={{ color: "#0084FC", fontSize: "15px" }}
@@ -99,6 +123,6 @@ export default function LoginPage() {
 					</a>
 				</p>
 			</div>
-		</Container>
+		</div>
 	);
 }

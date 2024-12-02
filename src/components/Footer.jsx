@@ -1,41 +1,12 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import { Facebook, Instagram } from "react-bootstrap-icons";
+import { FaGithub } from "react-icons/fa"; // github 아이콘을 위한 라이브러리
 
-export default function Footer({ brandTitle }) {
+export default function Footer() {
 	return (
-		<Container
-			fluid
-			style={{
-				height: "5rem" /* footer 높이 */,
-			}}
-			className="py-4 bg-light"
-		>
-			<Container className="d-flex justify-content-between" as="footer">
-				<div className="col-md-4 d-flex align-items-center">
-					<a
-						href="/"
-						className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1"
-					>
-						{brandTitle}
-					</a>
-					<span className="mb-3 mb-md-0 text-body-secondary">
-						© 2024 Company, Inc
-					</span>
-				</div>
-				<ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
-					<li className="ms-3">
-						<a className="text-body-secondary" href="#">
-							<Instagram size={24} />
-						</a>
-					</li>
-					<li className="ms-3">
-						<a className="text-body-secondary" href="#">
-							<Facebook size={24} />
-						</a>
-					</li>
-				</ul>
-			</Container>
-		</Container>
+		<footer className="w-full bg-light py-4" style={{ height: "4rem" }}>
+			<div className="flex justify-between items-center px-6">
+				<div className="text-gray-500">© POCKET SOL. All rights reserved.</div>
+				<FaGithub className="text-gray-500" size={24} />
+			</div>
+		</footer>
 	);
 }
