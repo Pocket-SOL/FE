@@ -20,8 +20,9 @@ export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user, selectChild, child } = useAuth();
 	const [userAccountNumber, setUserAccountNumber] = useState("");
-	const [userAccuontBalance, setUserAccuontBalance] = useState();
+	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
 	const [childrenList, setChildrenList] = useState([]);
+	const [childAccountBalace, setChildAccountBalance] = useState(0);
 	const [selectedChild, setSelectedChild] = useState(null);
 
 	// 계좌번호 가져오기
@@ -66,6 +67,18 @@ export default function ParentsHomePage() {
 		}
 	};
 
+	// 자녀 계좌잔액 가져오기
+	const fetchChildAccountBalance = async () => {
+		try {
+			if (child?.user_id) {
+				const response = await fetchUsageBalance(child.user_id);
+				setChildAccountBalance(response.totalAmount);
+			}
+		} catch (error) {
+			console.error("자녀 계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
+		}
+	};
+
 	useEffect(() => {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
@@ -84,7 +97,16 @@ export default function ParentsHomePage() {
 			setSelectedChild(childrenList[0]); // 첫 번째 자녀를 선택
 			selectChild(childrenList[0]); // 선택된 자녀 상태 업데이트
 		}
-	}, [childrenList]); // childrenList가 변경될 때마다 실행
+	}, [childrenList, selectChild]); // childrenList가 변경될 때마다 실행
+
+	useEffect(() => {
+		if (child?.user_id) {
+			const loadData = async () => {
+				await fetchChildAccountBalance();
+			};
+			loadData();
+		}
+	}, [child]);
 
 	if (!authChecked || !user) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
@@ -157,7 +179,7 @@ export default function ParentsHomePage() {
 								onClick={() => {
 									setSelectedChild(child); // 자녀 선택
 									selectChild(child); // 자녀 선택 후 상태 업데이트
-									console.log(child);
+									// console.log(child);
 								}}
 							/>
 						))}
@@ -180,7 +202,7 @@ export default function ParentsHomePage() {
 					{selectedChild
 						? `${selectedChild.name}님의 잔액: `
 						: "자녀를 선택해주세요."}
-					<strong>{selectedChild ? selectedChild.balance : "0"}원</strong>
+					<strong>{selectedChild ? childAccountBalace : "0"}원</strong>
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
