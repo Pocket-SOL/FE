@@ -8,6 +8,7 @@ import {
 import HistoryItem from "~/components/Usage/HistoryItem";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "~/contexts/AuthContext";
 
 export default function ChildUsageHistoryPage() {
 	const [history, setHistory] = useState([]);
@@ -15,15 +16,15 @@ export default function ChildUsageHistoryPage() {
 	const [balance, setBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
-	const childId = 2;
-
+	// const childId = 2
+	const { child } = useAuth();
+	console.log(child);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				//2: 로컬 db 상 자녀 아이디 임시로 넣어둔 것..
-				const withData = await fetchWithdrawal(childId);
-				const historyData = await fetchUsageHistory(childId);
-				const balanceData = await fetchUsageBalance(childId);
+				const withData = await fetchWithdrawal(child.user_id);
+				const historyData = await fetchUsageHistory(child.user_id);
+				const balanceData = await fetchUsageBalance(child.user_id);
 
 				setWithdrawal(withData.total_withdrawal || 0);
 				setHistory(historyData || []);
