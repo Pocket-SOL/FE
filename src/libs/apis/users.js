@@ -48,3 +48,23 @@ export async function fetchUser(token, user_seq_no) {
 		console.error("Error calling API:", error);
 	}
 }
+
+export async function fetchGetUser(userId) {
+	try {
+		const res = await fetch(`${BASE_URL}/${userId}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		if (!res.ok) {
+			throw new Error(`HTTP error! Status: ${res.status}`);
+		}
+
+		const data = await res.json();
+		//console.log(data); // 받은 데이터 처리
+		return data;
+	} catch (error) {
+		console.error("Error calling API:", error);
+	}
+}
