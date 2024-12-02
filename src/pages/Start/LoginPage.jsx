@@ -32,6 +32,9 @@ export default function LoginPage() {
 					school_auth,
 					role,
 					school,
+					parent_id,
+					open_token,
+					user_seq_no,
 				} = response.data; // 응답에서 user 정보 추출
 				setUser({
 					user_id,
@@ -42,6 +45,9 @@ export default function LoginPage() {
 					school_auth,
 					role,
 					school,
+					parent_id,
+					open_token,
+					user_seq_no,
 				});
 
 				if (role === "parent") {

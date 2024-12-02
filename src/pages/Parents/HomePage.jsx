@@ -93,6 +93,13 @@ export default function ParentsHomePage() {
 
 	return (
 		<div className={styles.homePageContainer}>
+			<button
+				onClick={() => {
+					navigate(`notification/${user.user_id}`);
+				}}
+			>
+				알림
+			</button>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
 					{user.username}님,

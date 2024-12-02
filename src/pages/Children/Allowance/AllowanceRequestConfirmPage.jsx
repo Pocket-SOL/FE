@@ -5,12 +5,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchGetUser } from "../../../libs/apis/users";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 export default function AllowanceRequestConfirmPage() {
 	const navigate = useNavigate();
 	const { amount } = useAllowance();
 	const { user } = useAuth();
 	const [userData, setUserData] = useState(null);
-
+	console.log(user);
 	// useEffect(() => {
 	// 	fetchGetUser();
 	// }, []);
@@ -32,17 +35,27 @@ export default function AllowanceRequestConfirmPage() {
 		console.log("현재 amount:", amount);
 
 		try {
-			const response = await axios.post(`/api/plea/${user.user_id}`, {
+			const response = await axios.post(`/api/plea/${user.parent_id}`, {
+				user_id: user.user_id,
 				amount: amount,
 			});
+
+			socket.emit("askAllowance", {
+				parent_id: user.parent_id,
+				child_id: user.user_id,
+				message: `자녀 ${user.username}님이 용돈 ${amount}원을 요청했어요!`,
+			});
+
 			console.log(amount);
 			console.log(response);
+
 			navigate("/children/allowance-complete");
 			// const result = await response.data;
 		} catch (error) {
 			console.error("댓글 작성 중 오류 발생:", error);
 		}
 	};
+
 	return (
 		<div>
 			<div style={{ position: "relative" }}>
