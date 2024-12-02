@@ -27,7 +27,17 @@ export default function AuthPage() {
 
 	const fetchOauth = async () => {
 		const clientId = import.meta.env.VITE_OPEN_BANK_ID;
-		const auth = `https://testapi.openbanking.or.kr/oauth/2.0/authorize?response_type=code&client_id=${clientId}&scope=login%20inquiry%20transfer&state=12345678901234567890123456789012&auth_type=1&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth`;
+		const redirectUri = import.meta.env.VITE_URI;
+		const params = new URLSearchParams({
+			response_type: "code",
+			client_id: clientId,
+			scope: "login inquiry transfer",
+			state: "12345678901234567890123456789012",
+			auth_type: "0",
+			redirect_uri: redirectUri,
+		});
+		console.log(params.toString());
+		const auth = `https://testapi.openbanking.or.kr/oauth/2.0/authorize?${params.toString()}`;
 		window.open(auth, "_blank");
 	};
 
