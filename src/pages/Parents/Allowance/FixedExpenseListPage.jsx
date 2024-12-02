@@ -53,6 +53,8 @@ export default function FixedExpenseListPage() {
 				scheduled_date: info.transDate,
 			}));
 			console.log(user.username, child, child.name);
+			console.log("차일드", child.user_id);
+
 			const requestBody = {
 				from: {
 					transaction_type: "출금",
@@ -68,7 +70,8 @@ export default function FixedExpenseListPage() {
 			};
 
 			const response = await axios.post(
-				`http://localhost:3000/api/accounts/${child.id}`,
+				`http://localhost:3000/api/accounts/${child.user_id}`,
+
 				requestBody,
 				{
 					headers: {
@@ -76,7 +79,6 @@ export default function FixedExpenseListPage() {
 					},
 				},
 			);
-
 			// 성공 처리
 			alert("송금이 성공적으로 처리되었습니다.");
 			console.log("송금 성공:", response.data);
