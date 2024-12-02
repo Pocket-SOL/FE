@@ -3,8 +3,12 @@ import axios from "axios";
 import { FaRegMessage } from "react-icons/fa6";
 import { VscSend } from "react-icons/vsc";
 import { useAuth } from "../../../contexts/AuthContext";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 export default function Comment({
+	writer,
 	purchaseId,
 	comments,
 	setComments,
@@ -16,6 +20,10 @@ export default function Comment({
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
+	useEffect(() => {
+		socket.emit("register", user.user_id);
+	});
+
 	// 새로운 댓글 작성 함수
 	const submitComment = async () => {
 		if (!newComment.trim()) {
@@ -24,11 +32,18 @@ export default function Comment({
 		}
 		try {
 			const response = await axios.post(`/api/comments/${purchaseId}`, {
+				user_id: user.user_id,
 				username: user.username, // 실제 사용자 ID로 대체
 				content: newComment,
 			});
 			setComments((prev) => [...prev, response.data.response]); // 새로운 댓글 추가
-			setNewComment(""); // 입력 필드 초기화
+
+			socket.emit("newComment", {
+				writer,
+				content: newComment,
+			});
+
+			setNewComment(""); // 입력 필드 초기화'
 		} catch (error) {
 			console.error("댓글 작성 중 오류 발생:", error);
 		}

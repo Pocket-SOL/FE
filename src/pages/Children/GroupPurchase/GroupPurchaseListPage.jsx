@@ -14,7 +14,6 @@ export default function GroupPurchaseListPage() {
 	const [purchaseIds, setpurchaseIds] = useState([]);
 	const [isToggled, setIsToggled] = useState(false);
 	const [loading, setLoading] = useState(true); // 로딩 상태 추가
-	console.log(purchaseList);
 	useEffect(() => {
 		const fetchPurchases = async () => {
 			try {
@@ -263,8 +262,8 @@ export default function GroupPurchaseListPage() {
 														)}
 														<p className="text-lg font-semibold text-blue-600">
 															{purchase.status === "ongoing"
-																? `현재 ${purchase.participants}명 진행 중`
-																: `${purchase.participants}명 모집완료`}
+																? `현재 ${purchase.count}명 진행 중`
+																: `${purchase.count}명 모집완료`}
 														</p>
 													</div>
 												</div>

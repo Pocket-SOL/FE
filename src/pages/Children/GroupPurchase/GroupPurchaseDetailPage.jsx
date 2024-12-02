@@ -20,7 +20,6 @@ export default function GroupPurchaseDetailPage() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 
-	console.log(purchaseDetails);
 	const handleClosed = async () => {
 		if (people !== purchaseDetails.participants) {
 			setIsClosedModalOpen(true); // 마감 모달 열기
@@ -138,7 +137,9 @@ export default function GroupPurchaseDetailPage() {
 						</h1>
 						<p className="text-gray-600">{purchaseDetails.content}</p>
 					</div>
-					<h1 className="text-lg font-medium text-gray-700">{user.username}</h1>
+					<h1 className="text-lg font-medium text-gray-700">
+						{purchaseDetails.username}
+					</h1>
 
 					{/* Deadline Section */}
 					<div className="flex items-center justify-between mb-4">
@@ -157,6 +158,7 @@ export default function GroupPurchaseDetailPage() {
 					<div>
 						<div style={{ display: "flex", justifyContent: "space-between" }}>
 							<Comment
+								writer={purchaseDetails.user_id}
 								purchaseId={purchaseId}
 								comments={comments}
 								setComments={setComments}

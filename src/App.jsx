@@ -7,7 +7,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { FixedProvider } from "./contexts/FixedContext";
 import { AllowanceProvider } from "./contexts/AllowanceContext";
 import { PurchaseProvider } from "./contexts/PurchaseContext";
-// import { WebSocketProvider } from "./contexts/WebSocketContext";
+import { WebSocketProvider } from "./contexts/WebSocketContext";
 
 function App() {
 	return (
