@@ -28,6 +28,7 @@ jobs:
                        --build-arg VITE_CLIENT_SECRET=${{ secrets.VITE_CLIENT_SECRET }} \
                        --build-arg VITE_SCHOOL_KEY=${{ secrets.VITE_SCHOOL_KEY }} \
                        --build-arg VITE_BANK_TRANS_ID=${{ secrets.VITE_BANK_TRANS_ID }} \
+                       --build-arg VITE_URI=${{ secrets.VITE_URI }} \
                       -t ${{ secrets.DOCKER_USERNAME }}/react-app .
           docker push ${{ secrets.DOCKER_USERNAME }}/react-app
 
