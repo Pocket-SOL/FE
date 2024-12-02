@@ -149,23 +149,32 @@ export default function Quiz() {
 			(quizState === false && correctAnswer === false);
 
 		return (
-			<div className="flex items-center justify-center">
-				<img
-					style={{ width: 270 }}
-					src={isCorrect ? CorrectImg : InCorrectImg}
-					className={`relative ${isCorrect ? "left-6" : ""} z-0`}
-				/>
-				<div className="flex items-center justify-center absolute text-2xl top-48">
-					{isCorrect ? (
-						<>
-							축하합니다 <br />
-							정답입니다!
-						</>
-					) : (
-						<>
-							오답입니다! <br />
-						</>
-					)}
+			<div className="flex flex-col items-center justify-center">
+				<div className="relative flex items-center justify-center">
+					<img
+						style={{ width: 270 }}
+						src={isCorrect ? CorrectImg : InCorrectImg}
+						className={`relative ${isCorrect ? "left-6" : ""} z-0`}
+					/>
+					<div
+						className="flex items-center  justify-center absolute text-2xl "
+						style={{ top: -50 }}
+					>
+						{isCorrect ? (
+							<>
+								축하합니다 <br />
+								정답입니다!
+							</>
+						) : (
+							<>
+								땡! 오답입니다! <br />
+							</>
+						)}
+					</div>
+				</div>
+				<div className="mt-4 space-x-4">
+					<button>아니오</button>
+					<button>네</button>
 				</div>
 			</div>
 		);
