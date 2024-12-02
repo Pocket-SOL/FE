@@ -197,7 +197,7 @@ export default function ParentsHomePage() {
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
-						navigate("/parents");
+						navigate("/children-quiz");
 					}}
 				/>
 			</div>

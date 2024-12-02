@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import qs from "qs";
 import { fetchCreateAccount } from "../../libs/apis/accounts";
-import { fetchSaveToken, fetchUser } from "../../libs/apis/users";
 
+import { fetchUser, fetchSaveToken } from "../../libs/apis/users";
 export default function AuthPage() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -121,7 +121,8 @@ export default function AuthPage() {
 				"토큰 발급 및 계좌 생성을 완료했습니다. 로그인 페이지로 이동합니다.",
 			);
 			navigate("/login");
-			return account;
+
+			return response.data;
 		} catch (error) {
 			console.error("토큰 요청 실패:", error);
 			alert("토큰 발급에 실패했습니다. 다시 시도해주세요.");

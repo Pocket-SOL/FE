@@ -123,11 +123,11 @@ export default function ChildrenHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="미션 주기"
+					title="주식 퀴즈"
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
-						navigate("/children");
+						navigate("/children/quiz");
 					}}
 				/>
 			</div>
