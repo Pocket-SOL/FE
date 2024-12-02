@@ -16,7 +16,7 @@ import SendAllowancePage from "../pages/Parents/Allowance/SendAllowancePage";
 import FixedExpenseListPage from "../pages/Parents/Allowance/FixedExpenseListPage";
 import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
 import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
-
+import ParentsNotificationPage from "../pages/Parents/NotifiactionPage";
 // Children
 import ChildrenHomePage from "../pages/Children/HomePage";
 import ChildrenNotificationPage from "../pages/Children/NotificationPage";
@@ -56,6 +56,10 @@ const router = createBrowserRouter([
 					{
 						path: "",
 						element: <ParentsHomePage />,
+					},
+					{
+						path: "notification/:id",
+						element: <ParentsNotificationPage />,
 					},
 					{
 						path: "child-registration",

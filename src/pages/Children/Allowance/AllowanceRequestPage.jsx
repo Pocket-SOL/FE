@@ -11,6 +11,7 @@ function AllowanceRequest() {
 		const value = Number(e.target.value);
 		// -MAX_AMOUNT부터 +MAX_AMOUNT까지의 값을 0을 중심으로 변환
 		// const centered = rawValue - MAX_AMOUNT;
+		// console.log(value);
 		const roundedValue = Math.max(0, Math.round(value / 500) * 500);
 		setAmount(roundedValue);
 	};
@@ -18,7 +19,7 @@ function AllowanceRequest() {
 	// UI에 표시할 때는 음수 값을 0으로 표시
 	const displayAmount = Math.max(0, amount);
 	const { user } = useAuth();
-	console.log(user);
+	// console.log(user);
 	const navigate = useNavigate();
 
 	return (
