@@ -11,9 +11,8 @@ export default defineConfig({
 				changeOrigin: true,
 			},
 			"/oauth": {
-				target: "https://testapi.openbanking.or.kr/oauth",
+				target: "https://testapi.openbanking.or.kr",
 				changeOrigin: true, // 이 옵션을 추가하여 CORS 문제를 해결
-				rewrite: (path) => path.replace(/^\/oauth/, ""),
 				logLevel: "debug",
 			},
 			"/v2.0": {
