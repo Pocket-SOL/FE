@@ -153,7 +153,7 @@ export default function Quiz() {
 				<img
 					style={{ width: 270 }}
 					src={isCorrect ? CorrectImg : InCorrectImg}
-					className={`relative top-60 ${isCorrect ? "left-6" : ""} z-0`}
+					className={`relative ${isCorrect ? "left-6" : ""} z-0`}
 				/>
 				<div className="flex items-center justify-center absolute text-2xl top-48">
 					{isCorrect ? (
