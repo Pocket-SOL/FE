@@ -1,55 +1,47 @@
+// import React from "react";
+// import { useWebSocket } from "~/contexts/WebSocketContext";
+
 import { useEffect, useState } from "react";
-import { useAuth } from "~/contexts/AuthContext";
+import { io } from "socket.io-client";
+import { useAuth } from "../../contexts/AuthContext";
+
+const socket = io("http://localhost:5000");
 
 export default function NotificationPage() {
-	const { authChecked, user } = useAuth();
-	const [notificationList, setNotificationList] = useState([]);
-
-	const fetchNotifications = async () => {
-		try {
-			if (user?.user_id) {
-				const response = await fetch(`/api/notifications/${user.user_id}`);
-				if (!response.ok) {
-					throw new Error("알림 리스트를 가져오는 중 오류가 발생했습니다.");
-				}
-				const notifications = await response.json();
-				console.log(notifications);
-				setNotificationList(notifications);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// const { notifications } = useWebSocket(); // WebSocketContext에서 알림 리스트를 가져옴
+	const { user } = useAuth();
+	const [notifications, setNotifications] = useState([]);
 
 	useEffect(() => {
-		if (authChecked && user?.user_id) {
-			const loadData = async () => {
-				await fetchNotifications();
-			};
-			loadData();
-		}
-	}, [user]);
+		socket.emit("register", user.user_id);
 
-	if (!authChecked || !user) {
-		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
-		return <div>Loading...</div>;
-	}
+		socket.on("newCommentNodification", (data) => {
+			setNotifications([...notifications, data]);
+		});
+
+		return () => {
+			socket.off("newCommentNodification");
+		};
+	}, [notifications, user.user_id]);
 
 	return (
 		<div>
-			<h2 style={{ marginBottom: "20px" }}>알림 페이지</h2>
-			{notificationList.length > 0 ? (
+			<h2>알림 페이지</h2>
+			{notifications.length > 0 ? (
 				<ul>
-					{notificationList.map((notification, index) => (
+					{notifications.map((notification, index) => (
 						<li key={index}>
-							<strong>알림 유형:</strong> {notification.type} <br />
-							<strong>생성 시간:</strong>{" "}
-							{new Date(notification.created_at).toLocaleString()}
+							<strong>알림 내용:</strong> {notification.content} <br />
+							{/* <strong>알림 유형:</strong> {notification.C} <br /> */}
+							{/* <strong>보낸 사람 ID:</strong> {notification.sender_id} <br /> */}
+							{/* <strong>받은 사람 ID:</strong> {notification.receiver_id} <br /> */}
+							{/* <strong>읽음 상태:</strong>{" "} */}
+							{/* {notification.isread ? "읽음" : "읽지 않음"} */}
 						</li>
 					))}
 				</ul>
 			) : (
-				<p>알림이 없습니다.</p>
+				<p>새로운 알림이 없습니다.</p>
 			)}
 		</div>
 	);

@@ -15,7 +15,7 @@ export default function SchoolSelectionPage() {
 	const school_key = import.meta.env.VITE_SCHOOL_KEY;
 
 	const url = `http://openapi.seoul.go.kr:8088/${school_key}/json/neisSchoolInfoHs/1/1000/`;
-
+	console.log(url);
 	const navigate = useNavigate();
 	const { user, setUser } = useAuth();
 
