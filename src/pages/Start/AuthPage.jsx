@@ -41,12 +41,12 @@ export default function AuthPage() {
 
 		const clientId = import.meta.env.VITE_OPEN_BANK_ID;
 		const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
-
+		const redirect_uri = import.meta.env.VITE_URI;
 		const requestData = qs.stringify({
 			code: code,
 			client_id: clientId,
 			client_secret: clientSecret,
-			redirect_uri: "http://localhost:5173/auth",
+			redirect_uri: redirect_uri,
 			grant_type: "authorization_code",
 		});
 
