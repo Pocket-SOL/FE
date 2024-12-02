@@ -12,20 +12,20 @@ export default function SchoolSelectionPage() {
 	const [listopen, setListOpen] = useState(true);
 	const [listclick, setListClick] = useState(false);
 
-	const school_key = import.meta.env.VITE_SCHOOL_KEY;
-
-	const url = `http://openapi.seoul.go.kr:8088/${school_key}/json/neisSchoolInfoHs/1/1000/`;
-	console.log(url);
 	const navigate = useNavigate();
 	const { user, setUser } = useAuth();
 
 	// 데이터 불러오기
 	useEffect(() => {
 		const fetchSchool = async () => {
-			const response = await axios.get(url);
-			const data = response.data.neisSchoolInfoHs.row;
-			const schoolData = data.map((school) => school.SCHUL_NM);
-			setSchoolList(schoolData);
+			try {
+				const response = await axios.get("/api/schools"); // 백엔드 경로 호출
+				const schoolData = response.data;
+				setSchoolList(schoolData);
+				// console.log(schoolData);
+			} catch (error) {
+				console.error("Error fetching school data:", error);
+			}
 		};
 		fetchSchool();
 	}, []);
