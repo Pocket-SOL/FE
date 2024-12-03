@@ -15,9 +15,13 @@ export default function NotificationPage() {
 		//fetch하는 과정이 필요함.
 		socket.emit("register", user.user_id);
 
-		socket.on("ask-Accept-Allowance", (data) => {
-			setNotifications([...notifications, data]);
-		});
+		socket.on(
+			"ask-Accept-Allowance",
+			(data) => {
+				setNotifications([...notifications, data]);
+			},
+			[],
+		);
 
 		return () => {
 			// socket.off("newCommentNodification");
