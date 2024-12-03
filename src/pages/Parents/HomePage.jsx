@@ -134,7 +134,9 @@ export default function ParentsHomePage() {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
+	const localeAmount = Number(userAccuontBalance).toLocaleString();
 
+	const localeAmount2 = Number(childAccountBalace).toLocaleString();
 	return (
 		<div className={styles.homePageContainer}>
 			<button
@@ -176,7 +178,7 @@ export default function ParentsHomePage() {
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>{userAccuontBalance}</strong>원
+						잔액 : <strong>{localeAmount}</strong>원
 					</div>
 				</div>
 			</div>
@@ -229,7 +231,7 @@ export default function ParentsHomePage() {
 					{selectedChild
 						? `${selectedChild.name}님의 잔액: `
 						: "자녀를 선택해주세요."}
-					<strong>{selectedChild ? childAccountBalace : "0"}원</strong>
+					<strong>{selectedChild ? localeAmount2 : "0"}원</strong>
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
