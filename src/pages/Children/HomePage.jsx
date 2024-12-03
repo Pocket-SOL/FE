@@ -24,7 +24,7 @@ export default function ChildrenHomePage() {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
+				setUserAccountNumber(response.account_num);
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
