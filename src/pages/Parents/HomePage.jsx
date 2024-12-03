@@ -178,7 +178,7 @@ export default function ParentsHomePage() {
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>{localeAmount}</strong>원
+						잔액 : <strong>{localeAmount || 0}</strong>원
 					</div>
 				</div>
 			</div>
