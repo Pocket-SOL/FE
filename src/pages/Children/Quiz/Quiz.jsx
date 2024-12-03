@@ -59,8 +59,8 @@ export default function Quiz() {
 	if (screen === "question") {
 		return (
 			<div className="flex justify-center min-h-screen pt-0">
-				<div className="space-y-8  ">
-					<div className="ml-4">
+				<div className="space-y-4  ">
+					<div className="ml-8">
 						{/* 날짜 */}
 						<motion.h2
 							initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,8 @@ export default function Quiz() {
 							transition={{ delay: 0.2 }}
 							className="text-green-500 text-xl font-medium"
 						>
-							오늘도 한 걸음 더 성장하는 시간! 함께 도전해볼까요? 📈
+							오늘도 한 걸음 더 성장하는 시간! <br />
+							함께 도전해볼까요? 📈
 						</motion.p>
 					</div>
 
@@ -98,7 +99,7 @@ export default function Quiz() {
 						transition={{ delay: 0.3 }}
 						className="pt-12"
 					>
-						<h3 className="text-3xl font-bold text-center leading-relaxed">
+						<h3 className="text-2xl p-4 text-center leading-relaxed">
 							{/* {quizData?.data[0]?.question} */}
 							{currentQuestion?.question}
 						</h3>
@@ -172,12 +173,13 @@ export default function Quiz() {
 							{isCorrect ? (
 								<>
 									대단해요! <br />
-									오늘도 한뼘 더 성장했네요! 👏
+									오늘도 한뼘 더 성장했네요!
 								</>
 							) : (
 								<>
 									틀려도 괜찮아요! <br />
-									이렇게 하나씩 배워가는 거니까요 📚
+									이렇게 하나씩 <br />
+									배워가는 거니까요 📚
 								</>
 							)}
 						</div>
