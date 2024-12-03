@@ -231,7 +231,7 @@ export default function ParentsHomePage() {
 					{selectedChild
 						? `${selectedChild.name}님의 잔액: `
 						: "자녀를 선택해주세요."}
-					<strong>{selectedChild ? localeAmount2 : "0"}원</strong>
+					{!selectChild ? <strong>{localeAmount2} 원</strong> : ""}
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
