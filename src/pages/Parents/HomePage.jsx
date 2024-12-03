@@ -163,7 +163,6 @@ export default function ParentsHomePage() {
 
 				{childrenList.length === 0 ? (
 					<div className={styles.wideActionContainer}>
-						{" "}
 						{/* className에 중괄호를 없애야 합니다 */}
 						<WideActionItem
 							title="자녀 추가하기"
@@ -175,7 +174,6 @@ export default function ParentsHomePage() {
 					</div>
 				) : (
 					<div className={styles.childSelectionContainer}>
-						{" "}
 						{/* className에 중괄호를 없애야 합니다 */}
 						{/* childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링 */}
 						{childrenList.map((child, index) => (
@@ -222,11 +220,11 @@ export default function ParentsHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="주식 퀴즈"
+					title="오늘의팁"
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
-						navigate("/children-quiz");
+						navigate("/parents/tip");
 					}}
 				/>
 			</div>
