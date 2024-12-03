@@ -57,6 +57,7 @@ export default function FixedExpenseListPage() {
 
 			const requestBody = {
 				from: {
+					parent_id: user.user_id,
 					transaction_type: "출금",
 					account_holder: user.username,
 					amount: Number(amount.replace(/,/g, "")),
