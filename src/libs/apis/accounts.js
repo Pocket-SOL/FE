@@ -80,17 +80,14 @@ export async function fetchCreateAccount(id, num) {
 	}
 }
 
-export async function fetchGetAccount(id, token) {
+export async function fetchGetAccount(id) {
 	try {
-		const res = await fetch(
-			`${BASE_URL}/accounts/balance?token=${token}&id=${id}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-type": "application/json",
-				},
+		const res = await fetch(`${BASE_URL}/accounts/balance?id=${id}`, {
+			method: "GET",
+			headers: {
+				"Content-type": "application/json",
 			},
-		);
+		});
 		return res.json();
 	} catch (error) {
 		console.log("Failed to get account balance:", error);

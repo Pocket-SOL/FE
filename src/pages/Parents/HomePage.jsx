@@ -22,7 +22,6 @@ import missionIcon from "~/images/missionIcon.png";
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user, selectChild, child } = useAuth();
-	const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
 	const [childrenList, setChildrenList] = useState([]);
 	const [childAccountBalace, setChildAccountBalance] = useState(0);
@@ -33,7 +32,7 @@ export default function ParentsHomePage() {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
+				return response.account_number;
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
@@ -71,25 +70,24 @@ export default function ParentsHomePage() {
 	};
 
 	// //오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
-	// const formatAccountNumber = (number) => {
-	// 	const start = number.slice(0, 10);
-	// 	return `${start}...`;
-	// };
-
-	// const fetchOpenAccount = async () => {
-	// 	try {
-	// 		if (user?.open_token) {
-	// 			const response = await fetchGetAccount(user.user_id, user.open_token);
-	// 			console.log(response);
-	// 			setOpenAccount({
-	// 				fintech_use_num: formatAccountNumber(response.fintech_use_num),
-	// 				amount: response.balance_amt,
-	// 			});
-	// 		}
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
+	const fetchOpenAccount = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchGetAccount(user.user_id);
+				// console.log(response);
+				let fintechUseNum = response.fintech_use_num;
+				if (!fintechUseNum) {
+					console.log("No fintech_use_num found. Fetching from DB...");
+					fintechUseNum = await fetchAccountData(); // DB에서 계좌번호 가져오기
+				}
+				setOpenAccount({
+					fintech_use_num: fintechUseNum,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	// 자녀 계좌잔액 가져오기
 	const fetchChildAccountBalance = async () => {
@@ -107,10 +105,9 @@ export default function ParentsHomePage() {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
 				await Promise.all([
-					fetchAccountData(),
 					fetchAccountBalance(),
 					fetchChildrenList(),
-					// fetchOpenAccount(),
+					fetchOpenAccount(),
 				]);
 			};
 			loadData();
@@ -133,8 +130,7 @@ export default function ParentsHomePage() {
 		}
 	}, [child]);
 
-	if (!authChecked || !user) {
-		// if (!authChecked || !user || !openAccount) {
+	if (!authChecked || !user || !openAccount) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
@@ -175,15 +171,14 @@ export default function ParentsHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							{userAccountNumber}
-							{/* {openAccount.fintech_use_num} */}
+							{/* {userAccountNumber} */}
+							{openAccount.fintech_use_num || 0}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
 						잔액 : <strong>{userAccuontBalance}</strong>원
 					</div>
 				</div>
-				<button className={styles.rechargeButton}>이체</button>
 			</div>
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
