@@ -22,24 +22,23 @@ import missionIcon from "~/images/missionIcon.png";
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user, selectChild, child } = useAuth();
-	const [userAccountNumber, setUserAccountNumber] = useState("");
+	// const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
 	const [childrenList, setChildrenList] = useState([]);
 	const [childAccountBalace, setChildAccountBalance] = useState(0);
 	const [selectedChild, setSelectedChild] = useState(null);
 	const [openAccount, setOpenAccount] = useState();
 	// 계좌번호 가져오기
-	console.log(user);
-	const fetchAccountData = async () => {
-		try {
-			if (user?.user_id) {
-				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
-			}
-		} catch (error) {
-			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
-		}
-	};
+	// const fetchAccountData = async () => {
+	// 	try {
+	// 		if (user?.user_id) {
+	// 			const response = await fetchAccountNumber(user.user_id);
+	// 			setUserAccountNumber(response.account_number);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+	// 	}
+	// };
 
 	// 계좌잔액 가져오기
 	const fetchAccountBalance = async () => {
@@ -108,7 +107,7 @@ export default function ParentsHomePage() {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
 				await Promise.all([
-					fetchAccountData(),
+					// fetchAccountData(),
 					fetchAccountBalance(),
 					fetchChildrenList(),
 					fetchOpenAccount(),
