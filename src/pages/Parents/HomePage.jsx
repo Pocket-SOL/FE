@@ -22,11 +22,12 @@ import missionIcon from "~/images/missionIcon.png";
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user, selectChild, child } = useAuth();
-	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
+	const [userAccuontBalance, setUserAccuontBalance] = useState();
 	const [childrenList, setChildrenList] = useState([]);
 	const [childAccountBalace, setChildAccountBalance] = useState(0);
 	const [selectedChild, setSelectedChild] = useState(null);
 	const [openAccount, setOpenAccount] = useState();
+	const [state, setState] = useState(false);
 	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
 		try {
@@ -92,12 +93,15 @@ export default function ParentsHomePage() {
 	// 자녀 계좌잔액 가져오기
 	const fetchChildAccountBalance = async () => {
 		try {
+			setState(false);
 			if (child?.user_id) {
 				const response = await fetchUsageBalance(child.user_id);
 				setChildAccountBalance(response.totalAmount);
 			}
 		} catch (error) {
 			console.error("자녀 계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
+		} finally {
+			setState(true);
 		}
 	};
 
@@ -122,7 +126,6 @@ export default function ParentsHomePage() {
 	}, [childrenList]); // childrenList가 변경될 때마다 실행
 
 	useEffect(() => {
-		console.log("here");
 		if (child?.user_id) {
 			const loadData = async () => {
 				await fetchChildAccountBalance();
@@ -228,10 +231,18 @@ export default function ParentsHomePage() {
 				}}
 			>
 				<p className={styles.selectedChildBalance}>
-					{selectedChild
-						? `${selectedChild.name}님의 잔액: `
-						: "자녀를 선택해주세요."}
-					{!selectChild ? <strong>{localeAmount2} 원</strong> : ""}
+					{selectedChild ? (
+						state ? (
+							<div>
+								{selectedChild.name}님의 잔액 :
+								<strong> {localeAmount2 || 0} </strong>원
+							</div>
+						) : (
+							<div>자녀 잔액 로딩 중..</div>
+						)
+					) : (
+						"자녀를 선택해주세요."
+					)}
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
