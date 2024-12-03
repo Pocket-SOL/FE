@@ -78,6 +78,7 @@ export default function AuthPage() {
 				alert("유효한 사용자 정보를 찾을 수 없습니다.");
 				return;
 			}
+
 			const num = userData.res_list[0].fintech_use_num;
 
 			//계좌 생성
