@@ -15,7 +15,7 @@ export default function FixedExpenseListPage() {
 		const savedAmount = localStorage.getItem("amount");
 		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
 	});
-	// console.log(user);
+
 	useEffect(() => {
 		if (location.state?.amount !== undefined) {
 			setAmount(location.state.amount);
@@ -26,6 +26,7 @@ export default function FixedExpenseListPage() {
 		localStorage.setItem("amount", JSON.stringify(amount));
 	}, [amount]);
 
+	const originAll = Number(amount.replace(/,/g, ""));
 	// 차트 데이터 정의, ResponsivePie와 같은 차트 라이브러리는 특정 형식의 데이터를 요구
 	const data = fixedInfoList.map((info) => ({
 		id: info.name,
@@ -33,13 +34,35 @@ export default function FixedExpenseListPage() {
 		value: Number(info.transAmount),
 	}));
 	console.log("fixedlist", fixedInfoList);
-
-	console.log("Data", data);
 	const totalAmount = data.reduce((sum, item) => sum + item.value, 0);
-	const adjustedData = data.map((item) => ({
-		...item,
-		value: totalAmount > 0 ? (item.value / totalAmount) * 100 : 0, // 비율 계산
-	}));
+
+	const adjustedData = [
+		// 남은 금액 계산 (originAll - totalAmount)
+		{
+			id: "자유 금액",
+			label: "자유 금액",
+			value: (Number(originAll - totalAmount) / Number(originAll)) * 100,
+		},
+		// 각 fixed 항목들의 비율
+		...data.map((item) => ({
+			id: item.id,
+			label: item.label,
+			value: (Number(item.value) / Number(originAll)) * 100,
+		})),
+	];
+	console.log("originAll:", originAll, typeof originAll);
+	console.log("totalAmount:", totalAmount, typeof totalAmount);
+	console.log(
+		"transAmounts:",
+		data.map((item) => ({ value: item.value, type: typeof item.value })),
+	);
+	console.log("adjustedData:", adjustedData);
+	const singlePieData =
+		fixedInfoList.length > 0
+			? adjustedData
+			: [{ id: "총 금액", label: "총 금액", value: 100 }];
+	console.log("Data", data);
+	console.log(totalAmount);
 
 	const colors = ["#0084FC", "#00DB49", "#FFD455", "#FC25D5", "#FC9B00"];
 
@@ -104,12 +127,12 @@ export default function FixedExpenseListPage() {
 
 	return (
 		<>
-			<div className="Container">
+			<div>
 				<p style={{ marginBottom: "0" }}>{child.name}님에게 용돈보내기</p>
 				<p className="Font">얼마를 보낼까요?</p>
 				<div style={{ width: "100%", height: "200px" }}>
 					<ResponsivePie
-						data={adjustedData}
+						data={singlePieData}
 						colors={colors}
 						margin={{ right: 80, bottom: 10, left: 80 }}
 						innerRadius={0.5}
@@ -175,8 +198,7 @@ export default function FixedExpenseListPage() {
 						]}
 					/>
 				</div>
-				<h1>{amount}원</h1>
-				<hr />
+				<h1 className="text-center my-2">{amount}원</h1> <hr />
 				<button
 					className="complete-button"
 					style={{ backgroundColor: "#F3F3F3", color: "black" }}
@@ -188,10 +210,9 @@ export default function FixedExpenseListPage() {
 				>
 					추가
 				</button>
-				<span style={{ marginTop: 40 }}>금액</span>
-
+				<h1 className="text-center my-2 mt-4">금액</h1>
 				{fixedInfoList && fixedInfoList.length > 0 ? (
-					<ul>
+					<ul className="ml-12">
 						{fixedInfoList.map((info, index) => (
 							<li
 								key={index}
@@ -212,7 +233,6 @@ export default function FixedExpenseListPage() {
 				) : (
 					<p>저장된 고정 지출이 없습니다.</p>
 				)}
-
 				<button
 					className="complete-button"
 					style={{ backgroundColor: "gray", marginTop: "30px" }}
