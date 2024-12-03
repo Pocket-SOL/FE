@@ -4,13 +4,14 @@ import QuizImg from "~/images/Quiz.png";
 import CorrectImg from "~/images/Correct.png";
 import InCorrectImg from "~/images/InCorrect.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 export default function Quiz() {
 	const [screen, setScreen] = useState("question");
 	const [quizState, setQuizState] = useState(null);
 	const [quizData, setQuizData] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [currentQuestion, setCurrentQuestion] = useState(null); // 현재 문제를 저장할 상태
-
+	const navigate = useNavigate();
 	const num = quizData && quizData[Math.floor(Math.random() * quizData.length)];
 
 	// 한국어 로케일 사용
@@ -24,7 +25,12 @@ export default function Quiz() {
 		weekday: "long",
 	});
 	// console.log(formattedDate);
-
+	const resetQuiz = () => {
+		setScreen("question");
+		setQuizState(null);
+		const newQuestion = quizData[Math.floor(Math.random() * quizData.length)];
+		setCurrentQuestion(newQuestion);
+	};
 	useEffect(() => {
 		const fetchQuiz = async () => {
 			try {
@@ -80,7 +86,7 @@ export default function Quiz() {
 							transition={{ delay: 0.2 }}
 							className="text-green-500 text-xl font-medium"
 						>
-							175,279명이 퀴즈를 풀었어요!
+							오늘도 한 걸음 더 성장하는 시간! 함께 도전해볼까요? 📈
 						</motion.p>
 					</div>
 
@@ -149,32 +155,59 @@ export default function Quiz() {
 			(quizState === false && correctAnswer === false);
 
 		return (
-			<div className="flex flex-col items-center justify-center">
-				<div className="relative flex items-center justify-center">
-					<img
-						style={{ width: 270 }}
-						src={isCorrect ? CorrectImg : InCorrectImg}
-						className={`relative ${isCorrect ? "left-6" : ""} z-0`}
-					/>
-					<div
-						className="flex items-center  justify-center absolute text-2xl "
-						style={{ top: -50 }}
-					>
-						{isCorrect ? (
-							<>
-								축하합니다 <br />
-								정답입니다!
-							</>
-						) : (
-							<>
-								땡! 오답입니다! <br />
-							</>
-						)}
+			<div className="flex flex-col items-center justify-center min-h-screen p-6">
+				<div className="relative flex flex-col items-center justify-center rounded-2xl p-8 ">
+					{/* 이미지와 메시지 컨테이너 */}
+					<div className="relative flex flex-col items-center mb-8">
+						<img
+							style={{ width: 270 }}
+							src={isCorrect ? CorrectImg : InCorrectImg}
+							className={`relative ${isCorrect ? "left-6" : ""} z-0`}
+						/>
+						<div
+							className="flex items-center  justify-center absolute text-2xl "
+							style={{ top: -150 }}
+						>
+							{isCorrect ? (
+								<>
+									대단해요! <br />
+									오늘도 한뼘 더 성장했네요! 👏
+								</>
+							) : (
+								<>
+									틀려도 괜찮아요! <br />
+									이렇게 하나씩 배워가는 거니까요 📚
+								</>
+							)}
+						</div>
 					</div>
 				</div>
-				<div className="mt-4 space-x-4">
-					<button>아니오</button>
-					<button>네</button>
+				{/* 버튼 컨테이너 */}
+				<div className="justify-around flex flex-col sm:flex-row gap-4 w-full max-w-md mt-6">
+					<div className="mt-4 space-x-4">
+						<button
+							onClick={() => {
+								resetQuiz();
+							}}
+							className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold 
+							shadow-md hover:bg-blue-600 transform hover:-translate-y-0.5 
+							transition-all duration-200 focus:outline-none focus:ring-2 
+							focus:ring-blue-400 focus:ring-opacity-50"
+						>
+							한 문제 더 풀기
+						</button>
+						<button
+							onClick={() => {
+								navigate("/children");
+							}}
+							className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold 
+                   shadow-md hover:bg-gray-300 transform hover:-translate-y-0.5 
+                   transition-all duration-200 focus:outline-none focus:ring-2 
+                   focus:ring-gray-400 focus:ring-opacity-50"
+						>
+							홈으로 돌아가기
+						</button>
+					</div>
 				</div>
 			</div>
 		);
