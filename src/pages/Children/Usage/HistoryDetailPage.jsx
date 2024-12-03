@@ -72,7 +72,12 @@ export default function HistoryDetailPage() {
 							/>
 						</>
 					) : (
-						<div className="flex shrink-0 w-36 h-36 rounded-xl bg-zinc-100" />
+						<div
+							className="flex shrink-0 w-36 h-36 rounded-xl bg-zinc-100"
+							onClick={() =>
+								navigate(`/children/usage-history/photo?historyId=${historyId}`)
+							}
+						/>
 					)}
 				</article>
 				<div className="flex gap-4 mt-16 ml-5">
