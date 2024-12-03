@@ -77,16 +77,13 @@ export default function SchoolSelectionPage() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100">
-			{/* 카드 컨테이너 */}
-			<div className="bg-white shadow-2xl rounded-xl p-8 max-w-md w-full">
+		<>
+			<div>
 				{/* 헤더 */}
-				<h1 className="text-3xl font-bold text-gray-800 text-center mb-6">
-					학교를 먼저 등록하세요 ! 🏫
+				<h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+					학교를 등록해주세요 ! 🏫
 				</h1>
-				<p className="text-gray-500 text-center mb-8">
-					검색할 학교명을 입력하세요.
-				</p>
+				<p className="text-gray-500 text-center mb-8">학교명을 입력해주세요</p>
 
 				{/* 입력 필드와 버튼 */}
 				<div className="flex items-center space-x-3 mb-4">
@@ -124,7 +121,7 @@ export default function SchoolSelectionPage() {
 			{/* 경고 메시지 모달 */}
 			{isClosedModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white p-6 rounded-lg shadow-lg max-w-[375px] w-full mx-4">
 						<h2 className="text-lg font-semibold text-gray-800 mb-4">
 							학교가 존재하지 않아요.
 						</h2>
@@ -143,7 +140,7 @@ export default function SchoolSelectionPage() {
 			{/* 성공 메시지 모달 */}
 			{isSuccessModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white p-6 rounded-lg shadow-lg max-w-[375px] w-full mx-4">
 						<h2 className="text-lg font-semibold text-blue-700 mb-4">
 							🎉 학교 등록 완료!
 						</h2>
@@ -153,7 +150,7 @@ export default function SchoolSelectionPage() {
 						<div className="flex justify-end space-x-4">
 							<button
 								onClick={closeModal}
-								className=" bg-blue-500  px-4 py-2 rounded-lg text-white hover:bg-blue-600 hover:shadow-lg"
+								className="bg-blue-500 px-4 py-2 rounded-lg text-white hover:bg-blue-600 hover:shadow-lg"
 							>
 								확인
 							</button>
@@ -161,6 +158,6 @@ export default function SchoolSelectionPage() {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { useAuth } from "../contexts/AuthContext";
+import logoIcon from "~/images/logoIcon.png";
 
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -36,11 +37,7 @@ export default function Header() {
 						}}
 					>
 						<span className="sr-only">Your Company</span>
-						<img
-							alt="Logo"
-							src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-							className="h-8 w-auto"
-						/>
+						<img alt="Logo" src={logoIcon} className="h-8 w-auto" />
 					</a>
 				</div>
 				<div className="flex lg:hidden">
@@ -72,11 +69,6 @@ export default function Header() {
 					<div className="flex items-center justify-between">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
-							<img
-								alt="Logo"
-								src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-								className="h-8 w-auto"
-							/>
 						</a>
 						<button
 							type="button"
