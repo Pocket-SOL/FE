@@ -4,6 +4,7 @@ import QuizImg from "~/images/Quiz.png";
 import CorrectImg from "~/images/Correct.png";
 import InCorrectImg from "~/images/InCorrect.png";
 import axios from "axios";
+import { fetchQuiz } from "../../../libs/apis/quiz";
 import { useNavigate } from "react-router-dom";
 export default function Quiz() {
 	const [screen, setScreen] = useState("question");
@@ -32,12 +33,12 @@ export default function Quiz() {
 		setCurrentQuestion(newQuestion);
 	};
 	useEffect(() => {
-		const fetchQuiz = async () => {
+		const getQuiz = async () => {
 			try {
-				const response = await axios.get("http://localhost:3000/api/quiz");
-				setQuizData(response.data);
+				const response = await fetchQuiz();
+				setQuizData(response);
 				const randomQuestion =
-					response.data[Math.floor(Math.random() * response.data.length)];
+					response[Math.floor(Math.random() * response.length)];
 				setCurrentQuestion(randomQuestion);
 				setLoading(false);
 			} catch (error) {
@@ -45,7 +46,7 @@ export default function Quiz() {
 				setLoading(true);
 			}
 		};
-		fetchQuiz();
+		getQuiz();
 	}, []); //화면시작할 때 get으로 api 받아오기.
 
 	const correctAnswer = currentQuestion?.correct_answer;
