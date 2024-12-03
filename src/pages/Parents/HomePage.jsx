@@ -33,7 +33,7 @@ export default function ParentsHomePage() {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_num);
+				setUserAccountNumber(response.account_number);
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
