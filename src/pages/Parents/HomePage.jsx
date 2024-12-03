@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
-import { fetchAccountNumber } from "~/libs/apis/accounts";
-import { fetchUsageBalance } from "~/libs/apis/accounts";
+import {
+	fetchAccountNumber,
+	fetchUsageBalance,
+	fetchGetAccount,
+} from "~/libs/apis/accounts";
 import {
 	ActionItem,
 	WideActionItem,
@@ -19,17 +22,17 @@ import missionIcon from "~/images/missionIcon.png";
 export default function ParentsHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user, selectChild, child } = useAuth();
-	const [userAccountNumber, setUserAccountNumber] = useState("");
-	const [userAccuontBalance, setUserAccuontBalance] = useState();
+	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
 	const [childrenList, setChildrenList] = useState([]);
+	const [childAccountBalace, setChildAccountBalance] = useState(0);
 	const [selectedChild, setSelectedChild] = useState(null);
-
+	const [openAccount, setOpenAccount] = useState();
 	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
+				return response.account_number;
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
@@ -66,13 +69,45 @@ export default function ParentsHomePage() {
 		}
 	};
 
+	// //오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
+	const fetchOpenAccount = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchGetAccount(user.user_id);
+				// console.log(response);
+				let fintechUseNum = response.fintech_use_num;
+				if (!fintechUseNum) {
+					console.log("No fintech_use_num found. Fetching from DB...");
+					fintechUseNum = await fetchAccountData(); // DB에서 계좌번호 가져오기
+				}
+				setOpenAccount({
+					fintech_use_num: fintechUseNum,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	// 자녀 계좌잔액 가져오기
+	const fetchChildAccountBalance = async () => {
+		try {
+			if (child?.user_id) {
+				const response = await fetchUsageBalance(child.user_id);
+				setChildAccountBalance(response.totalAmount);
+			}
+		} catch (error) {
+			console.error("자녀 계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
+		}
+	};
+
 	useEffect(() => {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
 				await Promise.all([
-					fetchAccountData(),
 					fetchAccountBalance(),
 					fetchChildrenList(),
+					fetchOpenAccount(),
 				]);
 			};
 			loadData();
@@ -84,15 +119,33 @@ export default function ParentsHomePage() {
 			setSelectedChild(childrenList[0]); // 첫 번째 자녀를 선택
 			selectChild(childrenList[0]); // 선택된 자녀 상태 업데이트
 		}
-	}, [childrenList]); // childrenList가 변경될 때마다 실행
+	}, [childrenList, selectChild]); // childrenList가 변경될 때마다 실행
 
-	if (!authChecked || !user) {
+	useEffect(() => {
+		if (child?.user_id) {
+			const loadData = async () => {
+				await fetchChildAccountBalance();
+			};
+			loadData();
+		}
+	}, [child]);
+
+	if (!authChecked || !user || !openAccount) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
+	const localeAmount = Number(userAccuontBalance).toLocaleString();
 
+	const localeAmount2 = Number(childAccountBalace).toLocaleString();
 	return (
 		<div className={styles.homePageContainer}>
+			<button
+				onClick={() => {
+					navigate(`notification/${user.user_id}`);
+				}}
+			>
+				알림
+			</button>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
 					{user.username}님,
@@ -120,21 +173,20 @@ export default function ParentsHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							{userAccountNumber}
+							{/* {userAccountNumber} */}
+							{openAccount.fintech_use_num || 0}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>{userAccuontBalance}</strong>원
+						잔액 : <strong>{localeAmount}</strong>원
 					</div>
 				</div>
-				<button className={styles.rechargeButton}>이체</button>
 			</div>
 			<div className={styles.childSelection}>
 				<h2 className={styles.childSelectionTitle}>자녀 선택하기</h2>
 
 				{childrenList.length === 0 ? (
 					<div className={styles.wideActionContainer}>
-						{" "}
 						{/* className에 중괄호를 없애야 합니다 */}
 						<WideActionItem
 							title="자녀 추가하기"
@@ -146,7 +198,6 @@ export default function ParentsHomePage() {
 					</div>
 				) : (
 					<div className={styles.childSelectionContainer}>
-						{" "}
 						{/* className에 중괄호를 없애야 합니다 */}
 						{/* childrenList가 비어있지 않을 때 ChildItem 컴포넌트 렌더링 */}
 						{childrenList.map((child, index) => (
@@ -157,7 +208,7 @@ export default function ParentsHomePage() {
 								onClick={() => {
 									setSelectedChild(child); // 자녀 선택
 									selectChild(child); // 자녀 선택 후 상태 업데이트
-									console.log(child);
+									// console.log(child);
 								}}
 							/>
 						))}
@@ -180,7 +231,7 @@ export default function ParentsHomePage() {
 					{selectedChild
 						? `${selectedChild.name}님의 잔액: `
 						: "자녀를 선택해주세요."}
-					<strong>{selectedChild ? selectedChild.balance : "0"}원</strong>
+					<strong>{selectedChild ? localeAmount2 : "0"}원</strong>
 				</p>
 			</div>
 			<div className={styles.actionContainer}>
@@ -193,11 +244,11 @@ export default function ParentsHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="주식 퀴즈"
+					title="오늘의팁"
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {
-						navigate("/children-quiz");
+						navigate("/parents/tip");
 					}}
 				/>
 			</div>

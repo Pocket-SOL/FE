@@ -16,7 +16,7 @@ import SendAllowancePage from "../pages/Parents/Allowance/SendAllowancePage";
 import FixedExpenseListPage from "../pages/Parents/Allowance/FixedExpenseListPage";
 import AddFixedExpensePage from "../pages/Parents/Allowance/AddFixedExpensePage";
 import SendCompletePage from "../pages/Parents/Allowance/SendCompletePage";
-
+import ParentsNotificationPage from "../pages/Parents/NotifiactionPage";
 // Children
 import ChildrenHomePage from "../pages/Children/HomePage";
 import ChildrenNotificationPage from "../pages/Children/NotificationPage";
@@ -36,6 +36,7 @@ import School from "../pages/Children/GroupPurchase/School";
 import Photo from "../pages/Children/GroupPurchase/Photo";
 import Quiz from "../pages/Children/Quiz/Quiz";
 import AuthPage from "../pages/Start/AuthPage";
+import Tip from "../pages/Parents/Allowance/Tip/Tip";
 
 const router = createBrowserRouter([
 	{
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
 						element: <ParentsHomePage />,
 					},
 					{
+						path: "notification/:id",
+						element: <ParentsNotificationPage />,
+					},
+					{
 						path: "child-registration",
 						element: <ChildRegistrationPage />,
 					},
@@ -72,6 +77,7 @@ const router = createBrowserRouter([
 					{ path: "add-fixed-expense", element: <AddFixedExpensePage /> },
 					{ path: "send-complete", element: <SendCompletePage /> },
 					{ path: "usagehistory", element: <ChildUsageHistoryPage /> },
+					{ path: "tip", element: <Tip /> },
 				],
 			},
 

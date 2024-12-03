@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import qs from "qs";
 import { fetchCreateAccount } from "../../libs/apis/accounts";
 
 import { fetchUser, fetchSaveToken } from "../../libs/apis/users";
@@ -79,6 +78,7 @@ export default function AuthPage() {
 				alert("유효한 사용자 정보를 찾을 수 없습니다.");
 				return;
 			}
+
 			const num = userData.res_list[0].fintech_use_num;
 
 			//계좌 생성

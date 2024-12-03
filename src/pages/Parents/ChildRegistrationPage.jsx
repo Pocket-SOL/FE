@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import { useAuth } from "~/contexts/AuthContext";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 export default function ChildRegistrationPage() {
 	const { authChecked, user } = useAuth();
@@ -10,7 +13,7 @@ export default function ChildRegistrationPage() {
 	const [results, setResults] = useState([]);
 	const [selectedChild, setSelectedChild] = useState(null); // 선택된 자녀 정보
 	const [showModal, setShowModal] = useState(false); // 모달 표시 여부
-
+	console.log(selectedChild);
 	const handleInputChange = (e) => {
 		setSearchInput(e.target.value);
 	};
@@ -55,14 +58,13 @@ export default function ChildRegistrationPage() {
 		if (!selectedChild) return; // 선택된 자녀가 없으면 요청하지 않음
 
 		try {
-			// 자녀 등록 API 호출
-			const response = await axios.post("/api/childregnotis/registration", {
-				sender_id: user.user_id,
-				receiver_id: selectedChild.user_id, // 선택된 자녀의 ID
+			socket.emit("askChildren", {
+				parent_id: user.user_id,
+				child_id: selectedChild.user_id,
+				message: `${user.username}님으로 부터 자녀 요청이 왔습니다.`,
 			});
 
-			console.log(response.data);
-			alert("자녀 등록 알림이 성공적으로 생성되었습니다.");
+			alert("자녀 등록 알림을 전달했어요 !");
 			handleCloseModal(); // 모달 닫기
 		} catch (error) {
 			console.error("자녀 등록 알림 생성 중 오류 발생:", error);

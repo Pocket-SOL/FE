@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "~/contexts/AuthContext";
 import { fetchAccountNumber } from "~/libs/apis/accounts";
 import { ActionItem, WideActionItem } from "~/components/HomeComponents";
-import { fetchUsageBalance } from "../../libs/apis/accounts";
+import { fetchUsageBalance, fetchGetAccount } from "../../libs/apis/accounts";
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
@@ -15,15 +15,16 @@ import schoolIcon from "~/images/schoolIcon.png";
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user } = useAuth();
-	const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [userAccuontBalance, setUserAccuontBalance] = useState();
+	const [openAccount, setOpenAccount] = useState();
 
 	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
+				// console.log(response.account_number);
+				return response.account_number;
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
@@ -41,20 +42,47 @@ export default function ChildrenHomePage() {
 			console.error("계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
 		}
 	};
+	//오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
+
+	const fetchOpenAccount = async () => {
+		try {
+			if (user?.user_id) {
+				const response = await fetchGetAccount(user.user_id);
+				// console.log(response, response.fintech_use_num);
+				let fintechUseNum = response.fintech_use_num;
+				if (!fintechUseNum) {
+					console.log("No fintech_use_num found. Fetching from DB...");
+					fintechUseNum = await fetchAccountData(); // DB에서 계좌번호 가져오기
+				}
+				// 상태 업데이트
+				setOpenAccount({
+					fintech_use_num: fintechUseNum,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	useEffect(() => {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
-				await Promise.all([fetchAccountData(), fetchAccountBalance()]);
+				await Promise.all([
+					// fetchAccountData(),
+					fetchAccountBalance(),
+					fetchOpenAccount(),
+				]);
 			};
 			loadData();
 		}
 	}, [user]);
 
-	if (!authChecked || !user) {
+	if (!authChecked || !user || !openAccount) {
+		// if (!authChecked || !user || !openAccount) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
+	const localeAmount = Number(userAccuontBalance).toLocaleString();
 
 	return (
 		<div className={styles.homePageContainer}>
@@ -97,11 +125,12 @@ export default function ChildrenHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							{userAccountNumber}
+							{/* {userAccountNumber} */}
+							{openAccount.fintech_use_num || 0}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>{userAccuontBalance}</strong>원
+						잔액 : <strong>{localeAmount}</strong>원
 					</div>
 				</div>
 			</div>
