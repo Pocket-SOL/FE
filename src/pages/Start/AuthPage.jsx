@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import qs from "qs";
 import { fetchCreateAccount } from "../../libs/apis/accounts";
 
 import { fetchUser, fetchSaveToken } from "../../libs/apis/users";
