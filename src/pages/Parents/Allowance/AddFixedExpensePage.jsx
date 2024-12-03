@@ -28,7 +28,35 @@ export default function AddFixedExpensePage() {
 
 	const realAmount = Number(location.state.amount.replace(/,/g, ""));
 
+	const isValidDateFormat = (dateString) => {
+		// YYYY-MM-DD 형식인지 확인하는 정규표현식
+		const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+		if (!dateFormatRegex.test(dateString)) {
+			return false;
+		}
+
+		// 실제로 유효한 날짜인지 확인
+		const date = new Date(dateString);
+		return date instanceof Date && !isNaN(date);
+	};
 	const handleComplete = () => {
+		// 날짜 형식 검증
+		if (!isValidDateFormat(formData.transDate)) {
+			alert("올바른 날짜 형식을 입력해주세요. (YYYY-MM-DD)");
+			return;
+		}
+		// 현재 날짜와 입력된 날짜 비교
+		const currentDate = new Date();
+		currentDate.setHours(0, 0, 0, 0); // 시간을 제거하고 날짜만 비교
+
+		const inputDate = new Date(formData.transDate);
+		inputDate.setHours(0, 0, 0, 0);
+
+		if (inputDate < currentDate) {
+			alert("자동이체 날짜는 현재 날짜 이후여야 합니다.");
+			return;
+		}
+
 		if (realAmount < Number(formData.transAmount)) {
 			alert("고정지출 금액이 송금금액보다 큽니다.");
 		} else {
