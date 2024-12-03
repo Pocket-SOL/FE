@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "~/contexts/AuthContext";
 import { fetchAccountNumber } from "~/libs/apis/accounts";
 import { ActionItem, WideActionItem } from "~/components/HomeComponents";
-import { fetchUsageBalance } from "../../libs/apis/accounts";
+import { fetchUsageBalance, fetchGetAccount } from "../../libs/apis/accounts";
 import styles from "~/components/HomePage.module.css";
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
@@ -15,20 +15,20 @@ import schoolIcon from "~/images/schoolIcon.png";
 export default function ChildrenHomePage() {
 	const navigate = useNavigate();
 	const { authChecked, user } = useAuth();
-	const [userAccountNumber, setUserAccountNumber] = useState("");
+	// const [userAccountNumber, setUserAccountNumber] = useState("");
 	const [userAccuontBalance, setUserAccuontBalance] = useState();
-
+	const [openAccount, setOpenAccount] = useState();
 	// 계좌번호 가져오기
-	const fetchAccountData = async () => {
-		try {
-			if (user?.user_id) {
-				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_number);
-			}
-		} catch (error) {
-			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
-		}
-	};
+	// const fetchAccountData = async () => {
+	// 	try {
+	// 		if (user?.user_id) {
+	// 			const response = await fetchAccountNumber(user.user_id);
+	// 			setUserAccountNumber(response.account_number);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
+	// 	}
+	// };
 
 	// 계좌잔액 가져오기
 	const fetchAccountBalance = async () => {
@@ -41,11 +41,35 @@ export default function ChildrenHomePage() {
 			console.error("계좌잔액을 가져오는 중 오류가 발생했습니다.", error);
 		}
 	};
+	//오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
+	const formatAccountNumber = (number) => {
+		const start = number.slice(0, 10);
+		return `${start}...`;
+	};
+
+	const fetchOpenAccount = async () => {
+		try {
+			if (user?.open_token) {
+				const response = await fetchGetAccount(user.user_id, user.open_token);
+				console.log(response);
+				setOpenAccount({
+					fintech_use_num: formatAccountNumber(response.fintech_use_num),
+					amount: response.balance_amt,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	useEffect(() => {
 		if (authChecked && user?.user_id) {
 			const loadData = async () => {
-				await Promise.all([fetchAccountData(), fetchAccountBalance()]);
+				await Promise.all([
+					// fetchAccountData(),
+					fetchAccountBalance(),
+					fetchOpenAccount(),
+				]);
 			};
 			loadData();
 		}
@@ -97,7 +121,8 @@ export default function ChildrenHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							{userAccountNumber}
+							{/* {userAccountNumber} */}
+							{openAccount.fintech_use_num}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
