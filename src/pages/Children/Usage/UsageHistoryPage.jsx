@@ -72,7 +72,7 @@ export default function UsageHistoryPage() {
 						<h1 className={styles.balanceHeader}>11월 남은 금액</h1>
 					</div>
 					<div className={styles.amountWrapper}>
-						<span className={styles.amount}>{balance}</span>
+						<span className={styles.amount}>{balance.toLocaleString()}</span>
 						<span className={styles.currency}>원</span>
 					</div>
 					<div className={styles.balanceDetails}>

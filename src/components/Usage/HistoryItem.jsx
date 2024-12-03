@@ -53,7 +53,7 @@ export default function HistoryItem({
 			</div>
 			<p className={isExpense ? styles.debitAmount : styles.creditAmount}>
 				{isExpense ? "- " : "+ "}
-				{parseInt(amount, 10)} 원
+				{parseInt(amount, 10).toLocaleString()} 원
 			</p>
 		</article>
 	);
