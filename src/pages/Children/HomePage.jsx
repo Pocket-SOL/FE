@@ -75,7 +75,7 @@ export default function ChildrenHomePage() {
 		}
 	}, [user]);
 
-	if (!authChecked || !user) {
+	if (!authChecked || !user || !openAccount) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
