@@ -65,18 +65,19 @@ export default function AllowanceRequestConfirmPage() {
 					loading="lazy"
 					style={{
 						display: "flex",
-						width: "100%",
+						width: "70%",
 						flexDirection: "column",
 						alignItems: "center",
 						padding: 20,
 						margin: 0,
-						marginTop: 200,
+						marginLeft: 50,
+						marginTop: 120,
 					}}
 				/>
 				<p
 					style={{
 						position: "absolute",
-						top: "75%",
+						top: "120%",
 						left: "50%",
 						transform: "translate(-50%, -50%)",
 						textAlign: "center",

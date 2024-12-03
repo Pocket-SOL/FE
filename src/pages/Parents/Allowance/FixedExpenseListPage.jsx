@@ -82,12 +82,12 @@ export default function FixedExpenseListPage() {
 				from: {
 					parent_id: user.user_id,
 					transaction_type: "출금",
-					account_holder: user.username,
+					account_holder: child.name,
 					amount: Number(amount.replace(/,/g, "")),
 				},
 				to: {
 					transaction_type: "입금",
-					account_holder: child.name,
+					account_holder: user.username,
 					amount: Number(amount.replace(/,/g, "")),
 				},
 				reservations,
