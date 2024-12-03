@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "~/contexts/AuthContext";
-import { fetchAccountNumber } from "~/libs/apis/accounts";
-import { fetchUsageBalance } from "~/libs/apis/accounts";
+import {
+	fetchAccountNumber,
+	fetchUsageBalance,
+	fetchGetAccount,
+} from "~/libs/apis/accounts";
 import {
 	ActionItem,
 	WideActionItem,
@@ -24,8 +27,9 @@ export default function ParentsHomePage() {
 	const [childrenList, setChildrenList] = useState([]);
 	const [childAccountBalace, setChildAccountBalance] = useState(0);
 	const [selectedChild, setSelectedChild] = useState(null);
-
+	const [openAccount, setOpenAccount] = useState();
 	// 계좌번호 가져오기
+	console.log(user);
 	const fetchAccountData = async () => {
 		try {
 			if (user?.user_id) {
@@ -67,6 +71,27 @@ export default function ParentsHomePage() {
 		}
 	};
 
+	//오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
+	const formatAccountNumber = (number) => {
+		const start = number.slice(0, 10);
+		return `${start}...`;
+	};
+
+	const fetchOpenAccount = async () => {
+		try {
+			if (user?.open_token) {
+				const response = await fetchGetAccount(user.user_id, user.open_token);
+				console.log(response);
+				setOpenAccount({
+					fintech_use_num: formatAccountNumber(response.fintech_use_num),
+					amount: response.balance_amt,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	// 자녀 계좌잔액 가져오기
 	const fetchChildAccountBalance = async () => {
 		try {
@@ -86,6 +111,7 @@ export default function ParentsHomePage() {
 					fetchAccountData(),
 					fetchAccountBalance(),
 					fetchChildrenList(),
+					fetchOpenAccount(),
 				]);
 			};
 			loadData();
@@ -108,20 +134,13 @@ export default function ParentsHomePage() {
 		}
 	}, [child]);
 
-	if (!authChecked || !user) {
+	if (!authChecked || !user || !openAccount) {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
 
 	return (
 		<div className={styles.homePageContainer}>
-			<button
-				onClick={() => {
-					navigate(`notification/${user.user_id}`);
-				}}
-			>
-				알림
-			</button>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
 					{user.username}님,
@@ -149,7 +168,8 @@ export default function ParentsHomePage() {
 						<p>
 							<strong>{user.username}님의 계좌</strong>
 							<br />
-							{userAccountNumber}
+							{/* {userAccountNumber} */}
+							{openAccount.fintech_use_num}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
