@@ -24,7 +24,7 @@ export default function ChildrenHomePage() {
 		try {
 			if (user?.user_id) {
 				const response = await fetchAccountNumber(user.user_id);
-				setUserAccountNumber(response.account_num);
+				setUserAccountNumber(response.account_number);
 			}
 		} catch (error) {
 			console.error("계좌번호를 가져오는 중 오류가 발생했습니다:", error);
@@ -43,10 +43,6 @@ export default function ChildrenHomePage() {
 		}
 	};
 	//오픈뱅킹 api로 계좌 번호 & 계좌 잔액 가져오기
-	// const formatAccountNumber = (number) => {
-	// 	const start = number.slice(0, 10);
-	// 	return `${start}...`;
-	// };
 
 	// const fetchOpenAccount = async () => {
 	// 	try {
