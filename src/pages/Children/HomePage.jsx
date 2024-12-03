@@ -82,6 +82,7 @@ export default function ChildrenHomePage() {
 		// 인증 확인이 완료되지 않았거나 user 정보가 불러와지지 않은 경우 로딩 표시
 		return <div>Loading...</div>;
 	}
+	const localeAmount = Number(userAccuontBalance).toLocaleString();
 
 	return (
 		<div className={styles.homePageContainer}>
@@ -129,7 +130,7 @@ export default function ChildrenHomePage() {
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
-						잔액 : <strong>{userAccuontBalance}</strong>원
+						잔액 : <strong>{localeAmount}</strong>원
 					</div>
 				</div>
 			</div>
