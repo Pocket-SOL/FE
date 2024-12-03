@@ -128,8 +128,8 @@ export default function Photo() {
 	};
 
 	return (
-		<main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-blue-200">
-			<section className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
+		<>
+			<div className="bg-white p-6 w-full max-w-lg">
 				<header className="flex items-center space-x-4 mb-6">
 					<button
 						className="text-gray-500 hover:text-gray-800"
@@ -216,7 +216,7 @@ export default function Photo() {
 						</div>
 					</div>
 				)}
-			</section>
+			</div>
 
 			{/* 성공 모달 */}
 			{isSuccessModalOpen && (
@@ -273,6 +273,6 @@ export default function Photo() {
 					</div>
 				</div>
 			)}
-		</main>
+		</>
 	);
 }
