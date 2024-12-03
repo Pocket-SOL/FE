@@ -36,6 +36,7 @@ import School from "../pages/Children/GroupPurchase/School";
 import Photo from "../pages/Children/GroupPurchase/Photo";
 import Quiz from "../pages/Children/Quiz/Quiz";
 import AuthPage from "../pages/Start/AuthPage";
+import Tip from "../pages/Parents/Allowance/Tip/Tip";
 
 const router = createBrowserRouter([
 	{
@@ -72,6 +73,7 @@ const router = createBrowserRouter([
 					{ path: "add-fixed-expense", element: <AddFixedExpensePage /> },
 					{ path: "send-complete", element: <SendCompletePage /> },
 					{ path: "usagehistory", element: <ChildUsageHistoryPage /> },
+					{ path: "tip", element: <Tip /> },
 				],
 			},
 
