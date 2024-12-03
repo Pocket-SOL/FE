@@ -122,7 +122,7 @@ export default function ChildrenHomePage() {
 							<strong>{user.username}님의 계좌</strong>
 							<br />
 							{/* {userAccountNumber} */}
-							{openAccount.fintech_use_num}
+							{openAccount?.fintech_use_num}
 						</p>
 					</div>
 					<div className={styles.accountBalance}>
