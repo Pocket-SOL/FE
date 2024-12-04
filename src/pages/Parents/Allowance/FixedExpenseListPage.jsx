@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ResponsivePie } from "@nivo/pie";
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
-import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { transferMoney } from "../../../libs/apis/accounts";
 
@@ -205,7 +204,7 @@ export default function FixedExpenseListPage() {
 				</button>
 				<h1 className="text-center my-2 mt-4">금액</h1>
 				{fixedInfoList && fixedInfoList.length > 0 ? (
-					<ul className="ml-12">
+					<ul className="ml-4">
 						{fixedInfoList.map((info, index) => (
 							<li
 								key={index}
