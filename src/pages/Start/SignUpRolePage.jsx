@@ -8,7 +8,7 @@ export default function SignUpRolePage() {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen p-5">
+		<div className="flex flex-col items-center h-screen p-4">
 			<h1 className="text-2xl text-black mb-8">역할을 선택해주세요</h1>
 			<div className="flex gap-4">
 				<button

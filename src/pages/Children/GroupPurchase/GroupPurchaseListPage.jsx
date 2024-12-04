@@ -97,7 +97,7 @@ export default function GroupPurchaseListPage() {
 				});
 
 	return (
-		<div className="bg-gray-50 py-10 sm:py-10">
+		<div className=" py-10 sm:py-10">
 			<div className="mx-auto max-w-3xl px-6 lg:px-8">
 				{/* Nav & Tabs */}
 				<div className="border-b border-gray-200 mb-8">

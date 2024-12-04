@@ -5,6 +5,8 @@ export default function SignUpFormPage() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const role = location.state?.role || "parent";
+	const today = new Date();
+	const todayString = today.toISOString().split("T")[0];
 
 	const [formData, setFormData] = useState({
 		name: "",
@@ -64,7 +66,7 @@ export default function SignUpFormPage() {
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen p-2">
+		<div className="flex flex-col items-center h-screen p-2">
 			<form className="w-full max-w-lg space-y-6" onSubmit={handleSubmit}>
 				<div className="flex flex-col gap-2 w-full">
 					<label htmlFor="name" className="text-lg font-semibold">
@@ -86,6 +88,7 @@ export default function SignUpFormPage() {
 					<input
 						id="birthdate"
 						type="date"
+						max={todayString} // 오늘 날짜 이후 선택 불가
 						className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md text-lg"
 						value={formData.birthdate}
 						onChange={handleChange}

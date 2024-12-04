@@ -77,10 +77,7 @@ export default function LoginPage() {
 				<p>아이디와 비밀번호를 입력해주세요</p>
 			</div>
 
-			<form
-				className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
-				onSubmit={handleSubmit}
-			>
+			<form className="w-full p-6" onSubmit={handleSubmit}>
 				<div className="mb-4">
 					<label
 						htmlFor="id"
@@ -123,7 +120,7 @@ export default function LoginPage() {
 				</button>
 			</form>
 
-			<div className="mt-4">
+			<div>
 				<p>
 					<a
 						style={{ color: "#0084FC", fontSize: "15px" }}
