@@ -1,4 +1,5 @@
 const BASE_URL = "/api";
+import axios from "axios";
 
 export async function fetchUsageBalance(userId) {
 	try {
@@ -94,3 +95,29 @@ export async function fetchGetAccount(id) {
 		throw error;
 	}
 }
+
+export const transferMoney = async (childUserId, requestData) => {
+	try {
+		const response = await axios.post(
+			`${BASE_URL}/accounts/${childUserId}`,
+			requestData,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			},
+		);
+		return response.data;
+	} catch (error) {
+		if (error.response) {
+			throw new Error(
+				error.response.data.message || "서버 오류가 발생했습니다.",
+			);
+		} else if (error.request) {
+			throw new Error(
+				"서버와 통신할 수 없습니다. 네트워크 연결을 확인해주세요.",
+			);
+		}
+		throw new Error("송금 요청 중 오류가 발생했습니다.");
+	}
+};
