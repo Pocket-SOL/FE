@@ -55,6 +55,11 @@ export default function UsageHistoryPage() {
 		// 합계를 상태에 저장
 		setTotal(usageTotals);
 	}, [sub]);
+
+	const handleNavigation = (category) => {
+		navigate(`fixed/${category}`);
+	};
+
 	if (loading) return <p>Loading...</p>;
 
 	return (
@@ -62,7 +67,7 @@ export default function UsageHistoryPage() {
 			<div>
 				<section className={styles.balanceSection}>
 					<div className="flex items-center">
-						<h1 className={styles.balanceHeader}>11월 남은 금액</h1>
+						<h1 className={styles.balanceHeader}>12월 남은 금액</h1>
 					</div>
 					<div className={styles.amountWrapper}>
 						<span className={styles.amount}>{balance.toLocaleString()}</span>
@@ -70,9 +75,9 @@ export default function UsageHistoryPage() {
 					</div>
 					<div className={styles.balanceDetails}>
 						<div>
-							고정 지출 <br />
-							자유 이용 <br />
-							위시 박스
+						<span onClick={() => handleNavigation(1)} style={{ cursor: 'pointer' }}>고정 지출</span> <br />
+						<span onClick={() => handleNavigation(2)} style={{ cursor: 'pointer' }}>자유 이용</span> <br />
+						<span onClick={() => handleNavigation(3)} style={{ cursor: 'pointer' }}>위시 박스</span>
 						</div>
 						<div className={styles.balanceValues}>
 							{total["고정"].toLocaleString()}원 <br />
