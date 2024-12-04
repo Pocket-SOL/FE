@@ -71,10 +71,10 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="flex flex-col items-center min-h-screen my-20">
+		<div className="w-full flex flex-col items-center min-h-screen p-4">
 			<div className="w-full text-center mb-4">
 				<h1 className="text-3xl font-bold">환영합니다! 😍</h1>
-				<p>아이디와 비밀번호를 입력해주세요</p>
+				<p style={{ fontSize: "20px" }}>아이디와 비밀번호를 입력해주세요</p>
 			</div>
 
 			<form className="w-full p-6" onSubmit={handleSubmit}>
@@ -114,7 +114,7 @@ export default function LoginPage() {
 
 				<button
 					type="submit"
-					className="w-full py-3 text-white bg-blue-500 rounded-lg text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+					className="w-full mt-12 py-3 text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc]"
 				>
 					로그인 하기
 				</button>

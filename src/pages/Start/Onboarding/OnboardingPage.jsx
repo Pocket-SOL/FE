@@ -16,8 +16,8 @@ const features = [
 export const OnboardingPage = () => {
 	const navigate = useNavigate();
 	return (
-		<main className="flex flex-col max-w-[480px] w-full bg-white rounded-lg p-6 mx-auto overflow-hidden">
-			<section className="flex flex-col w-full mt-12 px-7">
+		<main className="flex flex-col w-full bg-white rounded-lg p-4 mx-auto overflow-hidden">
+			<section className="flex flex-col w-full mt-12 px-6">
 				<header className="flex items-center">
 					<div className="flex flex-col">
 						<h1 className="text-4xl font-normal w-full">
@@ -35,8 +35,8 @@ export const OnboardingPage = () => {
 
 				<section className="mt-5 w-full">
 					{features.map((feature, index) => (
-						<div key={index} className="flex items-center gap-3">
-							<FaCheck className="text-[#0084fc]" size={20} />{" "}
+						<div key={index} className="flex items-start gap-3">
+							<FaCheck className="text-[#0084fc] mt-1" size={20} />{" "}
 							{/* 체크 아이콘 추가 */}
 							<p>{feature.text}</p>
 						</div>
@@ -44,12 +44,12 @@ export const OnboardingPage = () => {
 				</section>
 
 				<button
-					className="w-full mt-[134px] py-6 px-[70px] text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc]"
+					className="w-full mt-[80px] py-3 text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc]"
 					onClick={() => {
 						navigate("/login");
 					}}
 				>
-					로그인 하기
+					시작하기
 				</button>
 			</section>
 		</main>

@@ -1,60 +1,54 @@
 .Container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    /* max-width: 400px; */
-    margin: 0 auto;
-    margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	/* max-width: 400px; */
 }
 
 /* 숫자 키패드 컨테이너 스타일링 */
 .Container > div:nth-child(5) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 50px;
-    width: 100%;
-    margin-top: 30px;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 50px;
+	width: 100%;
+	margin-top: 30px;
 }
 
 /* 버튼 스타일링 */
 button {
-    
-    background: none;
-    border: none;
-    font-size: 24px;
-    padding: 15px;
-    cursor: pointer;
-    font-weight: normal;
+	background: none;
+	border: none;
+	font-size: 24px;
+	padding: 15px;
+	cursor: pointer;
+	font-weight: normal;
 }
 
 /* 텍스트 스타일링 */
 h1 {
-    font-size: 30px;
-    margin: 20px 0;
+	font-size: 30px;
 }
 
 h3 {
-    font-size: 36px;
-    margin: 15px 0;
+	font-size: 36px;
+	margin: 15px 0;
 }
 
 p {
-    color: #666;
-    font-size: 14px;
+	color: #666;
+	font-size: 14px;
 }
 
 /* 완료버튼 */
 .complete-button {
-    background-color: #0084FC;
-    margin-top: 20px;
-    color: white;
-    border-radius: 15px;
-    width: 210px;
-    height: 48px;
-    text-align: center;
-    line-height: 20px;
-    
-    font-size: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	background-color: #0084fc;
+	margin: 20px;
+	color: white;
+	border-radius: 15px;
+	width: 210px;
+	height: 48px;
+	text-align: center;
+	line-height: 20px;
+
+	font-size: 20px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

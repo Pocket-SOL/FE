@@ -56,21 +56,21 @@ export default function ChildUsageHistoryPage() {
 			<div>
 				<section className={styles.balanceSection}>
 					<div className="flex items-center">
-						<button className="text-gray-600">
+						{/* <button className="text-gray-600">
 							<ChevronLeftIcon
 								className="h-5 w-6"
 								onClick={() => navigate(-1)}
 							/>
-						</button>
+						</button> */}
 						<h1 className={styles.balanceHeader}>자녀 계좌 잔액</h1>
 					</div>
 					<div className={styles.amountWrapper}>
-						<span className={styles.amount}>{balance}</span>
+						<span className={styles.amount}>{balance.toLocaleString()}</span>
 						<span className={styles.currency}>원</span>
 					</div>
 					<div className={styles.balanceDetails}>
 						<div>이용 금액</div>
-						<div>{withdrawal}원</div>
+						<div>{withdrawal.toLocaleString()}원</div>
 					</div>
 				</section>
 

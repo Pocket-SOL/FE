@@ -107,8 +107,8 @@ export default function AuthPage() {
 	};
 
 	return (
-		<div className="w-full m-4">
-			<div className="mx-auto max-w-3xl px-6 lg:px-8">
+		<div className="w-full p-4">
+			<div className="mx-auto max-w-3xl p-6">
 				{/* Nav & Tabs */}
 				<div className="border-b border-gray-200 mb-8">
 					<nav className="flex space-x-4 justify-center">
