@@ -131,12 +131,12 @@ export default function Photo() {
 		<>
 			<div className="bg-white p-6 w-full max-w-lg">
 				<header className="flex items-center space-x-4 mb-6">
-					<button
+					{/* <button
 						className="text-gray-500 hover:text-gray-800"
 						onClick={() => navigate(-1)}
 					>
 						<ChevronLeftIcon className="h-6 w-6" />
-					</button>
+					</button> */}
 					<h1 className="text-xl font-semibold text-gray-700">학생증 등록</h1>
 				</header>
 

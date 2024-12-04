@@ -77,26 +77,28 @@ export default function SchoolSelectionPage() {
 	};
 
 	return (
-		<>
+		<div className="w-full p-4">
 			<div>
 				{/* 헤더 */}
-				<h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+				<h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
 					학교를 등록해주세요 ! 🏫
 				</h1>
-				<p className="text-gray-500 text-center mb-8">학교명을 입력해주세요</p>
+				<p className="text-gray-500 text-left text-[20px]">
+					학교명을 입력해주세요
+				</p>
 
 				{/* 입력 필드와 버튼 */}
-				<div className="flex items-center space-x-3 mb-4">
+				<div className="flex items-center space-x-3">
 					<input
 						type="text"
 						value={schoolName}
 						onChange={(e) => setSchoolName(e.target.value)}
-						placeholder="예: 서울고등학교"
+						placeholder="예: 남서울중학교"
 						className="flex-1 px-3 py-3 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300"
 					/>
 					<button
 						onClick={handleSubmit}
-						className="px-6 py-3  bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
+						className="px-3 py-3  bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
 					>
 						입력
 					</button>
@@ -158,6 +160,6 @@ export default function SchoolSelectionPage() {
 					</div>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
