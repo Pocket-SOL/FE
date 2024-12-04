@@ -63,6 +63,10 @@ export default function LoginPage() {
 				? error.response.data.message
 				: "로그인 실패";
 			console.error("로그인 실패:", errorMessage);
+
+			// 로그인 실패 시 경고창을 띄움
+			alert(errorMessage);
+			console.error("로그인 실패:", errorMessage);
 		}
 	};
 
