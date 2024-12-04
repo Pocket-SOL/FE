@@ -31,7 +31,7 @@ function Modal({ isOpen, onClose, onSubmit }) {
 						placeholder="금액을 입력하세요"
 						min={0}
 						max={50000}
-						step={100}
+						step={10}
 						value={inputValue}
 						onChange={handleChange}
 					/>
@@ -63,7 +63,7 @@ function AllowanceRequest() {
 
 	const handleSliderChange = (e) => {
 		const value = Number(e.target.value);
-		const roundedValue = Math.max(0, Math.round(value / 100) * 100);
+		const roundedValue = Math.max(0, Math.round(value / 10) * 10);
 		setAmount(roundedValue);
 	};
 
@@ -73,7 +73,7 @@ function AllowanceRequest() {
 	const closeModal = () => setIsModalOpen(false);
 
 	const handleModalSubmit = (value) => {
-		setAmount(Math.round(value / 100) * 100); // 100 단위로 반올림
+		setAmount(Math.round(value / 10) * 10); // 10 단위로 반올림
 	};
 
 	const calculateHandlePosition = () => {
