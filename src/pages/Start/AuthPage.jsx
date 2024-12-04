@@ -28,7 +28,7 @@ export default function AuthPage() {
 		const response = await axios.post("/api/users/oauth");
 		// console.log(response, response.data);
 		const authUrl = await response.data;
-		window.open(authUrl, "_blank");
+		window.open(authUrl, "_blank", "noopener");
 	};
 
 	const fetchToken = async (code) => {
