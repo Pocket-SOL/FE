@@ -167,6 +167,7 @@ export default function FixedExpenseListPage() {
 						arcLabelsSkipAngle={10}
 						arcLabelsTextColor="#FFFFFF"
 						arcLabel={(d) => d.id}
+						valueFormat={(value) => `${value.toFixed(1)}%`}
 						defs={[
 							{
 								id: "dots",
