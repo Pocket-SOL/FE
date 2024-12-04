@@ -5,6 +5,7 @@ import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
+import { transferMoney } from "../../../libs/apis/accounts";
 
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
@@ -93,38 +94,30 @@ export default function FixedExpenseListPage() {
 				reservations,
 			};
 
-			const response = await axios.post(
-				`http://localhost:3000/api/accounts/${child.user_id}`,
+			await transferMoney(child.user_id, requestBody);
 
-				requestBody,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
-			);
 			// 성공 처리
 			alert("송금이 성공적으로 처리되었습니다.");
-			console.log("송금 성공:", response.data);
+			// console.log("송금 성공:", response.data);
 			navigate("/parents/send-complete");
 		} catch (error) {
 			// 에러 처리
 			console.error("송금 처리 중 오류:", error);
-			if (error.response) {
-				// 서버가 응답을 반환한 경우
-				alert(
-					`송금 실패: ${error.response.data.message || "서버 오류가 발생했습니다."}`,
-				);
-			} else if (error.request) {
-				// 요청이 전송되었으나 응답을 받지 못한 경우
-				alert("서버와 통신할 수 없습니다. 네트워크 연결을 확인해주세요.");
-			} else {
-				// 요청 설정 중 오류가 발생한 경우
-				alert("송금 요청 중 오류가 발생했습니다.");
-			}
+			// 	if (error.response) {
+			// 		// 서버가 응답을 반환한 경우
+			// 		alert(
+			// 			`송금 실패: ${error.response.data.message || "서버 오류가 발생했습니다."}`,
+			// 		);
+			// 	} else if (error.request) {
+			// 		// 요청이 전송되었으나 응답을 받지 못한 경우
+			// 		alert("서버와 통신할 수 없습니다. 네트워크 연결을 확인해주세요.");
+			// 	} else {
+			// 		// 요청 설정 중 오류가 발생한 경우
+			// 		alert("송금 요청 중 오류가 발생했습니다.");
+			// 	}
+			// }
 		}
 	};
-
 	return (
 		<>
 			<div>
