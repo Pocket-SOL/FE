@@ -73,7 +73,7 @@ function AllowanceRequest() {
 					</div>
 				</div>
 
-				<div className="flex justify-between px-6 py-4 w-full max-w-md mx-auto">
+				<div className="flex justify-between px-6 gap-4 py-4 w-full max-w-md mx-auto">
 					<button className="bg-gray-200 text-black rounded-2xl w-36 h-12 text-center text-lg shadow-md">
 						직접입력
 					</button>
