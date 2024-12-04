@@ -1,6 +1,7 @@
 import "./SendAllowancePage.css";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import "./SendAllowancePage.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import {
 	fetchAccountNumber,
@@ -10,11 +11,14 @@ import {
 export default function SendAllowancePage() {
 	const [amount, setAmount] = useState("");
 	const navigate = useNavigate();
+	const location = useLocation();
 	//숫자 3자리마다 콤마추가하기
-	const localeAmount = Number(amount).toLocaleString();
-
 	const [userAccuontBalance, setUserAccuontBalance] = useState(0);
 
+	const allowanceData = location.state?.allowanceData;
+	const localeAmount = allowanceData
+		? Number(allowanceData).toLocaleString()
+		: Number(amount).toLocaleString();
 	const maxLength = 10;
 
 	const handleComplete = () => {

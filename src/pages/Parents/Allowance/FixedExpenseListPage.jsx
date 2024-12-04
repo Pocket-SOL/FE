@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ResponsivePie } from "@nivo/pie";
+import axios from "axios";
+
 import { useFixed } from "../../../contexts/FixedContext";
 import "./FixedExpenseListPage.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import { transferMoney } from "../../../libs/apis/accounts";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 export default function FixedExpenseListPage() {
 	const navigate = useNavigate();
@@ -15,7 +20,7 @@ export default function FixedExpenseListPage() {
 		const savedAmount = localStorage.getItem("amount");
 		return savedAmount ? JSON.parse(savedAmount) : location.state?.amount || 0;
 	});
-
+	// console.log(user);
 	useEffect(() => {
 		if (location.state?.amount !== undefined) {
 			setAmount(location.state.amount);
@@ -94,6 +99,25 @@ export default function FixedExpenseListPage() {
 			};
 
 			await transferMoney(child.user_id, requestBody);
+
+			const notiPost = await axios.post(
+				`http://localhost:3000/api/notifications/${user.user_id}`,
+				{
+					child_id: child.user_id,
+					amount: Number(amount),
+					content: `부모 ${user.username}님이 용돈을 ${amount}원 보냈어요 ! 확인해보세요.`,
+					type: "sendAllowance",
+				},
+			);
+			console.log(notiPost);
+
+			socket.emit("sendAllowance", {
+				child_id: child.user_id,
+				parent_id: user.username,
+				message: `부모 ${user.username}님이 용돈을 ${amount}원 보냈어요 ! 확인해보세요.`,
+				noti_id: notiPost.data.response.notification_id,
+				type: "sendAllowance",
+			});
 
 			// 성공 처리
 			alert("송금이 성공적으로 처리되었습니다.");

@@ -51,9 +51,9 @@ export default function LoginPage() {
 				});
 
 				if (role === "parent") {
-					navigate("/parents"); // 부모 페이지로 리디렉션
+					navigate("/parents", { replace: true }); // 부모 페이지로 리디렉션
 				} else if (role === "child") {
-					navigate("/children"); // 자녀 페이지로 리디렉션
+					navigate("/children", { replace: true }); // 자녀 페이지로 리디렉션
 				}
 				console.log(school);
 				console.log("로그인 성공!");

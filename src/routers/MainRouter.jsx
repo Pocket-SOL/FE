@@ -37,6 +37,7 @@ import Photo from "../pages/Children/GroupPurchase/Photo";
 import Quiz from "../pages/Children/Quiz/Quiz";
 import AuthPage from "../pages/Start/AuthPage";
 import Tip from "../pages/Parents/Allowance/Tip/Tip";
+import { NotificationProvider } from "../contexts/NotificationContext";
 
 const router = createBrowserRouter([
 	{
