@@ -75,6 +75,7 @@ export default function FixedHistoryPage(){
 								type={transaction.transaction_type}
 								time={transaction.time}
 								img={transaction.photo}
+                                state="false"
 							/>
 						))}
 				</section>

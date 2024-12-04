@@ -10,6 +10,7 @@ export default function HistoryItem({
 	type,
 	time,
 	img,
+	state
 }) {
 	const isExpense = type === "출금";
 	const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function HistoryItem({
 		return timeString.split(":").slice(0, 2).join(":");
 	};
 	const handleClick = () => {
-		if (user.role === "child") {
+		if (user.role === "child" && state!=="false") {
 			navigate(`${id}`);
 		}
 	};
