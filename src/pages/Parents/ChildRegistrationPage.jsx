@@ -65,6 +65,14 @@ export default function ChildRegistrationPage() {
 			});
 
 			alert("자녀 등록 알림을 전달했어요 !");
+
+			await axios.post(`/api/notifications/${user.user_id}`, {
+				type: "askChildRegis",
+				isread: false,
+				status: "pending",
+				content: `${user.username}님으로 부터 자녀 요청이 왔어요 !`,
+				child_id: selectedChild.user_id,
+			});
 			handleCloseModal(); // 모달 닫기
 		} catch (error) {
 			console.error("자녀 등록 알림 생성 중 오류 발생:", error);

@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./AddFixedExpensePage.css";
 import { useFixed } from "../../../contexts/FixedContext";
 export default function AddFixedExpensePage() {
-	const { addFixedInfo } = useFixed();
+	const { addFixedInfo, fixedInfoList } = useFixed();
 	const [formData, setFormData] = useState({
 		name: "",
 		account: "",
@@ -39,6 +39,16 @@ export default function AddFixedExpensePage() {
 		const date = new Date(dateString);
 		return date instanceof Date && !isNaN(date);
 	};
+	const getTotalFixedAmount = () => {
+		// 기존 고정 지출 금액들의 합계 계산
+		const existingTotal = fixedInfoList.reduce((sum, info) => {
+			return sum + Number(info.transAmount);
+		}, 0);
+
+		// 새로 입력하는 금액을 더함
+		return existingTotal + Number(formData.transAmount);
+	};
+
 	const handleComplete = () => {
 		// 날짜 형식 검증
 		if (!isValidDateFormat(formData.transDate)) {
@@ -51,20 +61,25 @@ export default function AddFixedExpensePage() {
 
 		const inputDate = new Date(formData.transDate);
 		inputDate.setHours(0, 0, 0, 0);
-
 		if (inputDate < currentDate) {
 			alert("자동이체 날짜는 현재 날짜 이후여야 합니다.");
 			return;
 		}
 
-		if (realAmount < Number(formData.transAmount)) {
-			alert("고정지출 금액이 송금금액보다 큽니다.");
-		} else {
-			addFixedInfo(formData);
-			console.log("저장된 데이터:", formData);
-			alert("고정 지출 정보가 저장되었습니다.");
-			navigate("/parents/fixed-expense-list");
+		// 총 고정 지출 금액 검증
+		const totalAmount = getTotalFixedAmount();
+
+		if (totalAmount > realAmount) {
+			alert(
+				`총 고정지출 금액(${totalAmount.toLocaleString()}원)이 송금금액(${realAmount.toLocaleString()}원)을 초과합니다.`,
+			);
+			return;
 		}
+
+		addFixedInfo(formData);
+		console.log("저장된 데이터:", formData);
+		alert("고정 지출 정보가 저장되었습니다.");
+		navigate("/parents/fixed-expense-list");
 	};
 
 	return (

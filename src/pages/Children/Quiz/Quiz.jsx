@@ -186,7 +186,7 @@ export default function Quiz() {
 					</div>
 				</div>
 				{/* 버튼 컨테이너 */}
-				<div className="justify-around flex flex-col sm:flex-row gap-4 w-full max-w-md mt-6">
+				<div className="justify-around flex flex-col sm:flex-row gap-4 w-full max-w-md mt-6 ml-6">
 					<div className="mt-4 space-x-4">
 						<button
 							onClick={() => {
