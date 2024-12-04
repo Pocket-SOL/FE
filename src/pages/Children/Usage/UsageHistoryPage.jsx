@@ -3,7 +3,6 @@ import styles from "~/components/Usage/Usage.module.css";
 import { fetchUsageBalance, fetchUsageHistory } from "~/libs/apis/accounts";
 import { fetchSubUsageBalance } from "../../../libs/apis/subaccounts";
 import HistoryItem from "~/components/Usage/HistoryItem";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "~/contexts/AuthContext";
 
@@ -16,7 +15,6 @@ export default function UsageHistoryPage() {
 	const navigate = useNavigate();
 	// const userId = 2;
 	const { user } = useAuth();
-
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -24,7 +22,7 @@ export default function UsageHistoryPage() {
 				const balanceData = await fetchUsageBalance(user.user_id);
 				const historyData = await fetchUsageHistory(user.user_id);
 				const subData = await fetchSubUsageBalance(user.user_id);
-
+				console.log(subData);
 				setBalance(balanceData.totalAmount || 0);
 				setHistory(historyData || []);
 				setSub(subData || []);
@@ -52,6 +50,7 @@ export default function UsageHistoryPage() {
 			usageTotals[usageType] +=
 				parseFloat(item.total_deposit) - parseFloat(item.total_withdrawal);
 		});
+		console.log(usageTotals);
 
 		// 합계를 상태에 저장
 		setTotal(usageTotals);
@@ -63,12 +62,6 @@ export default function UsageHistoryPage() {
 			<div>
 				<section className={styles.balanceSection}>
 					<div className="flex items-center">
-						<button className="text-gray-600">
-							<ChevronLeftIcon
-								className="h-5 w-6"
-								onClick={() => navigate(-1)}
-							/>
-						</button>
 						<h1 className={styles.balanceHeader}>11월 남은 금액</h1>
 					</div>
 					<div className={styles.amountWrapper}>

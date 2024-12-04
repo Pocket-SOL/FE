@@ -6,6 +6,7 @@ import { fetchAccountNumber } from "~/libs/apis/accounts";
 import { ActionItem, WideActionItem } from "~/components/HomeComponents";
 import { fetchUsageBalance, fetchGetAccount } from "../../libs/apis/accounts";
 import styles from "~/components/HomePage.module.css";
+
 import characterImage from "~/images/character.png";
 import bankIcon from "~/images/bankIcon.png";
 import allowanceIcon from "~/images/allowanceIcon.png";
@@ -17,7 +18,7 @@ export default function ChildrenHomePage() {
 	const { authChecked, user } = useAuth();
 	const [userAccuontBalance, setUserAccuontBalance] = useState();
 	const [openAccount, setOpenAccount] = useState();
-
+	// const { hasNewNotification, setHasNewNotification } = useNotifications();
 	// 계좌번호 가져오기
 	const fetchAccountData = async () => {
 		try {
@@ -86,13 +87,6 @@ export default function ChildrenHomePage() {
 
 	return (
 		<div className={styles.homePageContainer}>
-			<button
-				onClick={() => {
-					navigate(`notification/${user.user_id}`);
-				}}
-			>
-				알림
-			</button>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
 					{user.username}님,

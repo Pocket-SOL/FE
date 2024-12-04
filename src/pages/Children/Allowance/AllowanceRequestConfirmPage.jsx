@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchGetUser } from "../../../libs/apis/users";
 import { io } from "socket.io-client";
+import { ResponsivePie } from "@nivo/pie";
 
 const socket = io("http://localhost:5000");
 export default function AllowanceRequestConfirmPage() {
@@ -36,18 +37,20 @@ export default function AllowanceRequestConfirmPage() {
 
 		try {
 			const response = await axios.post(`/api/plea/${user.parent_id}`, {
+				userName: user.username,
 				user_id: user.user_id,
 				amount: amount,
 			});
 
+			const noti_id = response.data.response.notification_id;
+
 			socket.emit("askAllowance", {
 				parent_id: user.parent_id,
 				child_id: user.user_id,
+				amount: amount,
+				notification_id: noti_id,
 				message: `자녀 ${user.username}님이 용돈 ${amount}원을 요청했어요!`,
 			});
-
-			console.log(amount);
-			console.log(response);
 
 			navigate("/children/allowance-complete");
 			// const result = await response.data;
