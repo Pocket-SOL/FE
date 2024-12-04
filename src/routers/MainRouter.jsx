@@ -38,6 +38,7 @@ import Quiz from "../pages/Children/Quiz/Quiz";
 import AuthPage from "../pages/Start/AuthPage";
 import Tip from "../pages/Parents/Allowance/Tip/Tip";
 import { NotificationProvider } from "../contexts/NotificationContext";
+import FixedHistoryPage from "../pages/Children/Usage/FixedHistoryPage";
 
 const router = createBrowserRouter([
 	{
@@ -137,6 +138,7 @@ const router = createBrowserRouter([
 							{ path: "", element: <UsageHistoryPage /> },
 							{ path: "photo", element: <PhotoUpload /> },
 							{ path: ":id", element: <HistoryDetailPage /> },
+							{ path: "fixed/:type",element:<FixedHistoryPage/>}
 						],
 					},
 				],
