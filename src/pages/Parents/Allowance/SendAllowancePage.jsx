@@ -1,7 +1,6 @@
 import "./SendAllowancePage.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "./SendAllowancePage.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import {
 	fetchAccountNumber,
@@ -26,7 +25,8 @@ export default function SendAllowancePage() {
 			state: { amount: localeAmount },
 		});
 	};
-	const { user, child } = useAuth();
+	const { user, child, selectChild } = useAuth();
+	const [childData, setChildData] = useState(child);
 	// 계좌잔액 가져오기
 	const fetchAccountBalance = async () => {
 		try {
@@ -40,13 +40,25 @@ export default function SendAllowancePage() {
 	};
 	fetchAccountBalance();
 
-	console.log(child);
+	useEffect(() => {
+		const savedChild = localStorage.getItem("child");
+		if (savedChild) {
+			selectChild(JSON.parse(savedChild));
+			// console.log(JSON.parse(savedChild).name);
+			setChildData(JSON.parse(savedChild));
+		}
+	}, []);
+
 	return (
 		<div className="Container">
-			<div>{child.name}에게 용돈보내기</div>
+			{childData ? ( // child 데이터가 있으면 랜더링
+				<div>{childData.name}에게 용돈보내기</div>
+			) : (
+				<div>자녀 정보를 불러오는 중...</div> // child 데이터가 없으면 로딩 메시지 표시
+			)}
 			<h1>얼마를 보낼래요?</h1>
 			<p className="my-4">{localeAmount}원</p>
-			<h2>출금 가능 잔액 {userAccuontBalance}원</h2>
+			<h2>출금 가능 잔액 {Number(userAccuontBalance).toLocaleString()}원</h2>
 			<div>
 				{[1, 2, 3, 4, 5, 6, 7, 8, 9, "00", 0, "←"].map((num) => (
 					<button

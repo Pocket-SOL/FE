@@ -122,6 +122,7 @@ export default function ParentsHomePage() {
 		if (childrenList.length > 0) {
 			setSelectedChild(childrenList[0]); // 첫 번째 자녀를 선택
 			selectChild(childrenList[0]); // 선택된 자녀 상태 업데이트
+			localStorage.setItem("child", JSON.stringify(childrenList[0]));
 		}
 	}, [childrenList]); // childrenList가 변경될 때마다 실행
 
@@ -205,6 +206,7 @@ export default function ParentsHomePage() {
 								onClick={() => {
 									setSelectedChild(child); // 자녀 선택
 									selectChild(child); // 자녀 선택 후 상태 업데이트
+									localStorage.setItem("child", JSON.stringify(child));
 								}}
 							/>
 						))}

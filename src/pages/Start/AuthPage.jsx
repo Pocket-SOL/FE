@@ -146,11 +146,12 @@ export default function AuthPage() {
 						>
 							사용자 본인 인증
 						</button>
+						{/* 토큰 발급 */}
 						<button
 							onClick={() => fetchToken(code)}
 							className="flex items-center justify-center w-full px-4 py-3 text-lg font-medium text-black bg-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 "
 						>
-							토큰 발급
+							계좌 생성 완료하기
 						</button>
 					</div>
 				)}
