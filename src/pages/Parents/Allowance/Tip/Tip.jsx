@@ -35,22 +35,22 @@ export default function Tip() {
 	if (loading) {
 		return (
 			<div className="flex justify-center items-center min-h-screen">
-				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+				{/* <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div> */}
 			</div>
 		);
 	}
 
 	return (
 		<div
-			className={`max-w-2xl mx-auto transform transition-all duration-700 ${
+			className={` mx-auto transform transition-all duration-700 ${
 				isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
 			}`}
 		>
-			<div className="bg-white rounded-lg shadow-md p-4 space-y-8 hover:shadow-xl transition-shadow duration-300">
+			<div className="bg-white rounded-lg p-4 space-y-8  duration-300">
 				{/*질문부분 */}
 				<div className="space-y-4">
 					<h2 className="text-xl font-semibold text-gray-800 text-center animate-bounce">
-						🌟오늘의 팁🌟
+						🌟부모를 위한 경제 이야기🌟
 					</h2>
 					<div
 						className={`p-4 bg-blue-50 rounded-lg transform transition-all duration-500 ${
@@ -92,7 +92,7 @@ export default function Tip() {
 						onClick={() => {
 							navigate("/parents");
 						}}
-						className="bg-gray-200 text-gray-700 rounded-2xl w-52 h-12 text-xl 
+						className="bg-gray-200 text-gray-700 rounded-2xl w-40 h-12 text-xl 
                 shadow-md hover:shadow-lg transition-all duration-300 
                 hover:bg-gray-300 hover:-translate-y-1 active:translate-y-0"
 					>

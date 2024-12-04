@@ -89,7 +89,7 @@ export default function ChildrenHomePage() {
 		<div className={styles.homePageContainer}>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
-					{user.username}님,
+					<span style={{ fontSize: "1.5rem" }}>{user.username}</span>님,
 					<br />
 					용돈 관리도 멋지게!
 					<br />
@@ -139,7 +139,13 @@ export default function ChildrenHomePage() {
 			</div> */}
 			<div className={styles.actionContainer}>
 				<ActionItem
-					title="용돈 조르기"
+					title={
+						<>
+							용돈
+							<br />
+							조르기
+						</>
+					}
 					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
 					onClick={() => {
@@ -147,7 +153,7 @@ export default function ChildrenHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="주식 퀴즈"
+					title={<>주식퀴즈</>}
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {

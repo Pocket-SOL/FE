@@ -5,14 +5,7 @@ export const ActionItem = ({ title, iconSrc, backgroundColor, onClick }) => (
 		className={`${styles.actionItem} ${styles[backgroundColor]}`}
 		onClick={onClick}
 	>
-		<div className={styles[`${backgroundColor}Text`]}>
-			{title.split(" ").map((word, index) => (
-				<div key={index}>
-					{word}
-					<br />
-				</div>
-			))}
-		</div>
+		<div className={styles[`${backgroundColor}Text`]}>{title}</div>
 		<img
 			src={iconSrc}
 			alt=""
