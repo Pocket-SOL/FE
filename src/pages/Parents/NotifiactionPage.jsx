@@ -13,6 +13,7 @@ export default function NotificationPage() {
 	console.log(notifications);
 	// 알림 수락
 	const handleAcceptAllowance = async (data) => {
+		console.log(data);
 		socket.emit("acceptAllowance", {
 			child_id: data.sender_id,
 			parent_id: user.user_id,
@@ -60,6 +61,7 @@ export default function NotificationPage() {
 		await axios.put(
 			`/api/notifications/${response.data.response.notification_id}`,
 		);
+		await axios.put(`/api/notifications/${data.notification_id}`);
 	};
 
 	// 알림 초기 데이터 로드
@@ -67,9 +69,13 @@ export default function NotificationPage() {
 		const fetchNoti = async () => {
 			const response = await axios.get("/api/notifications");
 			setNotifications(
-				response.data.response.filter(
-					(notification) => notification.receiver_id === user.user_id,
-				),
+				response.data.response
+					.filter(
+						(notification) =>
+							notification.receiver_id === user.user_id &&
+							notification.status !== "done",
+					)
+					.reverse(),
 			);
 		};
 		fetchNoti();

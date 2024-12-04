@@ -80,10 +80,28 @@ export default function Header() {
 					</button>
 				</div>
 
-				<div className="hidden lg:flex lg:flex-1 lg:justify-end">
+				<div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-2">
+					{/* 알림 아이콘 */}
+					{user ? (
+						<div className="flex items-center">
+							{hasNewNotification ? (
+								<VscBellDot
+									className="text-red-500 text-2xl cursor-pointer"
+									onClick={handleNotificationClick}
+								/>
+							) : (
+								<VscBell
+									className="text-red-500 text-2xl cursor-pointer"
+									onClick={handleNotificationClick}
+								/>
+							)}
+						</div>
+					) : null}
+
+					{/* 로그인/로그아웃 버튼 */}
 					<a
 						href="/login"
-						className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
+						className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
 						onClick={() => user && handleLogout()}
 					>
 						{user ? "Log out" : "Log in"}
