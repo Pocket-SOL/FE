@@ -4,6 +4,27 @@
 
 /* 폰트 정의 */
 @font-face {
+	font-family: "LINESeedKR-Bd";
+	src: url("./assets/fonts/LINESeedKR-Bd.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "LINESeedKR-Rg";
+	src: url("./assets/fonts/LINESeedKR-Rg.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "LINESeedKR-Th";
+	src: url("./assets/fonts/LINESeedKR-Th.ttf") format("truetype"); /* 폰트 파일 경로 */
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
 	font-family: "Moneygraphy-Pixel";
 	src: url("./assets/fonts/Moneygraphy-Pixel.ttf") format("truetype"); /* 폰트 파일 경로 */
 	font-weight: normal;
@@ -33,5 +54,5 @@
 
 /* 폰트를 전역적으로 설정 */
 body {
-	font-family: "Moneygraphy-Rounded", sans-serif;
+	font-family: "LINESeedKR-Bd", sans-serif;
 }
