@@ -186,13 +186,13 @@ export default function Quiz() {
 					</div>
 				</div>
 				{/* 버튼 컨테이너 */}
-				<div className="justify-around flex flex-col sm:flex-row gap-4 w-full max-w-md mt-6 ml-6">
-					<div className="mt-4 space-x-4">
+				<div className="justify-around flex flex-col sm:flex-row gap-4 w-full max-w-md mt-6">
+					<div className="mt-4 space-x-4 flex justify-center">
 						<button
 							onClick={() => {
 								resetQuiz();
 							}}
-							className="flex-1 bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold 
+							className="w-[150px] h-[48px]  bg-blue-500 text-white  rounded-xl font-semibold 
 							shadow-md hover:bg-blue-600 transform hover:-translate-y-0.5 
 							transition-all duration-200 focus:outline-none focus:ring-2 
 							focus:ring-blue-400 focus:ring-opacity-50"
@@ -203,12 +203,12 @@ export default function Quiz() {
 							onClick={() => {
 								navigate("/children");
 							}}
-							className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold 
+							className="w-[150px] h-[48px]  bg-gray-200 text-gray-700  rounded-xl font-semibold 
                    shadow-md hover:bg-gray-300 transform hover:-translate-y-0.5 
                    transition-all duration-200 focus:outline-none focus:ring-2 
                    focus:ring-gray-400 focus:ring-opacity-50"
 						>
-							홈으로 돌아가기
+							홈화면 이동
 						</button>
 					</div>
 				</div>
