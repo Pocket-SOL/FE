@@ -16,36 +16,36 @@ export default function ChildUsageHistoryPage() {
 	const [balance, setBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
-	// const childId = 2
-	const { child } = useAuth();
-	console.log(child);
+	const { child,selectChild } = useAuth();
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const withData = await fetchWithdrawal(child.user_id);
-				const historyData = await fetchUsageHistory(child.user_id);
-				const balanceData = await fetchUsageBalance(child.user_id);
-
+				let c;
+				let userId;
+				if(!child){
+					c=JSON.parse(localStorage.getItem("child"));
+					console.log("here",c.user_id);
+					userId = c.user_id
+				}else{console.log(child.user_id);
+					userId = child.user_id
+				}
+				
+				console.log("userId",userId)
+				
+				const withData = await fetchWithdrawal(userId);
+				const historyData = await fetchUsageHistory(userId);
+				const balanceData = await fetchUsageBalance(userId);
+				
 				setWithdrawal(withData.total_withdrawal || 0);
 				setHistory(historyData || []);
 				setBalance(balanceData.totalAmount || 0);
 			} catch (error) {
 				console.error("Error fetching data:", error);
 			} finally {
-				// var total = 0;
-				// sub.forEach((data) => {
-				// 	if (["고정", "자유"].includes(data.subaccount.sub_account_usage)) {
-				// 		total +=
-				// 			parseFloat(data.total_deposit) -
-				// 			parseFloat(data.total_withdrawal);
-				// 	}
-				// 	console.log("여기서", total);
-				// });
-				// setTotal(total);
 				setLoading(false);
 			}
 		};
-
 		fetchData();
 	}, []);
 
