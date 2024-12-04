@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, ScrollRestoration } from "react-router-dom";
 
 import Layout from "../layouts/Layout";
 import ProtectedRoute from "./ProtectedRoute";
@@ -42,7 +42,12 @@ import { NotificationProvider } from "../contexts/NotificationContext";
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Layout />,
+		element: (
+			<>
+				<ScrollRestoration />
+				<Layout />
+			</>
+		),
 		children: [
 			// Start
 			{ path: "/", element: <OnboardingPage /> },

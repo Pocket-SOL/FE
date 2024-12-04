@@ -79,7 +79,7 @@ export default function SendAllowancePage() {
 				<button
 					className="complete-button"
 					onClick={handleComplete}
-					style={{ marginTop: 40 }}
+					style={{ margin: 40 }}
 				>
 					완료
 				</button>

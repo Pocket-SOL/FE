@@ -66,8 +66,11 @@ export default function SignUpFormPage() {
 	};
 
 	return (
-		<div className="flex flex-col items-center h-screen p-2">
-			<form className="w-full max-w-lg space-y-6" onSubmit={handleSubmit}>
+		<div className="w-full flex flex-col items-center min-h-screen p-4">
+			<form
+				className="w-full max-w-lg space-y-6 p-6 flex-grow"
+				onSubmit={handleSubmit}
+			>
 				<div className="flex flex-col gap-2 w-full">
 					<label htmlFor="name" className="text-lg font-semibold">
 						이름
@@ -153,15 +156,15 @@ export default function SignUpFormPage() {
 								onChange={handleChange}
 							/>
 						</div>
+
+						<button
+							type="submit"
+							className="w-full mt-12 py-3 text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc]"
+						>
+							회원가입
+						</button>
 					</>
 				)}
-
-				<button
-					type="submit"
-					className="w-full max-w-md px-4 py-2 bg-blue-500 text-white text-lg font-semibold rounded-md hover:bg-blue-600"
-				>
-					회원가입
-				</button>
 			</form>
 		</div>
 	);

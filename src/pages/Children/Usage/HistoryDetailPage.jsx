@@ -42,11 +42,11 @@ export default function HistoryDetailPage() {
 
 	if (loading) return <p>Loading...</p>;
 	return (
-		<main className="flex overflow-hidden flex-col pb-96 mx-auto w-full text-lg text-black bg-white rounded-2xl max-w-[480px]">
-			<section className="flex flex-col items-start px-2.5 mt-7 w-full">
-				<button className="text-gray-600">
+		<main className="flex overflow-hidden flex-col pb-96 mx-auto w-full text-lg text-black bg-white rounded-2xl">
+			<section className="flex flex-col items-start px-4 w-full">
+				{/* <button className="text-gray-600">
 					<ChevronLeftIcon className="h-5 w-6" onClick={() => navigate(-1)} />
-				</button>
+				</button> */}
 				<article className="flex gap-10 self-center mt-4 w-full max-w-[318px]">
 					<div className="flex flex-col flex-1 self-start mt-1.5">
 						<h1 className="ml-1 text-black text-2xl">
@@ -55,7 +55,8 @@ export default function HistoryDetailPage() {
 
 						<p className="mt-4 ml-1 text-black text-2xl font-bold">
 							{history.transaction_type === "출금" ? "- " : "+ "}
-							{~~history.amount} <span className="text-xl">원</span>
+							{(~~history.amount).toLocaleString()}{" "}
+							<span className="text-xl">원</span>
 						</p>
 					</div>
 					{photo ? (
