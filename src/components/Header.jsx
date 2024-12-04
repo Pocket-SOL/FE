@@ -7,7 +7,7 @@ import { useNotifications } from "../contexts/NotificationContext";
 import { VscBell } from "react-icons/vsc";
 import { VscBellDot } from "react-icons/vsc";
 import logoIcon from "~/images/logoIcon.png";
-
+import { useAuth } from "../contexts/AuthContext";
 export default function Header() {
 	const navigate = useNavigate();
 	const { user } = useAuth();
