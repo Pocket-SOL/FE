@@ -146,7 +146,7 @@ export default function ParentsHomePage() {
 		<div className={styles.homePageContainer}>
 			<div className={styles.welcomeSection}>
 				<h1 className={styles.welcomeMessage}>
-					{user.username}님,
+					<span style={{ fontSize: "1.5rem" }}>{user.username}</span>님,
 					<br />
 					자녀와 함께 하는 금융을
 					<br />
@@ -242,7 +242,11 @@ export default function ParentsHomePage() {
 			</div>
 			<div className={styles.actionContainer}>
 				<ActionItem
-					title="용돈 보내기"
+					title={
+						<>
+							용돈 <br /> 보내기
+						</>
+					}
 					iconSrc={allowanceIcon}
 					backgroundColor="sendAllowance"
 					onClick={() => {
@@ -250,7 +254,11 @@ export default function ParentsHomePage() {
 					}}
 				/>
 				<ActionItem
-					title="오늘의팁"
+					title={
+						<>
+							부모를 위한 <br /> 경제 이야기
+						</>
+					}
 					iconSrc={missionIcon}
 					backgroundColor="assignMission"
 					onClick={() => {

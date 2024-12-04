@@ -71,7 +71,7 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center items-center min-h-screen">
+		<div className="flex flex-col items-center min-h-screen my-20">
 			<div className="w-full text-center mb-4">
 				<h1 className="text-3xl font-bold">환영합니다! 😍</h1>
 				<p>아이디와 비밀번호를 입력해주세요</p>
