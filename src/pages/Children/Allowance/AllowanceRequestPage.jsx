@@ -23,7 +23,7 @@ function Modal({ isOpen, onClose, onSubmit }) {
 	return (
 		isOpen && (
 			<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-				<div className="bg-white rounded-lg p-6 w-96">
+				<div className="bg-white rounded-lg p-6 m-4 w-96">
 					<h3 className="text-lg font-bold mb-4">금액 입력</h3>
 					<input
 						type="number"
@@ -63,7 +63,7 @@ function AllowanceRequest() {
 
 	const handleSliderChange = (e) => {
 		const value = Number(e.target.value);
-		const roundedValue = Math.max(0, Math.round(value / 10) * 10);
+		const roundedValue = Math.max(0, Math.round(value));
 		setAmount(roundedValue);
 	};
 
@@ -73,7 +73,7 @@ function AllowanceRequest() {
 	const closeModal = () => setIsModalOpen(false);
 
 	const handleModalSubmit = (value) => {
-		setAmount(Math.round(value / 10) * 10); // 10 단위로 반올림
+		setAmount(Math.round(value)); // 100 단위로 반올림
 	};
 
 	const calculateHandlePosition = () => {

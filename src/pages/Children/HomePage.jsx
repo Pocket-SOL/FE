@@ -128,7 +128,7 @@ export default function ChildrenHomePage() {
 					</div>
 				</div>
 			</div>
-			<div className={styles.wideActionContainer}>
+			{/* <div className={styles.wideActionContainer}>
 				<WideActionItem
 					title="빠르게 결제해봐요"
 					backgroundColor="simplePayment"
@@ -136,7 +136,7 @@ export default function ChildrenHomePage() {
 						navigate("/children");
 					}}
 				/>
-			</div>
+			</div> */}
 			<div className={styles.actionContainer}>
 				<ActionItem
 					title="용돈 조르기"

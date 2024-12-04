@@ -98,7 +98,7 @@ export default function GroupPurchaseReg() {
 	};
 
 	return (
-		<div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg mt-8">
+		<div className="max-w-md mx-auto p-6 bg-white rounded-lg mt-8">
 			<h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
 				공동 구매 등록
 			</h2>
