@@ -18,7 +18,7 @@ export function NotificationProvider({ children }) {
 	useEffect(() => {
 		let socket;
 		if (user) {
-			socket = io("http://localhost:5000");
+			socket = io("http://express-app:5000");
 
 			socket.emit("register", user.user_id);
 
