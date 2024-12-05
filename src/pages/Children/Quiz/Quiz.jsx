@@ -58,8 +58,8 @@ export default function Quiz() {
 	//문제화면
 	if (screen === "question") {
 		return (
-			<div className="flex justify-center min-h-screen pt-0">
-				<div className="space-y-4  ">
+			<div className="flex justify-center min-h-screen w-full">
+				<div className="space-y-4 w-full p-2">
 					<div className="ml-8">
 						{/* 날짜 */}
 						<motion.h2
