@@ -81,7 +81,7 @@ export default function ChildRegistrationPage() {
 	};
 
 	return (
-		<div className="w-full flex flex-col items-center">
+		<div className="w-full flex flex-col items-center p-4">
 			<h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
 				내 아이 추가
 			</h1>
@@ -91,10 +91,10 @@ export default function ChildRegistrationPage() {
 					placeholder="이름 또는 휴대전화번호 검색"
 					value={searchInput}
 					onChange={handleInputChange}
-					className="flex-1 px-3 py-3 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300"
+					className="w-full px-2 py-2 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300"
 				/>
 				<button
-					className="px-3 py-3  bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
+					className="w-16 py-2 text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc] px-2"
 					onClick={handleSearch}
 				>
 					검색

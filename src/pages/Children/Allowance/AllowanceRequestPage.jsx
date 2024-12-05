@@ -101,7 +101,7 @@ function AllowanceRequest() {
 						{displayAmount.toLocaleString()}원
 					</p>
 
-					<div className="mb-12">
+					<div className="mb-12 mx-4">
 						<div className="relative w-full h-16 flex items-center">
 							<div className="absolute inset-0 flex justify-between items-center">
 								{[...Array(7)].map((_, i) => (

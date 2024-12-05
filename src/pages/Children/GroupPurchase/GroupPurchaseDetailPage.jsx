@@ -109,16 +109,12 @@ export default function GroupPurchaseDetailPage() {
 
 	// purchaseDetails가 null이면 "Loading..."을 표시
 	if (!purchaseDetails) {
-		return (
-			<div className="flex items-center justify-center h-screen bg-gray-100 text-gray-600">
-				Loading...
-			</div>
-		);
+		return <div>Loading...</div>;
 	}
 
 	return (
-		<div className="flex items-center justify-center min-h-screen bg-gray-50">
-			<div className="w-full max-w-3xl bg-white rounded-xl shadow-lg overflow-hidden">
+		<div className="flex w-full p-4">
+			<div className="w-full">
 				{/* Image Section */}
 				<div className="h-64 w-full">
 					<img
@@ -194,9 +190,11 @@ export default function GroupPurchaseDetailPage() {
 			{/* Closed Modal */}
 			{isClosedModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-96 m-4">
 						<h2 className="text-lg font-semibold text-gray-800 mb-4">
-							인원이 다 모집되지 않았습니다. 마감하시겠습니까?
+							인원이 다 모집되지 않았습니다.
+							<br />
+							마감하시겠습니까?
 						</h2>
 						<div className="flex justify-end space-x-4">
 							<button

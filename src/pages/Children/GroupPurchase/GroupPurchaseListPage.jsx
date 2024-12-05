@@ -97,8 +97,8 @@ export default function GroupPurchaseListPage() {
 				});
 
 	return (
-		<div>
-			<div className="mx-auto max-w-3xl px-6 lg:px-8">
+		<div className="w-full">
+			<div className="w-full p-4">
 				{/* Nav & Tabs */}
 				<div className="border-b border-gray-200 mb-8">
 					<nav className="flex space-x-4 justify-center">
@@ -124,181 +124,185 @@ export default function GroupPurchaseListPage() {
 						</button>
 					</nav>
 				</div>
-				<div>
-					<p className="text-gray-600">{user.school}</p>
-				</div>
-				{activeTab === "ongoing" ? (
-					<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
-						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
-							진행중인 목록
-						</h2>
-						<p className=" text-lg text-gray-600">
-							현재 참여할 수 있는 공동구매 목록을 확인하세요.
-						</p>
-					</div>
-				) : (
-					<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
-						<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
-							완료된 목록
-						</h2>
-						<p className=" text-lg text-gray-600">
-							이미 완료된 공동구매 목록을 확인하세요.
-						</p>
-					</div>
-				)}
-
-				{/* 로딩 스피너 */}
-				{loading ? (
-					<div className="flex justify-center items-center py-10">
-						<div className="w-16 h-16 border-4 border-t-4 border-blue-500 rounded-full animate-spin"></div>
-					</div>
-				) : (
+				<div className="px-6">
 					<div>
-						<div className="flex items-center space-x-4">
-							<button
-								onClick={handleToggle}
-								className={`w-12 h-6 flex items-center rounded-full p-1 ${
-									isToggled ? "bg-blue-500" : "bg-gray-300"
-								}`}
-							>
-								<div
-									className={`h-4 w-4 bg-white rounded-full shadow-md transform duration-300 ${
-										isToggled ? "translate-x-6" : "translate-x-0"
-									}`}
-								></div>
-							</button>
-							<span className="text-gray-600">
-								{isToggled ? "내가 참여한 글만 보기" : "내가 참여한 글만 보기"}
-							</span>
-							{/* 오른쪽 하단에 글쓰기 버튼 추가 */}
-							<button
-								className="fixed bottom-5 right-8 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105"
-								onClick={() => navigate("/children/group-purchase/reg")}
-							>
-								글쓰기
-							</button>
-						</div>
-						<div className="mt-5 flex flex-col gap-y-16">
-							{purchaseList.length > 0 ? (
-								isToggled ? (
-									ftPurchaseList2.map((purchase) => (
-										<article
-											key={purchase.purchase_id}
-											className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
-											onClick={() =>
-												navigate(
-													`/children/group-purchase/${purchase.purchase_id}`,
-												)
-											}
-										>
-											<div className="flex items-center">
-												{" "}
-												{/* 이미지와 텍스트 수직 정렬 */}
-												{/* 텍스트 섹션 */}
-												<div className="w-1/2 p-8 pr-0">
-													<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
-														{purchase.title}
-													</h3>
-													<div className="mt-6 flex flex-col text-sm text-gray-500">
-														<time className="mb-2">
-															마감일: {purchase.end_date}
-														</time>
-														{purchase.participants}명 모집 중
-														<p className="text-lg font-semibold text-blue-600">
-															현재 {purchase.count}명 진행 중
-														</p>
-													</div>
-												</div>
-												{/* 이미지 섹션 */}
-												<div className="w-1/2 flex items-center justify-center">
-													<img
-														src={purchase.image || noimage}
-														alt={purchase.title}
-														className="h-[130px] object-cover object-center rounded-lg shadow"
-													/>
-												</div>
-											</div>
-
-											{/* 작성자 정보 */}
-											<div className="flex items-center p-6 border-t border-gray-200">
-												<img
-													src={purchase.creator_avatar || defaultcharacter}
-													alt="작성자 프로필"
-													className="w-14 h-14 rounded-full bg-gray-50"
-												/>
-												<div className="ml-4">
-													<p className="text-sm font-medium text-gray-900">
-														{purchase.username || "익명"}
-													</p>
-													<p className="text-sm text-gray-500">작성자</p>
-												</div>
-											</div>
-										</article>
-									))
-								) : (
-									ftPurchaseList.map((purchase) => (
-										<article
-											key={purchase.purchase_id}
-											className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
-											onClick={() =>
-												navigate(
-													`/children/group-purchase/${purchase.purchase_id}`,
-												)
-											}
-										>
-											<div className="flex items-center">
-												<div className="w-1/2 p-8 pr-0">
-													<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
-														{purchase.title}
-													</h3>
-													<div className="mt-6 flex flex-col text-sm text-gray-500">
-														<time className="mb-2">
-															마감일: {purchase.end_date}
-														</time>
-														{purchase.status === "ongoing" ? (
-															<span>{purchase.participants}명 모집 중</span>
-														) : (
-															<span>{purchase.participants}명 모집</span>
-														)}
-														<p className="text-lg font-semibold text-blue-600">
-															{purchase.status === "ongoing"
-																? `현재 ${purchase.count}명 진행 중`
-																: `${purchase.count}명 모집완료`}
-														</p>
-													</div>
-												</div>
-												<div className="w-1/2 flex items-center justify-center">
-													<img
-														src={purchase.image || noimage}
-														alt={purchase.title}
-														className="h-[130px] object-cover object-center rounded-lg shadow"
-													/>
-												</div>
-											</div>
-											<div className="flex items-center p-6 border-t border-gray-200">
-												<img
-													src={purchase.creator_avatar || defaultcharacter}
-													alt="작성자 프로필"
-													className="w-14 h-14 rounded-full bg-gray-50"
-												/>
-												<div className="ml-4">
-													<p className="text-sm font-medium text-gray-900">
-														{purchase.username || "익명"}
-													</p>
-													<p className="text-sm text-gray-500">작성자</p>
-												</div>
-											</div>
-										</article>
-									))
-								)
-							) : (
-								<div className="text-center py-10">
-									진행 중인 목록이 없습니다.
-								</div>
-							)}
-						</div>
+						<p className="text-gray-600">{user.school}</p>
 					</div>
-				)}
+					{activeTab === "ongoing" ? (
+						<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
+							<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
+								진행중인 목록
+							</h2>
+							<p className=" text-lg text-gray-600">
+								현재 참여할 수 있는 공동구매 목록을 확인하세요.
+							</p>
+						</div>
+					) : (
+						<div className="mx-auto max-w-xl lg:mx-0 py-2 ">
+							<h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl py-2 sm:py-5 ">
+								완료된 목록
+							</h2>
+							<p className=" text-lg text-gray-600">
+								이미 완료된 공동구매 목록을 확인하세요.
+							</p>
+						</div>
+					)}
+
+					{/* 로딩 스피너 */}
+					{loading ? (
+						<div className="flex justify-center items-center py-10">
+							<div className="w-16 h-16 border-4 border-t-4 border-blue-500 rounded-full animate-spin"></div>
+						</div>
+					) : (
+						<div>
+							<div className="flex items-center space-x-4">
+								<button
+									onClick={handleToggle}
+									className={`w-12 h-6 flex items-center rounded-full p-1 ${
+										isToggled ? "bg-blue-500" : "bg-gray-300"
+									}`}
+								>
+									<div
+										className={`h-4 w-4 bg-white rounded-full shadow-md transform duration-300 ${
+											isToggled ? "translate-x-6" : "translate-x-0"
+										}`}
+									></div>
+								</button>
+								<span className="text-gray-600">
+									{isToggled
+										? "내가 참여한 글만 보기"
+										: "내가 참여한 글만 보기"}
+								</span>
+								{/* 오른쪽 하단에 글쓰기 버튼 추가 */}
+								<button
+									className="fixed bottom-5 right-8 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold py-3 px-6 rounded-full shadow-lg transition duration-300 transform hover:scale-105"
+									onClick={() => navigate("/children/group-purchase/reg")}
+								>
+									글쓰기
+								</button>
+							</div>
+							<div className="mt-5 flex flex-col gap-y-16">
+								{purchaseList.length > 0 ? (
+									isToggled ? (
+										ftPurchaseList2.map((purchase) => (
+											<article
+												key={purchase.purchase_id}
+												className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+												onClick={() =>
+													navigate(
+														`/children/group-purchase/${purchase.purchase_id}`,
+													)
+												}
+											>
+												<div className="flex items-center">
+													{" "}
+													{/* 이미지와 텍스트 수직 정렬 */}
+													{/* 텍스트 섹션 */}
+													<div className="w-1/2 p-8 pr-0">
+														<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+															{purchase.title}
+														</h3>
+														<div className="mt-6 flex flex-col text-sm text-gray-500">
+															<time className="mb-2">
+																마감일: {purchase.end_date}
+															</time>
+															{purchase.participants}명 모집
+															<p className="text-lg font-semibold text-blue-600">
+																{purchase.count}명 모집완료
+															</p>
+														</div>
+													</div>
+													{/* 이미지 섹션 */}
+													<div className="w-1/2 flex items-center justify-center">
+														<img
+															src={purchase.image || noimage}
+															alt={purchase.title}
+															className="h-[130px] object-cover object-center rounded-lg shadow"
+														/>
+													</div>
+												</div>
+
+												{/* 작성자 정보 */}
+												<div className="flex items-center p-6 border-t border-gray-200">
+													<img
+														src={purchase.creator_avatar || defaultcharacter}
+														alt="작성자 프로필"
+														className="w-14 h-14 rounded-full bg-gray-50"
+													/>
+													<div className="ml-4">
+														<p className="text-sm font-medium text-gray-900">
+															{purchase.username || "익명"}
+														</p>
+														<p className="text-sm text-gray-500">작성자</p>
+													</div>
+												</div>
+											</article>
+										))
+									) : (
+										ftPurchaseList.map((purchase) => (
+											<article
+												key={purchase.purchase_id}
+												className="overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-shadow border-t border-gray-200"
+												onClick={() =>
+													navigate(
+														`/children/group-purchase/${purchase.purchase_id}`,
+													)
+												}
+											>
+												<div className="flex items-center">
+													<div className="w-1/2 p-8 pr-0">
+														<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
+															{purchase.title}
+														</h3>
+														<div className="mt-6 flex flex-col text-sm text-gray-500">
+															<time className="mb-2">
+																마감일: {purchase.end_date}
+															</time>
+															{purchase.status === "ongoing" ? (
+																<span>{purchase.participants}명 모집 중</span>
+															) : (
+																<span>{purchase.participants}명 모집</span>
+															)}
+															<p className="text-lg font-semibold text-blue-600">
+																{purchase.status === "ongoing"
+																	? `현재 ${purchase.count}명 진행 중`
+																	: `${purchase.count}명 모집완료`}
+															</p>
+														</div>
+													</div>
+													<div className="w-1/2 flex items-center justify-center">
+														<img
+															src={purchase.image || noimage}
+															alt={purchase.title}
+															className="h-[130px] object-cover object-center rounded-lg shadow"
+														/>
+													</div>
+												</div>
+												<div className="flex items-center p-6 border-t border-gray-200">
+													<img
+														src={purchase.creator_avatar || defaultcharacter}
+														alt="작성자 프로필"
+														className="w-14 h-14 rounded-full bg-gray-50"
+													/>
+													<div className="ml-4">
+														<p className="text-sm font-medium text-gray-900">
+															{purchase.username || "익명"}
+														</p>
+														<p className="text-sm text-gray-500">작성자</p>
+													</div>
+												</div>
+											</article>
+										))
+									)
+								) : (
+									<div className="text-center py-10">
+										진행 중인 목록이 없습니다.
+									</div>
+								)}
+							</div>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);

@@ -56,7 +56,7 @@ export default function Comment({
 		}
 		if (comments.length === 0) {
 			return (
-				<div className="text-gray-500 text-center mt-4">
+				<div className="text-gray-500 text-center">
 					아직 댓글이 없습니다. 첫 댓글을 남겨보세요!
 				</div>
 			);
