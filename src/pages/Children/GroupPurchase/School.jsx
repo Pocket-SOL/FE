@@ -94,11 +94,11 @@ export default function SchoolSelectionPage() {
 						value={schoolName}
 						onChange={(e) => setSchoolName(e.target.value)}
 						placeholder="예: 남서울중학교"
-						className="flex-1 px-3 py-3 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300"
+						className="w-full px-2 py-2 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-300"
 					/>
 					<button
 						onClick={handleSubmit}
-						className="px-3 py-3  bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
+						className="w-16 py-2 text-white bg-[#0084fc] rounded-lg text-lg font-semibold hover:bg-[#0073e6] focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0084fc] px-2"
 					>
 						입력
 					</button>

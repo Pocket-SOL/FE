@@ -79,7 +79,7 @@
 
 .childSelectionTitle {
 	color: #000;
-	margin-top: 20px;
+	margin-top: 40px;
 }
 
 .childSelectionContainer {
@@ -91,6 +91,8 @@
 	white-space: nowrap;
 	text-align: center;
 	justify-content: start;
+	overflow-x: auto; /* 가로 스크롤을 위해 추가 */
+	width: 100%; /* 필요에 따라 너비 설정 */
 }
 
 .childItem {
@@ -101,11 +103,13 @@
 	flex-direction: column;
 	width: 80px;
 	margin: auto 0;
+	margin: 2px;
 }
 
 .childName {
 	border-radius: 15px;
 	background-color: #fff;
+	width: 80px !important;
 	padding: 11px 8px;
 }
 

@@ -221,7 +221,7 @@ export default function Photo() {
 			{/* 성공 모달 */}
 			{isSuccessModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-96 m-4">
 						<h2 className="text-lg font-semibold text-blue-600 mb-4">
 							🎉 사진이 저장되었습니다!
 						</h2>
@@ -255,7 +255,7 @@ export default function Photo() {
 			{/* 취소 모달 */}
 			{isCancelModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white p-6 rounded-lg shadow-lg w-96  m-4">
 						<h2 className="text-lg font-semibold text-gray-700 mb-4">
 							⚠️ 저장이 취소되었습니다.
 						</h2>
