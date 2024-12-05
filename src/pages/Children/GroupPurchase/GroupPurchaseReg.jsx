@@ -122,7 +122,7 @@ export default function GroupPurchaseReg() {
 				<input
 					type="text"
 					name="amount"
-					placeholder="가격을 입력해 주세요."
+					placeholder="숫자만 입력해 주세요."
 					value={formData.amount}
 					onChange={handleChange}
 					className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
