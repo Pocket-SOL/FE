@@ -18,12 +18,21 @@ export default function SendAllowancePage() {
 	const localeAmount = allowanceData
 		? Number(allowanceData).toLocaleString()
 		: Number(amount).toLocaleString();
+	
+
 	const maxLength = 10;
 
 	const handleComplete = () => {
-		navigate("/parents/fixed-expense-list", {
-			state: { amount: localeAmount },
-		});
+		const A = Number(amount) || Number(allowanceData);
+		if (A>Number(userAccuontBalance)){
+			alert("잔액이 부족합니다.")
+			return;
+		}
+		else{
+			navigate("/parents/fixed-expense-list", {
+				state: { amount: localeAmount },
+			});
+		}
 	};
 	const { user, child, selectChild } = useAuth();
 	const [childData, setChildData] = useState(child);
@@ -67,7 +76,16 @@ export default function SendAllowancePage() {
 							if (num === "←") {
 								setAmount(amount.slice(0, -1));
 							} else if (amount.length < maxLength) {
-								setAmount(amount + num); //10미만일때만 숫자늘어나도록
+								const availableAmount = Number(userAccuontBalance);
+								const targetAmount = Number(amount + num)
+								
+								if (targetAmount < availableAmount){
+									setAmount(targetAmount.toString()); //10미만일때만 숫자늘어나도록
+								} else{
+									setAmount(availableAmount.toString()); //10미만일때만 숫자늘어나도록
+								}
+								
+							
 							}
 						}}
 					>
