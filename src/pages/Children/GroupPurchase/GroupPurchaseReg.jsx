@@ -98,7 +98,7 @@ export default function GroupPurchaseReg() {
 	};
 
 	return (
-		<div className="max-w-md mx-auto p-6 bg-white rounded-lg mt-8">
+		<div className="max-w-md mx-auto p-4 bg-white rounded-lg">
 			<h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
 				공동 구매 등록
 			</h2>
@@ -223,9 +223,11 @@ export default function GroupPurchaseReg() {
 			{/* 등록 실패 모달 */}
 			{isErrorModalOpen && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="bg-white p-6 rounded-lg shadow-lg w-96">
+					<div className="bg-white m-6 p-6 rounded-lg shadow-lg w-full">
 						<h2 className="text-lg font-semibold text-gray-800 mb-4">
-							등록에 실패했습니다. 다시 시도해 주세요.
+							등록에 실패했습니다.
+							<br />
+							다시 시도해 주세요.
 						</h2>
 						<div className="flex justify-end space-x-4">
 							<button

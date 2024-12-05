@@ -68,7 +68,7 @@ export default function NotificationPage() {
 					{filteredNotifications.map((notification) => (
 						<li
 							key={notification.id}
-							className={`p-4 border-b border-gray-300 ${
+							className={`p-2 border-b border-gray-300 ${
 								notification.isread ? "bg-gray-100" : "bg-white"
 							}`}
 						>
@@ -86,7 +86,7 @@ export default function NotificationPage() {
 										</span>
 									</p> */}
 								</div>
-								<div className="mt-2 sm:mt-0 flex flex-wrap gap-2">
+								<div className="flex align-items-center justify-between ">
 									{/* 각 타입별 알림 내용 */}
 									{notification.type === "askChildRegis" && (
 										<>
