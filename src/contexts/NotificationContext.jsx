@@ -18,7 +18,7 @@ export function NotificationProvider({ children }) {
   useEffect(() => {
     if (user) {
       // WebSocket 연결
-      const socket = new WebSocket("ws://pocketsol.shop/:5000");
+      const socket = new WebSocket("ws://pocketsol.shop:5000");
 
       // WebSocket 객체를 ref에 저장
       socketRef.current = socket;
