@@ -77,8 +77,8 @@ export default function SchoolSelectionPage() {
 	};
 
 	return (
-		<div className="w-full p-4">
-			<div>
+		<div className="w-full max-w-screen p-4">
+			<div className="w-full max-w-screen p-4">
 				{/* 헤더 */}
 				<h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
 					학교를 등록해주세요 ! 🏫
