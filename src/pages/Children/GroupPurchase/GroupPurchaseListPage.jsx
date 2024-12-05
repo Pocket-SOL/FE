@@ -198,17 +198,24 @@ export default function GroupPurchaseListPage() {
 													{" "}
 													{/* 이미지와 텍스트 수직 정렬 */}
 													{/* 텍스트 섹션 */}
-													<div className="w-1/2 p-8 pr-0">
+													<div className="w-1/2 p-2 pr-0">
 														<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
 															{purchase.title}
 														</h3>
 														<div className="mt-6 flex flex-col text-sm text-gray-500">
 															<time className="mb-2">
-																마감일: {purchase.end_date}
+																마감일:
+																<br /> {purchase.end_date}
 															</time>
-															{purchase.participants}명 모집
+															{purchase.status === "ongoing" ? (
+																<span>{purchase.participants}명 모집 중</span>
+															) : (
+																<span>{purchase.participants}명 모집</span>
+															)}
 															<p className="text-lg font-semibold text-blue-600">
-																{purchase.count}명 모집완료
+																{purchase.status === "ongoing"
+																	? `현재 ${purchase.count}명 참여`
+																	: `${purchase.count}명 모집완료`}
 															</p>
 														</div>
 													</div>
@@ -250,13 +257,14 @@ export default function GroupPurchaseListPage() {
 												}
 											>
 												<div className="flex items-center">
-													<div className="w-1/2 p-8 pr-0">
+													<div className="w-1/2 p-2 pr-0">
 														<h3 className="text-2xl font-semibold text-gray-900 cursor-pointer hover:text-gray-600">
 															{purchase.title}
 														</h3>
 														<div className="mt-6 flex flex-col text-sm text-gray-500">
 															<time className="mb-2">
-																마감일: {purchase.end_date}
+																마감일:
+																<br /> {purchase.end_date}
 															</time>
 															{purchase.status === "ongoing" ? (
 																<span>{purchase.participants}명 모집 중</span>
@@ -265,7 +273,7 @@ export default function GroupPurchaseListPage() {
 															)}
 															<p className="text-lg font-semibold text-blue-600">
 																{purchase.status === "ongoing"
-																	? `현재 ${purchase.count}명 진행 중`
+																	? `현재 ${purchase.count}명 참여`
 																	: `${purchase.count}명 모집완료`}
 															</p>
 														</div>
